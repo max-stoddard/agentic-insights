@@ -1,9 +1,9 @@
 import type { PricingEntry, WaterRange } from "@ai-water-usage/shared";
 
 export const BENCHMARK_COEFFICIENTS: WaterRange = {
-  low: 0.010619,
+  low: 0.010585,
   central: 0.016904,
-  high: 0.029915
+  high: 0.029926
 };
 
 export const PRICING_TABLE: PricingEntry[] = [
@@ -70,8 +70,15 @@ export function calculateEventCostUsd(
 
 export function getMethodologySourceLinks(): Array<{ label: string; url: string }> {
   return [
+    {
+      label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)",
+      url: "https://doi.org/10.1145/3724499"
+    },
+    {
+      label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
+      url: "https://arxiv.org/abs/2304.03271"
+    },
     { label: "OpenAI API pricing", url: "https://openai.com/api/pricing/" },
     ...PRICING_TABLE.map((entry) => ({ label: `${entry.model} model docs`, url: entry.docsUrl })),
-    { label: "CACM: Making AI Less 'Thirsty'", url: "https://cacm.acm.org/news/making-ai-less-thirsty/" }
   ];
 }

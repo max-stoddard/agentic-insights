@@ -133,7 +133,21 @@ describe("API routes", () => {
     const methodologyResponse = await app.inject({ method: "GET", url: "/api/methodology" });
     const methodology = methodologyResponse.json();
     expect(methodology.pricingTable.some((entry: { model: string }) => entry.model === "gpt-5.3-codex")).toBe(true);
+    expect(methodology.benchmarkCoefficients).toEqual({
+      low: 0.010585,
+      central: 0.016904,
+      high: 0.029926
+    });
     expect(methodology.exclusions).toHaveLength(1);
+    expect(methodology.sourceLinks).toEqual(
+      expect.arrayContaining([
+        { label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)", url: "https://doi.org/10.1145/3724499" },
+        {
+          label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
+          url: "https://arxiv.org/abs/2304.03271"
+        }
+      ])
+    );
 
     await app.close();
     codex.cleanup();

@@ -1,3 +1,4 @@
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { CliArgumentError, parseCliArgs } from "../src/args.js";
 import { resolveCodexHome } from "../src/config.js";
@@ -23,11 +24,13 @@ describe("parseCliArgs", () => {
 
 describe("resolveCodexHome", () => {
   it("prefers the CLI value over CODEX_HOME", () => {
-    const resolved = resolveCodexHome("./cli-home", "/tmp/env-home");
-    expect(resolved.endsWith("/cli-home")).toBe(true);
+    const cliPath = "./cli-home";
+    const resolved = resolveCodexHome(cliPath, path.join(path.sep, "tmp", "env-home"));
+    expect(resolved).toBe(path.resolve(cliPath));
   });
 
   it("falls back to CODEX_HOME when the CLI flag is not present", () => {
-    expect(resolveCodexHome(null, "/tmp/env-home")).toBe("/tmp/env-home");
+    const envPath = path.join(path.sep, "tmp", "env-home");
+    expect(resolveCodexHome(null, envPath)).toBe(path.resolve(envPath));
   });
 });

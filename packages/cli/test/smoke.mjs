@@ -5,6 +5,7 @@ import { execFileSync, spawn } from "node:child_process";
 import fs from "node:fs";
 import http from "node:http";
 import net from "node:net";
+import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,6 +13,7 @@ import { fileURLToPath } from "node:url";
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "../../..");
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "ai-water-pack-"));
+const requireFromHere = createRequire(import.meta.url);
 
 let tarballPath = null;
 let child = null;
@@ -128,6 +130,41 @@ function request(url) {
   });
 }
 
+function findPackageRoot(entryPath) {
+  let current = path.dirname(entryPath);
+
+  while (true) {
+    if (fs.existsSync(path.join(current, "package.json"))) {
+      return current;
+    }
+
+    const parent = path.dirname(current);
+    if (parent === current) {
+      break;
+    }
+    current = parent;
+  }
+
+  throw new Error(`Could not locate package root for ${entryPath}`);
+}
+
+function linkRuntimeDependencies(packageDir) {
+  const cliPackage = JSON.parse(fs.readFileSync(path.join(repoRoot, "packages", "cli", "package.json"), "utf8"));
+  const dependencyNames = Object.keys(cliPackage.dependencies ?? {});
+  const resolutionPaths = [path.join(repoRoot, "apps", "server"), repoRoot];
+
+  fs.mkdirSync(path.join(packageDir, "node_modules"), { recursive: true });
+
+  for (const dependencyName of dependencyNames) {
+    const resolvedEntry = requireFromHere.resolve(dependencyName, { paths: resolutionPaths });
+    const installedPackageDir = findPackageRoot(resolvedEntry);
+    const targetPath = path.join(packageDir, "node_modules", ...dependencyName.split("/"));
+
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    fs.symlinkSync(installedPackageDir, targetPath, "dir");
+  }
+}
+
 async function waitForServer(url, onRunning) {
   const deadline = Date.now() + 10_000;
 
@@ -172,7 +209,7 @@ async function main() {
   execFileSync("tar", ["-xf", tarballPath, "-C", extractDir], { cwd: repoRoot });
 
   const packageDir = path.join(extractDir, "package");
-  fs.symlinkSync(path.join(repoRoot, "apps", "server", "node_modules"), path.join(packageDir, "node_modules"), "dir");
+  linkRuntimeDependencies(packageDir);
 
   const codexHome = createCodexHome(tempRoot);
   const cacheDir = path.join(tempRoot, "cache");

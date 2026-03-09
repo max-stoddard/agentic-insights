@@ -2,12 +2,19 @@ import cors from "@fastify/cors";
 import Fastify from "fastify";
 import type { Bucket, ErrorResponse } from "@ai-water-usage/shared";
 import { DashboardService } from "./service.js";
+import { registerStaticRoutes } from "./static.js";
 
 function isBucket(value: string): value is Bucket {
   return value === "day" || value === "week" || value === "month";
 }
 
-export function createApp(service = new DashboardService()) {
+interface CreateAppOptions {
+  service?: DashboardService;
+  webDistDir?: string;
+}
+
+export function createApp(options: CreateAppOptions = {}) {
+  const service = options.service ?? new DashboardService();
   const app = Fastify({ logger: false });
   void app.register(cors, { origin: true });
 
@@ -24,6 +31,10 @@ export function createApp(service = new DashboardService()) {
   });
 
   app.get("/api/methodology", async () => service.getMethodology());
+
+  if (options.webDistDir) {
+    registerStaticRoutes(app, options.webDistDir);
+  }
 
   return app;
 }

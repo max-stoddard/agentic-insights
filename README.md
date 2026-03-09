@@ -2,7 +2,32 @@
 
 Local TypeScript dashboard that reads Codex usage artifacts from your machine and estimates water usage from token activity.
 
-## Run locally
+## Launch in one command
+
+Requires Node `18+`.
+
+```bash
+npx ai-water-usage@latest
+```
+
+That command starts a local server, opens the dashboard in your browser, and reads Codex usage from your own machine.
+
+If you want a reusable command instead:
+
+```bash
+npm install -g ai-water-usage
+ai-water-usage
+```
+
+Supported launcher flags:
+
+```bash
+ai-water-usage --port 3001 --host 127.0.0.1
+ai-water-usage --codex-home /path/to/.codex
+ai-water-usage --no-open
+```
+
+## Run locally from the repo
 
 ```bash
 npm install
@@ -20,7 +45,7 @@ By default the backend reads:
 - `~/.codex/archived_sessions`
 - `~/.codex/log/codex-tui.log`
 
-You can override the Codex home directory with `CODEX_HOME=/path/to/.codex`.
+You can override the Codex home directory with `CODEX_HOME=/path/to/.codex` or `ai-water-usage --codex-home /path/to/.codex`.
 
 ## What the dashboard shows
 
@@ -82,7 +107,11 @@ referenceEventCostUsd = median(eventCostUsd)
 
 This median is computed across all supported positive-usage events found in your local history and persisted to:
 
-- `.cache/calibration.json`
+- Linux: `~/.cache/ai-water-usage/calibration.json`
+- macOS: `~/Library/Caches/ai-water-usage/calibration.json`
+- Windows: `%LOCALAPPDATA%\ai-water-usage\calibration.json`
+
+You can override the cache location with `AI_WATER_USAGE_CACHE_DIR=/path/to/cache`.
 
 This makes the dashboard stable across refreshes while still being anchored to the token mix in your own logs.
 
@@ -143,6 +172,7 @@ The main uncertainty comes from three places:
 npm run lint
 npm run test
 npm run build
+npm run test:pack
 ```
 
 ## References

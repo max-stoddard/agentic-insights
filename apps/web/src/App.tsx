@@ -9,6 +9,21 @@ import { WaterView } from "./views/WaterView";
 
 type AppView = "home" | "prompts" | "water" | "energy" | "co2" | "methodology";
 
+function LocalBanner() {
+  return (
+    <div className="mb-2 flex items-center justify-center gap-1.5 py-1.5 text-xs text-stone-400">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+        <path
+          fillRule="evenodd"
+          d="M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z"
+          clipRule="evenodd"
+        />
+      </svg>
+      <span>Running locally — your data stays on this machine</span>
+    </div>
+  );
+}
+
 const NAV_ITEMS: Array<{
   description: string;
   hash: `#${AppView}`;
@@ -235,6 +250,7 @@ export default function App() {
   return (
     <main className="px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto max-w-7xl">
+        <LocalBanner />
         <div className="app-frame">
           <header className="border-b border-stone-200 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

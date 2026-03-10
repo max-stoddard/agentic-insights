@@ -1,7 +1,7 @@
 import { startTransition, useEffect, useState } from "react";
 import type { Bucket, MethodologyResponse, OverviewResponse, TimeseriesResponse } from "@agentic-insights/shared";
 import { fetchMethodology, fetchOverview, fetchTimeseries } from "./api";
-import { DropletMark } from "./components/DropletMark";
+import { AgentMark } from "./components/AgentMark";
 import { HomeView } from "./views/HomeView";
 import { MethodologyView } from "./views/MethodologyView";
 import { PlaceholderView } from "./views/PlaceholderView";
@@ -232,14 +232,9 @@ export default function App() {
                 }}
               >
                 <span className="brand-mark-shell">
-                  <DropletMark className="h-7 w-7" />
+                  <AgentMark className="h-7 w-7" />
                 </span>
-                <span>
-                  <span className="section-kicker block">Water-weighted local estimate</span>
-                  <span className="mt-1 block text-lg font-semibold tracking-[-0.04em] text-stone-950 sm:text-xl">
-                    Agentic Insights
-                  </span>
-                </span>
+                <span className="text-lg font-semibold tracking-[-0.04em] text-stone-950 sm:text-xl">Agentic Insights</span>
               </a>
 
               <nav aria-label="Primary" className="flex flex-wrap gap-2 lg:justify-end">

@@ -4,11 +4,10 @@ import { BucketToggle } from "../components/BucketToggle";
 import { CoverageSummary } from "../components/CoverageSummary";
 import { DataStatusPanel } from "../components/DataStatusPanel";
 import { HeroBanner } from "../components/HeroBanner";
-import { MetricCard } from "../components/MetricCard";
 import { RoadmapStrip } from "../components/RoadmapStrip";
 import { SkeletonBlock } from "../components/SkeletonBlock";
+import { WaterUsageCard } from "../components/WaterUsageCard";
 import { WaterChart } from "../components/WaterChart";
-import { formatLitres, formatNumber } from "../lib/format";
 
 interface DashboardViewProps {
   bucket: Bucket;
@@ -56,23 +55,7 @@ export function DashboardView({
         <>
           <HeroBanner />
 
-          <MetricCard
-            eyebrow="Water used"
-            title="Estimated from your local coding agent activity"
-            value={formatLitres(overview.waterLitres.central)}
-            detail={`Between ${formatLitres(overview.waterLitres.low)} and ${formatLitres(overview.waterLitres.high)}`}
-            footer={
-              <span>Based on {formatNumber(overview.coverage.supportedEvents)} supported usage events</span>
-            }
-            aside={
-              <span className="pill">
-                {Math.round(
-                  (overview.tokenTotals.supportedTokens / Math.max(overview.tokenTotals.totalTokens, 1)) * 100
-                )}% coverage
-              </span>
-            }
-            tone="feature"
-          />
+          <WaterUsageCard overview={overview} />
 
           <section className="card px-6 py-6 sm:px-8 sm:py-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

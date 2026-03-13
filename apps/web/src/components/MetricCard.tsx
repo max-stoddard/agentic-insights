@@ -9,6 +9,7 @@ interface MetricCardProps {
   aside?: ReactNode;
   tone?: "default" | "feature";
   className?: string;
+  eyebrowClassName?: string;
 }
 
 function joinClasses(...values: Array<string | undefined | false>): string {
@@ -23,7 +24,8 @@ export function MetricCard({
   footer,
   aside,
   tone = "default",
-  className
+  className,
+  eyebrowClassName
 }: MetricCardProps) {
   const featured = tone === "feature";
 
@@ -40,7 +42,8 @@ export function MetricCard({
           <p
             className={joinClasses(
               "text-sm font-medium",
-              featured ? "text-accent-light" : "text-ink-secondary"
+              featured ? "text-accent-light" : "text-ink-secondary",
+              eyebrowClassName
             )}
           >
             {eyebrow}

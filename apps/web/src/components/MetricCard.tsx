@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 interface MetricCardProps {
   eyebrow: string;
   title: string;
-  value: string;
-  detail: string;
+  value: ReactNode;
+  detail: ReactNode;
   footer?: ReactNode;
   aside?: ReactNode;
   tone?: "default" | "feature";
@@ -37,8 +37,8 @@ export function MetricCard({
         className
       )}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
+      <div className={joinClasses("flex flex-col gap-6", aside ? "lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-8" : "")}>
+        <div className="min-w-0">
           <p
             className={joinClasses(
               "text-sm font-medium",
@@ -51,23 +51,26 @@ export function MetricCard({
           <p className={joinClasses("mt-1.5 text-sm", featured ? "text-slate-300" : "text-ink-secondary")}>
             {title}
           </p>
-        </div>
-        {aside ? <div className="flex-shrink-0">{aside}</div> : null}
-      </div>
 
-      <p
-        className={joinClasses(
-          "mt-6 font-bold tracking-[-0.04em]",
-          featured
-            ? "text-4xl text-white sm:text-5xl lg:text-6xl"
-            : "text-3xl text-ink sm:text-4xl"
-        )}
-      >
-        {value}
-      </p>
-      <p className={joinClasses("mt-3 text-[15px] leading-relaxed", featured ? "text-slate-300" : "text-ink-secondary")}>
-        {detail}
-      </p>
+          <p
+            className={joinClasses(
+              "mt-6 font-bold tracking-[-0.04em]",
+              featured
+                ? "text-4xl text-white sm:text-5xl lg:text-6xl"
+                : "text-3xl text-ink sm:text-4xl"
+            )}
+          >
+            {value}
+          </p>
+          <p
+            className={joinClasses("mt-3 text-[15px] leading-relaxed", featured ? "text-slate-300" : "text-ink-secondary")}
+          >
+            {detail}
+          </p>
+        </div>
+
+        {aside ? <div className="min-w-0 lg:justify-self-end">{aside}</div> : null}
+      </div>
 
       {footer ? (
         <div

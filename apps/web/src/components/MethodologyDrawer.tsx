@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { MethodologyResponse, MethodologyTabId, OverviewResponse } from "@agentic-insights/shared";
+import {
+  WATER_SCALE_COMPARISONS,
+  type MethodologyResponse,
+  type MethodologySourceLink,
+  type MethodologyTabId,
+  type OverviewResponse
+} from "@agentic-insights/shared";
 import { formatLitres, formatNumber } from "../lib/format";
+import { MethodologySourceCard } from "./MethodologySourceCard";
 import { ModelUsageList } from "./ModelUsageList";
 import { ModelUsageStatusKey } from "./ModelUsageStatusKey";
 import { SkeletonBlock } from "./SkeletonBlock";
@@ -10,6 +17,7 @@ interface MethodologyDrawerProps {
   open: boolean;
   methodology: MethodologyResponse | null;
   overview: OverviewResponse | null;
+  defaultTab: MethodologyTabId;
   loading: boolean;
   onClose: () => void;
 }
@@ -20,6 +28,14 @@ const tabs: Array<{ id: MethodologyTabId; label: string }> = [
   { id: "energy", label: "Energy" },
   { id: "carbon", label: "Carbon" }
 ];
+
+const WATER_REFERENCE_DESCRIPTION_BY_URL: Record<string, string> = {
+  "https://doi.org/10.1145/3724499":
+    "Overview article explaining why AI systems consume freshwater and how water demand shifts across infrastructure and regions.",
+  "https://arxiv.org/abs/2304.03271":
+    "Research paper quantifying the hidden operational water footprint of modern AI models and the data centers behind them."
+};
+const WATER_COMPARISON_BY_URL = new Map(WATER_SCALE_COMPARISONS.map((comparison) => [comparison.sourceUrl, comparison]));
 
 function formatUsdPerMillion(value: number): string {
   return `$${value.toLocaleString("en-US", {
@@ -41,7 +57,14 @@ function formatGeneratedAt(value: string): string {
   }).format(parsed);
 }
 
-export function MethodologyDrawer({ open, methodology, overview, loading, onClose }: MethodologyDrawerProps) {
+function formatComparisonTypeLabel(value: string): string {
+  return value
+    .split("_")
+    .map((part) => part[0]!.toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export function MethodologyDrawer({ open, methodology, overview, defaultTab, loading, onClose }: MethodologyDrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<MethodologyTabId>("prompts");
   const [selectedProvider, setSelectedProvider] = useState("all");
@@ -76,10 +99,10 @@ export function MethodologyDrawer({ open, methodology, overview, loading, onClos
       return;
     }
 
-    setActiveTab("prompts");
+    setActiveTab(defaultTab);
     setSelectedProvider("all");
     setSearchValue("");
-  }, [open]);
+  }, [defaultTab, open]);
 
   const providers = useMemo(() => {
     if (!methodology) {
@@ -123,20 +146,42 @@ export function MethodologyDrawer({ open, methodology, overview, loading, onClos
       return null;
     }
 
+    function buildCardData(link: MethodologySourceLink) {
+      if (activeTab === "water") {
+        const comparison = WATER_COMPARISON_BY_URL.get(link.url);
+        if (comparison) {
+          return {
+            title: comparison.label,
+            href: link.url,
+            linkLabel: link.label,
+            badges: [formatComparisonTypeLabel(comparison.comparisonType)],
+            value: formatLitres(comparison.litres),
+            description: comparison.description,
+            ...(comparison.sourceNote ? { note: comparison.sourceNote } : {})
+          };
+        }
+
+        return {
+          title: link.label,
+          href: link.url,
+          description:
+            WATER_REFERENCE_DESCRIPTION_BY_URL[link.url] ??
+            "Reference used to explain or benchmark the AI water-estimation methodology."
+        };
+      }
+
+      return {
+        title: link.label,
+        href: link.url
+      };
+    }
+
     return (
       <section>
         <h3 className="text-sm font-semibold text-ink">Sources</h3>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {activeSources.map((link) => (
-            <a
-              key={link.url}
-              href={link.url}
-              target="_blank"
-              rel="noreferrer"
-              className="pill no-underline transition-colors hover:bg-accent-muted hover:text-accent-hover"
-            >
-              {link.label}
-            </a>
+            <MethodologySourceCard key={link.url} {...buildCardData(link)} />
           ))}
         </div>
       </section>
@@ -182,7 +227,7 @@ export function MethodologyDrawer({ open, methodology, overview, loading, onClos
             </div>
           ) : (
             <div className="space-y-8">
-              <div className="flex flex-wrap rounded-lg bg-surface-muted p-1">
+              <div className="inline-flex max-w-full flex-wrap self-start rounded-lg bg-surface-muted p-1">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
@@ -351,6 +396,12 @@ export function MethodologyDrawer({ open, methodology, overview, loading, onClos
                     <p className="text-[15px] leading-relaxed text-ink-secondary">
                       Water estimates are calculated from local coding-agent token activity using pricing-weighted
                       normalization and published benchmark coefficients.
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
+                      The scale chart mixes direct intake, embedded product footprints, and operational water use so
+                      you can read your AI estimate as an order-of-magnitude marker rather than a like-for-like total.
+                      Hovering the chart reveals what each point means, and the source cards below explain where each
+                      comparison comes from.
                     </p>
                   </section>
 

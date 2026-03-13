@@ -22,6 +22,37 @@ export function formatCompactNumber(value: number): string {
   return new Intl.NumberFormat("en-GB").format(Math.round(value));
 }
 
+export function formatScaledLitres(value: number): string {
+  const absolute = Math.abs(value);
+
+  if (absolute < 1) {
+    return `${new Intl.NumberFormat("en-GB", {
+      maximumFractionDigits: 0
+    }).format(value * 1000)} mL`;
+  }
+
+  if (absolute < 1_000) {
+    return `${new Intl.NumberFormat("en-GB", {
+      minimumFractionDigits: absolute < 10 ? 2 : 0,
+      maximumFractionDigits: absolute < 10 ? 2 : absolute < 100 ? 1 : 0
+    }).format(value)} L`;
+  }
+
+  if (absolute < 1_000_000) {
+    const scaled = value / 1_000;
+    return `${new Intl.NumberFormat("en-GB", {
+      minimumFractionDigits: Math.abs(scaled) < 10 ? 1 : 0,
+      maximumFractionDigits: Math.abs(scaled) < 10 ? 1 : Math.abs(scaled) < 100 ? 1 : 0
+    }).format(scaled)} KL`;
+  }
+
+  const scaled = value / 1_000_000;
+  return `${new Intl.NumberFormat("en-GB", {
+    minimumFractionDigits: Math.abs(scaled) < 10 ? 1 : 0,
+    maximumFractionDigits: Math.abs(scaled) < 10 ? 1 : Math.abs(scaled) < 100 ? 1 : 0
+  }).format(scaled)} ML`;
+}
+
 export function formatLitres(value: number): string {
   if (value === 0) {
     return "0 L";

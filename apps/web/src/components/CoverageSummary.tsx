@@ -1,12 +1,12 @@
 import { useState } from "react";
-import type { OverviewResponse } from "@agentic-insights/shared";
+import type { MethodologyTabId, OverviewResponse } from "@agentic-insights/shared";
 import { ModelUsageList } from "./ModelUsageList";
 import { ModelUsageStatusKey } from "./ModelUsageStatusKey";
 import { UsageSummaryMetrics } from "./UsageSummaryMetrics";
 
 interface CoverageSummaryProps {
   overview: OverviewResponse;
-  onOpenMethodology: () => void;
+  onOpenMethodology: (tab?: MethodologyTabId) => void;
 }
 
 export function CoverageSummary({ overview, onOpenMethodology }: CoverageSummaryProps) {
@@ -28,7 +28,7 @@ export function CoverageSummary({ overview, onOpenMethodology }: CoverageSummary
         <button
           type="button"
           className="pill transition-colors hover:bg-accent-muted hover:text-accent-hover"
-          onClick={onOpenMethodology}
+          onClick={() => onOpenMethodology()}
         >
           How it works
         </button>

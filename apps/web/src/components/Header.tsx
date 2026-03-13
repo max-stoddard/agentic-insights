@@ -1,8 +1,9 @@
+import type { MethodologyTabId } from "@agentic-insights/shared";
 import { useEffect, useId, useRef, useState } from "react";
 import { AgentMark } from "./AgentMark";
 
 interface HeaderProps {
-  onOpenMethodology: () => void;
+  onOpenMethodology: (tab?: MethodologyTabId) => void;
 }
 
 export function Header({ onOpenMethodology }: HeaderProps) {
@@ -86,7 +87,7 @@ export function Header({ onOpenMethodology }: HeaderProps) {
 
         <button
           type="button"
-          onClick={onOpenMethodology}
+          onClick={() => onOpenMethodology()}
           className="flex items-center gap-1.5 rounded-lg bg-surface-muted px-3 py-1.5 text-sm font-medium text-ink-secondary no-underline transition-colors hover:bg-accent-muted hover:text-accent-hover"
         >
           How it works

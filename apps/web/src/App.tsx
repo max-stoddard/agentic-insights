@@ -1,5 +1,5 @@
 import { startTransition, useEffect, useState } from "react";
-import type { Bucket, MethodologyResponse, OverviewResponse, TimeseriesResponse } from "@agentic-insights/shared";
+import type { Bucket, MethodologyResponse, MethodologyTabId, OverviewResponse, TimeseriesResponse } from "@agentic-insights/shared";
 import { fetchMethodology, fetchOverview, fetchTimeseries } from "./api";
 import { DashboardFooter } from "./components/DashboardFooter";
 import { Header } from "./components/Header";
@@ -21,6 +21,7 @@ export default function App() {
   const [timeseriesByBucket, setTimeseriesByBucket] = useState<Partial<Record<Bucket, TimeseriesResponse>>>({});
   const [methodology, setMethodology] = useState<MethodologyResponse | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [methodologyTab, setMethodologyTab] = useState<MethodologyTabId>("prompts");
   const [loadedTimeZone, setLoadedTimeZone] = useState(timeZone);
   const [overviewLoading, setOverviewLoading] = useState(false);
   const [timeseriesLoading, setTimeseriesLoading] = useState(false);
@@ -135,27 +136,30 @@ export default function App() {
   }, [drawerOpen, methodology]);
 
   const activeTimeseries = timeseriesByBucket[bucket] ?? null;
-  const shouldUseTimeseries = overview?.diagnostics.state === "ready";
-  const dashboardLoading = (overviewLoading && !overview) || (shouldUseTimeseries && timeseriesLoading && !activeTimeseries);
-  const dashboardError = overviewError ?? (shouldUseTimeseries ? timeseriesError : null);
+  const openMethodology = (tab: MethodologyTabId = "prompts") => {
+    setMethodologyTab(tab);
+    setDrawerOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-surface-page">
       <div className="mx-auto max-w-5xl px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
-        <Header onOpenMethodology={() => setDrawerOpen(true)} />
+        <Header onOpenMethodology={openMethodology} />
 
         <DashboardView
           bucket={bucket}
-          error={dashboardError}
-          loading={dashboardLoading}
           overview={overview}
+          overviewLoading={overviewLoading}
+          overviewError={overviewError}
           timeseries={activeTimeseries}
+          timeseriesLoading={timeseriesLoading}
+          timeseriesError={timeseriesError}
           onBucketChange={(nextBucket) => {
             startTransition(() => {
               setBucket(nextBucket);
             });
           }}
-          onOpenMethodology={() => setDrawerOpen(true)}
+          onOpenMethodology={openMethodology}
         />
 
         <DashboardFooter lastIndexedAt={overview?.lastIndexedAt ?? null} timeZone={timeZone} />
@@ -165,6 +169,7 @@ export default function App() {
         open={drawerOpen}
         methodology={methodology}
         overview={overview}
+        defaultTab={methodologyTab}
         loading={methodologyLoading && !methodology}
         onClose={() => setDrawerOpen(false)}
       />

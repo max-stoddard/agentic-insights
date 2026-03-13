@@ -45,7 +45,7 @@ export function HeroBanner() {
       <div className="relative mx-auto max-w-4xl text-center">
         <h1 className="mx-auto max-w-3xl text-4xl font-semibold tracking-[-0.05em] text-ink sm:text-5xl">
           Understand your agent{" "}
-          <span className="inline-flex min-w-[6ch] justify-center align-baseline text-accent">
+          <span className="inline-grid min-w-[6ch] justify-items-start align-baseline text-left text-accent">
             <span
               key={words[activeIndex]}
               className={reducedMotion ? undefined : "hero-word"}

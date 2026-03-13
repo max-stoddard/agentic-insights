@@ -215,7 +215,9 @@ describe("API routes", () => {
           provider: "anthropic",
           model: "claude-sonnet-4",
           totalTokens: 80,
-          supportedTokens: 80
+          supportedTokens: 80,
+          status: "allowed",
+          statusNote: null
         })
       ])
     );
@@ -241,7 +243,7 @@ describe("API routes", () => {
           source: "Claude Code",
           classification: "excluded",
           tokens: 50,
-          reason: "Unsupported model: unknown"
+          reason: "Unknown model: unknown"
         }),
         expect.objectContaining({
           provider: "ollama",
@@ -249,7 +251,7 @@ describe("API routes", () => {
           source: "CLI",
           classification: "excluded",
           tokens: 50,
-          reason: "Unsupported provider: ollama"
+          reason: "Local usage: qwen3.5:9b"
         })
       ])
     );

@@ -4,6 +4,7 @@ import type {
   CoverageClassification,
   MethodologyResponse,
   ModelUsageEntry,
+  ModelUsageStatus,
   OverviewDiagnostics,
   OverviewResponse,
   TimeseriesPoint,
@@ -21,7 +22,7 @@ import {
   PRICING_CATALOG_METADATA,
   PRICING_TABLE,
   calculateEventCostUsd,
-  canonicalizePricingIdentity,
+  canonicalizeDisplayIdentity,
   getMethodologySourcesByTab,
   getPricingEntry
 } from "./pricing.js";
@@ -144,12 +145,12 @@ function addCoverageDetail(
   classification: CoverageClassification,
   reason: string | null
 ): void {
-  const canonicalIdentity = canonicalizePricingIdentity(event.provider, event.model);
+  const displayIdentity = canonicalizeDisplayIdentity(event.provider, event.model);
   const source = formatSourceLabel(event.source);
-  const key = [canonicalIdentity.provider, canonicalIdentity.model, source, classification, reason ?? ""].join("|");
+  const key = [displayIdentity.provider, displayIdentity.model, source, classification, reason ?? ""].join("|");
   const current = details.get(key) ?? {
-    provider: canonicalIdentity.provider,
-    model: canonicalIdentity.model,
+    provider: displayIdentity.provider,
+    model: displayIdentity.model,
     source,
     tokens: 0,
     events: 0,
@@ -166,10 +167,77 @@ function getMonitoredDataPath(codexHome: string, claudeHome: string): string {
   return `${codexHome}\n${claudeHome}`;
 }
 
+function isLocalProvider(provider: string): boolean {
+  return provider.trim().toLowerCase() === "ollama";
+}
+
+function isSyntheticModel(provider: string, model: string): boolean {
+  return provider === "anthropic" && model === "<synthetic>";
+}
+
+function buildModelStatus(
+  item: ModelUsageEntry & { localTokens: number; unknownTokens: number }
+): Pick<ModelUsageEntry, "status" | "statusNote"> {
+  const statusBuckets: Array<{ status: ModelUsageStatus; tokens: number; priority: number }> = [
+    { status: "unknown", tokens: item.unknownTokens, priority: 3 },
+    { status: "local", tokens: item.localTokens, priority: 2 },
+    { status: "allowed", tokens: item.supportedTokens + item.unestimatedTokens, priority: 1 }
+  ];
+
+  const [dominantStatus] = [...statusBuckets].sort((left, right) => {
+    if (right.tokens !== left.tokens) {
+      return right.tokens - left.tokens;
+    }
+
+    return right.priority - left.priority;
+  });
+
+  const notes: string[] = [];
+  const hasExternalPricing = getPricingEntry(item.provider, item.model) !== null;
+
+  if (dominantStatus && dominantStatus.status === "unknown" && item.unknownTokens === item.totalTokens) {
+    notes.push("pricing not available yet");
+  }
+
+  if (dominantStatus && dominantStatus.status === "local" && item.localTokens === item.totalTokens) {
+    notes.push("local usage");
+    if (!hasExternalPricing) {
+      notes.push("pricing not available yet");
+    }
+  }
+
+  if (item.localTokens > 0 && item.localTokens < item.totalTokens) {
+    notes.push("includes local usage");
+  }
+
+  if (item.unknownTokens > 0 && item.unknownTokens < item.totalTokens) {
+    notes.push("includes unpriced usage");
+  }
+
+  if (item.unestimatedTokens > 0) {
+    notes.push("includes fallback-only usage");
+  }
+
+  return {
+    status: dominantStatus?.status ?? "allowed",
+    statusNote: notes.length > 0 ? [...new Set(notes)].join(" · ") : null
+  };
+}
+
 function buildModelUsage(coverageDetails: CoverageDetailAggregate[]): ModelUsageEntry[] {
-  const usage = new Map<string, ModelUsageEntry>();
+  const usage = new Map<
+    string,
+    ModelUsageEntry & {
+      localTokens: number;
+      unknownTokens: number;
+    }
+  >();
 
   for (const detail of coverageDetails) {
+    if (isSyntheticModel(detail.provider, detail.model)) {
+      continue;
+    }
+
     const key = `${detail.provider}:${detail.model}`;
     const current = usage.get(key) ?? {
       provider: detail.provider,
@@ -178,7 +246,11 @@ function buildModelUsage(coverageDetails: CoverageDetailAggregate[]): ModelUsage
       events: 0,
       supportedTokens: 0,
       excludedTokens: 0,
-      unestimatedTokens: 0
+      unestimatedTokens: 0,
+      status: "allowed" as const,
+      statusNote: null,
+      localTokens: 0,
+      unknownTokens: 0
     };
 
     current.totalTokens += detail.tokens;
@@ -188,6 +260,11 @@ function buildModelUsage(coverageDetails: CoverageDetailAggregate[]): ModelUsage
       current.supportedTokens += detail.tokens;
     } else if (detail.classification === "excluded") {
       current.excludedTokens += detail.tokens;
+      if (detail.reason?.startsWith("Local usage: ")) {
+        current.localTokens += detail.tokens;
+      } else if (detail.reason?.startsWith("Unknown model: ")) {
+        current.unknownTokens += detail.tokens;
+      }
     } else {
       current.unestimatedTokens += detail.tokens;
     }
@@ -195,13 +272,24 @@ function buildModelUsage(coverageDetails: CoverageDetailAggregate[]): ModelUsage
     usage.set(key, current);
   }
 
-  return [...usage.values()].sort((left, right) => {
-    if (right.totalTokens !== left.totalTokens) {
-      return right.totalTokens - left.totalTokens;
-    }
+  return [...usage.values()]
+    .map((item) => ({
+      provider: item.provider,
+      model: item.model,
+      totalTokens: item.totalTokens,
+      events: item.events,
+      supportedTokens: item.supportedTokens,
+      excludedTokens: item.excludedTokens,
+      unestimatedTokens: item.unestimatedTokens,
+      ...buildModelStatus(item)
+    }))
+    .sort((left, right) => {
+      if (right.totalTokens !== left.totalTokens) {
+        return right.totalTokens - left.totalTokens;
+      }
 
-    return `${left.provider}:${left.model}`.localeCompare(`${right.provider}:${right.model}`);
-  });
+      return `${left.provider}:${left.model}`.localeCompare(`${right.provider}:${right.model}`);
+    });
 }
 
 function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<DataSnapshot, "events" | "coverageDetails" | "exclusions" | "calibration"> {
@@ -245,13 +333,23 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
       };
     }
 
+    const displayIdentity = canonicalizeDisplayIdentity(event.provider, event.model);
     const pricing = getPricingEntry(event.provider, event.model);
+    if (isLocalProvider(event.provider)) {
+      const reason = `Local usage: ${displayIdentity.model}`;
+      addCoverageDetail(coverageDetails, event, "excluded", reason);
+
+      return {
+        ...event,
+        classification: "excluded",
+        waterLitres: zeroRange(),
+        eventCostUsd: null,
+        exclusionReason: reason
+      };
+    }
+
     if (!pricing) {
-      const canonicalIdentity = canonicalizePricingIdentity(event.provider, event.model);
-      const reason =
-        event.provider !== "openai" && event.provider !== "anthropic" && event.provider !== "claude"
-          ? `Unsupported provider: ${event.provider}`
-          : `Unsupported model: ${canonicalIdentity.model}`;
+      const reason = `Unknown model: ${displayIdentity.model}`;
       addCoverageDetail(coverageDetails, event, "excluded", reason);
 
       return {

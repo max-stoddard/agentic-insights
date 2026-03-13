@@ -52,7 +52,14 @@ describe("pricing methodology", () => {
     expect(getPricingEntry("claude", "claude-opus-4-6")?.model).toBe("claude-opus-4-6");
   });
 
-  it("returns null for unsupported models", () => {
+  it("resolves priced models by model identity even when the provider does not match the catalog provider", () => {
+    expect(getPricingEntry("anthropic", "qwen2.5-coder:7b")?.model).toBe("qwen/qwen2.5-coder-7b-instruct");
+    expect(getPricingEntry("anthropic", "qwen3-coder:30b")?.model).toBe("qwen3-coder-30b-a3b-instruct");
+    expect(getPricingEntry("ollama", "qwen2.5-coder:7b")?.model).toBe("qwen/qwen2.5-coder-7b-instruct");
+  });
+
+  it("returns null for truly unknown models", () => {
+    expect(getPricingEntry("anthropic", "qwen3.5:9b")).toBeNull();
     expect(getPricingEntry("ollama", "qwen3.5:9b")).toBeNull();
   });
 

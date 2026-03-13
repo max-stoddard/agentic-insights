@@ -56,6 +56,11 @@ const LOCAL_MODEL_ALIASES = new Map<string, string>([
   ["claude-haiku-3", "claude-3-haiku-20240307"]
 ]);
 
+const MODEL_FALLBACK_ALIASES = new Map<string, string[]>([
+  ["qwen2.5-coder:7b", ["qwen/qwen2.5-coder-7b-instruct"]],
+  ["qwen3-coder:30b", ["qwen3-coder-30b-a3b-instruct", "qwen/qwen3-coder-30b-a3b-instruct"]]
+]);
+
 const PREFERRED_SOURCE_MODELS = new Map<string, string>([
   ["claude-opus-4", "claude-opus-4-20250514"],
   ["claude-opus-4-1", "claude-opus-4-1-20250805"],
@@ -76,6 +81,11 @@ function dedupeSourceLinks(...links: MethodologySourceLink[]): MethodologySource
 export function normalizeProvider(provider: string): string {
   const normalized = provider.trim().toLowerCase();
   return normalized === "claude" ? "anthropic" : normalized;
+}
+
+export function normalizeDisplayProvider(provider: string): string {
+  const normalized = provider.trim().toLowerCase();
+  return normalized || "unknown";
 }
 
 function stripClaudeDateSuffix(model: string): string {
@@ -110,6 +120,13 @@ export function canonicalizePricingIdentity(provider: string, model: string): { 
   };
 }
 
+export function canonicalizeDisplayIdentity(provider: string, model: string): { provider: string; model: string } {
+  return {
+    provider: normalizeDisplayProvider(provider),
+    model: normalizeModel(provider, model)
+  };
+}
+
 function getLookupAliases(provider: string, canonicalModel: string): string[] {
   const aliases = new Set<string>([canonicalModel]);
 
@@ -124,6 +141,30 @@ function getLookupAliases(provider: string, canonicalModel: string): string[] {
   }
 
   return [...aliases];
+}
+
+function selectCheapestEntry(entries: PricingEntry[]): PricingEntry {
+  return [...entries].sort((left, right) => {
+    const leftTotal = left.inputUsdPerMillion + left.cachedInputUsdPerMillion + left.outputUsdPerMillion;
+    const rightTotal = right.inputUsdPerMillion + right.cachedInputUsdPerMillion + right.outputUsdPerMillion;
+    if (leftTotal !== rightTotal) {
+      return leftTotal - rightTotal;
+    }
+
+    return `${left.provider}:${left.model}`.localeCompare(`${right.provider}:${right.model}`);
+  })[0]!;
+}
+
+function getModelFallbackCandidates(provider: string, model: string): string[] {
+  const normalizedProvider = normalizeProvider(provider);
+  const normalizedModel = model.trim().toLowerCase();
+  const displayModel = normalizeModel(normalizedProvider, model);
+  const fallbackAliases = [
+    ...(MODEL_FALLBACK_ALIASES.get(normalizedModel) ?? []),
+    ...(MODEL_FALLBACK_ALIASES.get(displayModel) ?? [])
+  ];
+
+  return [...new Set([normalizedModel, displayModel, ...fallbackAliases])];
 }
 
 function selectPreferredRawEntry(canonicalModel: string, entries: PricingEntry[]): PricingEntry {
@@ -152,6 +193,14 @@ function selectPreferredRawEntry(canonicalModel: string, entries: PricingEntry[]
 function buildPricingRegistry() {
   const groupedEntries = new Map<string, PricingEntry[]>();
   const providerSources = new Map<string, MethodologySourceLink>();
+  const modelLookupGroups = new Map<string, Map<string, PricingEntry>>();
+
+  const registerModelLookup = (model: string, entry: PricingEntry) => {
+    const normalizedModel = model.trim().toLowerCase();
+    const entries = modelLookupGroups.get(normalizedModel) ?? new Map<string, PricingEntry>();
+    entries.set(`${entry.provider}:${entry.model}`, entry);
+    modelLookupGroups.set(normalizedModel, entries);
+  };
 
   for (const providerSource of GENERATED_PRICING_CATALOG.providerSources) {
     providerSources.set(normalizeProvider(providerSource.provider), {
@@ -188,11 +237,15 @@ function buildPricingRegistry() {
 
     for (const rawEntry of rawEntries) {
       aliases.set(`${normalizeProvider(rawEntry.provider)}:${rawEntry.model.trim().toLowerCase()}`, canonicalEntry);
+      registerModelLookup(rawEntry.model, canonicalEntry);
     }
 
     for (const aliasModel of getLookupAliases(provider, model)) {
       aliases.set(`${provider}:${aliasModel}`, canonicalEntry);
+      registerModelLookup(aliasModel, canonicalEntry);
     }
+
+    registerModelLookup(model, canonicalEntry);
   }
 
   canonicalEntries.sort((left, right) => {
@@ -203,10 +256,16 @@ function buildPricingRegistry() {
     return left.model.localeCompare(right.model);
   });
 
+  const modelLookup = new Map<string, PricingEntry>();
+  for (const [model, entries] of modelLookupGroups.entries()) {
+    modelLookup.set(model, selectCheapestEntry([...entries.values()]));
+  }
+
   return {
     canonicalEntries,
     aliases,
-    providerSources
+    providerSources,
+    modelLookup
   };
 }
 
@@ -217,7 +276,21 @@ export const PRICING_TABLE: PricingEntry[] = registry.canonicalEntries;
 export function getPricingEntry(provider: string, model: string): PricingEntry | null {
   const { provider: normalizedProvider } = canonicalizePricingIdentity(provider, model);
   const normalizedModel = model.trim().toLowerCase();
-  return registry.aliases.get(`${normalizedProvider}:${normalizedModel}`) ?? registry.aliases.get(`${normalizedProvider}:${normalizeModel(normalizedProvider, model)}`) ?? null;
+  const directMatch =
+    registry.aliases.get(`${normalizedProvider}:${normalizedModel}`) ??
+    registry.aliases.get(`${normalizedProvider}:${normalizeModel(normalizedProvider, model)}`);
+  if (directMatch) {
+    return directMatch;
+  }
+
+  for (const candidate of getModelFallbackCandidates(normalizedProvider, model)) {
+    const fallbackMatch = registry.modelLookup.get(candidate);
+    if (fallbackMatch) {
+      return fallbackMatch;
+    }
+  }
+
+  return null;
 }
 
 export function calculateEventCostUsd(

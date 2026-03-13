@@ -127,7 +127,7 @@ describe("DashboardService", () => {
     cache.cleanup();
   });
 
-  it("groups coverage details by source and rolls dated Claude models into canonical model usage", () => {
+  it("supports model-first pricing, keeps local ollama usage excluded, and filters synthetic model rows", () => {
     const codex = createCodexHome();
     const claude = createClaudeHome();
     const cache = createCacheDir();
@@ -172,11 +172,47 @@ describe("DashboardService", () => {
     );
     writeJsonlFile(
       codex.dir,
+      "sessions/2026/03/09/session-anthropic-qwen-known.jsonl",
+      createSessionRows("session-anthropic-qwen-known", "2026-03-09T10:12:00.000Z", 70, {
+        provider: "anthropic",
+        source: "cli",
+        model: "qwen2.5-coder:7b"
+      })
+    );
+    writeJsonlFile(
+      codex.dir,
+      "sessions/2026/03/09/session-anthropic-qwen-unknown.jsonl",
+      createSessionRows("session-anthropic-qwen-unknown", "2026-03-09T10:13:00.000Z", 35, {
+        provider: "anthropic",
+        source: "cli",
+        model: "qwen3.5:9b"
+      })
+    );
+    writeJsonlFile(
+      codex.dir,
       "sessions/2026/03/09/session-ollama.jsonl",
       createSessionRows("session-ollama", "2026-03-09T10:15:00.000Z", 40, {
         provider: "ollama",
         source: "exec",
         model: "qwen3.5:9b"
+      })
+    );
+    writeJsonlFile(
+      codex.dir,
+      "sessions/2026/03/09/session-ollama-known.jsonl",
+      createSessionRows("session-ollama-known", "2026-03-09T10:16:00.000Z", 45, {
+        provider: "ollama",
+        source: "exec",
+        model: "qwen2.5-coder:7b"
+      })
+    );
+    writeJsonlFile(
+      codex.dir,
+      "sessions/2026/03/09/session-synthetic.jsonl",
+      createSessionRows("session-synthetic", "2026-03-09T10:17:00.000Z", 25, {
+        provider: "anthropic",
+        source: "cli",
+        model: "<synthetic>"
       })
     );
 
@@ -200,11 +236,26 @@ describe("DashboardService", () => {
           tokens: 80
         }),
         expect.objectContaining({
-          provider: "anthropic",
+          provider: "claude",
           model: "claude-sonnet-4",
           source: "CLI",
           classification: "supported",
           tokens: 60
+        }),
+        expect.objectContaining({
+          provider: "anthropic",
+          model: "qwen2.5-coder:7b",
+          source: "CLI",
+          classification: "supported",
+          tokens: 70
+        }),
+        expect.objectContaining({
+          provider: "anthropic",
+          model: "qwen3.5:9b",
+          source: "CLI",
+          classification: "excluded",
+          tokens: 35,
+          reason: "Unknown model: qwen3.5:9b"
         }),
         expect.objectContaining({
           provider: "ollama",
@@ -212,7 +263,15 @@ describe("DashboardService", () => {
           source: "CLI",
           classification: "excluded",
           tokens: 40,
-          reason: "Unsupported provider: ollama"
+          reason: "Local usage: qwen3.5:9b"
+        }),
+        expect.objectContaining({
+          provider: "ollama",
+          model: "qwen2.5-coder:7b",
+          source: "CLI",
+          classification: "excluded",
+          tokens: 45,
+          reason: "Local usage: qwen2.5-coder:7b"
         })
       ])
     );
@@ -225,13 +284,50 @@ describe("DashboardService", () => {
           supportedTokens: 200
         }),
         expect.objectContaining({
-          provider: "anthropic",
+          provider: "claude",
           model: "claude-sonnet-4",
           totalTokens: 60,
-          supportedTokens: 60
+          supportedTokens: 60,
+          status: "allowed",
+          statusNote: null
+        }),
+        expect.objectContaining({
+          provider: "anthropic",
+          model: "qwen2.5-coder:7b",
+          totalTokens: 70,
+          supportedTokens: 70,
+          status: "allowed",
+          statusNote: null
+        }),
+        expect.objectContaining({
+          provider: "anthropic",
+          model: "qwen3.5:9b",
+          totalTokens: 35,
+          excludedTokens: 35,
+          status: "unknown",
+          statusNote: "pricing not available yet"
+        }),
+        expect.objectContaining({
+          provider: "ollama",
+          model: "qwen2.5-coder:7b",
+          totalTokens: 45,
+          excludedTokens: 45,
+          status: "local",
+          statusNote: "local usage"
+        }),
+        expect.objectContaining({
+          provider: "ollama",
+          model: "qwen3.5:9b",
+          totalTokens: 40,
+          excludedTokens: 40,
+          status: "local",
+          statusNote: "local usage · pricing not available yet"
         })
       ])
     );
+    expect(
+      overview.modelUsage.some((item) => item.provider === "anthropic" && item.model === "<synthetic>")
+    ).toBe(false);
 
     codex.cleanup();
     claude.cleanup();
@@ -304,7 +400,7 @@ describe("DashboardService", () => {
           source: "Claude Code",
           classification: "excluded",
           tokens: 60,
-          reason: "Unsupported model: unknown"
+          reason: "Unknown model: unknown"
         })
       ])
     );
@@ -320,7 +416,9 @@ describe("DashboardService", () => {
           provider: "anthropic",
           model: "unknown",
           totalTokens: 60,
-          excludedTokens: 60
+          excludedTokens: 60,
+          status: "unknown",
+          statusNote: "pricing not available yet"
         })
       ])
     );

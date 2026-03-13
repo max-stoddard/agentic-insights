@@ -25,6 +25,8 @@ export interface CoverageSummary {
   excludedModels: number;
 }
 
+export type ModelUsageStatus = "allowed" | "unknown" | "local";
+
 export interface ModelUsageEntry {
   provider: string;
   model: string;
@@ -33,6 +35,8 @@ export interface ModelUsageEntry {
   supportedTokens: number;
   excludedTokens: number;
   unestimatedTokens: number;
+  status: ModelUsageStatus;
+  statusNote: string | null;
 }
 
 export type CoverageClassification = "supported" | "excluded" | "token_only";

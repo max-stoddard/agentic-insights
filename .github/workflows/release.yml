@@ -21,6 +21,7 @@ jobs:
       packages: write
     env:
       TAG_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.ref_name }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Check out repository
@@ -79,13 +80,13 @@ jobs:
           echo "path=$RELEASE_NOTES_PATH" >> "$GITHUB_OUTPUT"
 
       - name: Publish npm package with automation token
-        if: ${{ secrets.NPM_TOKEN != '' }}
+        if: ${{ env.NPM_TOKEN != '' }}
         run: npm publish -w agentic-insights --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
 
       - name: Publish npm package with trusted publishing
-        if: ${{ secrets.NPM_TOKEN == '' }}
+        if: ${{ env.NPM_TOKEN == '' }}
         run: npm publish -w agentic-insights --access public --provenance
 
       - name: Prepare GitHub Packages mirror

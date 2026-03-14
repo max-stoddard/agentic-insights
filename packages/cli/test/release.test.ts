@@ -65,10 +65,12 @@ describe("release metadata", () => {
     expect(releaseWorkflow).toContain("workflow_dispatch:");
     expect(releaseWorkflow).toContain("tag_name:");
     expect(releaseWorkflow).toContain("TAG_NAME:");
+    expect(releaseWorkflow).toContain("NPM_TOKEN: ${{ secrets.NPM_TOKEN }}");
     expect(releaseWorkflow).toContain("ref: ${{ env.TAG_NAME }}");
     expect(releaseWorkflow).toContain("npm config delete always-auth --location=user || true");
-    expect(releaseWorkflow).toContain("secrets.NPM_TOKEN != ''");
-    expect(releaseWorkflow).toContain("secrets.NPM_TOKEN == ''");
+    expect(releaseWorkflow).toContain("env.NPM_TOKEN != ''");
+    expect(releaseWorkflow).toContain("env.NPM_TOKEN == ''");
+    expect(releaseWorkflow).toContain("NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}");
     expect(releaseWorkflow).toContain("npm publish -w agentic-insights --access public --provenance");
     expect(releaseWorkflow).toContain("node ./packages/cli/scripts/prepare-github-package.mjs");
     expect(releaseWorkflow).toContain("npm publish ./packages/cli/.github-package");

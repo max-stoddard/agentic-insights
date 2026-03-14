@@ -1,11 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as aggregation from "../src/aggregation.js";
 import { DashboardService } from "../src/service.js";
-import { createCacheDir, createClaudeHome, createCodexHome, writeJsonFile, writeJsonlFile } from "./helpers.js";
+import {
+  captureHomeEnv,
+  createCacheDir,
+  createClaudeHome,
+  createCodexHome,
+  restoreHomeEnv,
+  setUserHomeEnv,
+  writeJsonFile,
+  writeJsonlFile
+} from "./helpers.js";
+import type { HomeEnvSnapshot } from "./helpers.js";
 
 let previousCodexHome: string | undefined;
 let previousCacheDir: string | undefined;
-let previousHome: string | undefined;
+let previousHomeEnv: HomeEnvSnapshot = {};
 
 function createSessionRows(
   sessionId: string,
@@ -87,7 +97,7 @@ function createDeferredScheduler() {
 beforeEach(() => {
   previousCodexHome = process.env.CODEX_HOME;
   previousCacheDir = process.env.AGENTIC_INSIGHTS_CACHE_DIR;
-  previousHome = process.env.HOME;
+  previousHomeEnv = captureHomeEnv();
 });
 
 afterEach(() => {
@@ -106,11 +116,7 @@ afterEach(() => {
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = previousCacheDir;
   }
 
-  if (previousHome === undefined) {
-    delete process.env.HOME;
-  } else {
-    process.env.HOME = previousHome;
-  }
+  restoreHomeEnv(previousHomeEnv);
 });
 
 describe("DashboardService", () => {
@@ -119,7 +125,7 @@ describe("DashboardService", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(codex.dir, "sessions/2026/03/09/session-a.jsonl", createSessionRows("session-a", "2026-03-09T10:00:00.000Z", 120));
@@ -157,7 +163,7 @@ describe("DashboardService", () => {
     const cache = createCacheDir();
     const scheduler = createDeferredScheduler();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(codex.dir, "sessions/2026/03/09/session-a.jsonl", createSessionRows("session-a", "2026-03-09T10:00:00.000Z", 120));
@@ -189,7 +195,7 @@ describe("DashboardService", () => {
     const cache = createCacheDir();
     const scheduler = createDeferredScheduler();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     const service = new DashboardService({
@@ -217,7 +223,7 @@ describe("DashboardService", () => {
     const cache = createCacheDir();
     const scheduler = createDeferredScheduler();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(codex.dir, "sessions/2026/03/09/session-a.jsonl", createSessionRows("session-a", "2026-03-09T10:00:00.000Z", 120));
@@ -249,7 +255,7 @@ describe("DashboardService", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-03-13T12:00:00.000Z"));
@@ -330,7 +336,7 @@ describe("DashboardService", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(
@@ -537,7 +543,7 @@ describe("DashboardService", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(codex.dir, "sessions/2026/03/09/session-openai.jsonl", createSessionRows("session-openai", "2026-03-09T10:00:00.000Z", 120));

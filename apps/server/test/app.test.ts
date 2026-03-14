@@ -1,15 +1,26 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createApp } from "../src/app.js";
-import { createCacheDir, createClaudeHome, createCodexHome, writeJsonFile, writeJsonlFile, writeTuiLog } from "./helpers.js";
+import {
+  captureHomeEnv,
+  createCacheDir,
+  createClaudeHome,
+  createCodexHome,
+  restoreHomeEnv,
+  setUserHomeEnv,
+  writeJsonFile,
+  writeJsonlFile,
+  writeTuiLog
+} from "./helpers.js";
+import type { HomeEnvSnapshot } from "./helpers.js";
 
 let previousCodexHome: string | undefined;
 let previousCacheDir: string | undefined;
-let previousHome: string | undefined;
+let previousHomeEnv: HomeEnvSnapshot = {};
 
 beforeEach(() => {
   previousCodexHome = process.env.CODEX_HOME;
   previousCacheDir = process.env.AGENTIC_INSIGHTS_CACHE_DIR;
-  previousHome = process.env.HOME;
+  previousHomeEnv = captureHomeEnv();
 });
 
 afterEach(() => {
@@ -25,11 +36,7 @@ afterEach(() => {
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = previousCacheDir;
   }
 
-  if (previousHome === undefined) {
-    delete process.env.HOME;
-  } else {
-    process.env.HOME = previousHome;
-  }
+  restoreHomeEnv(previousHomeEnv);
 });
 
 describe("API routes", () => {
@@ -38,7 +45,7 @@ describe("API routes", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     const sessionId = "session-openai";

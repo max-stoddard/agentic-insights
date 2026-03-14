@@ -1,12 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { parseClaudeProjectFile, parseClaudeSessionMetaFile } from "../src/claude.js";
-import { createClaudeHome, writeJsonFile, writeJsonlFile } from "./helpers.js";
+import { captureHomeEnv, createClaudeHome, restoreHomeEnv, setUserHomeEnv, writeJsonFile, writeJsonlFile } from "./helpers.js";
+import type { HomeEnvSnapshot } from "./helpers.js";
 
 const cleanups: Array<() => void> = [];
-let previousHome: string | undefined;
+let previousHomeEnv: HomeEnvSnapshot = {};
 
 beforeEach(() => {
-  previousHome = process.env.HOME;
+  previousHomeEnv = captureHomeEnv();
 });
 
 afterEach(() => {
@@ -14,18 +15,14 @@ afterEach(() => {
     cleanups.pop()?.();
   }
 
-  if (previousHome === undefined) {
-    delete process.env.HOME;
-  } else {
-    process.env.HOME = previousHome;
-  }
+  restoreHomeEnv(previousHomeEnv);
 });
 
 describe("Claude usage parsing", () => {
   it("parses project jsonl assistant usage and dedupes repeated message snapshots", () => {
     const claude = createClaudeHome();
     cleanups.push(claude.cleanup);
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
 
     const file = writeJsonlFile(claude.homeDir, ".claude/projects/project-a/session-a.jsonl", [
       {
@@ -105,7 +102,7 @@ describe("Claude usage parsing", () => {
   it("uses session-meta totals only when no project events exist for that session", () => {
     const claude = createClaudeHome();
     cleanups.push(claude.cleanup);
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
 
     const metaFile = writeJsonFile(claude.homeDir, ".claude/usage-data/session-meta/session-b.json", {
       session_id: "session-b",
@@ -142,7 +139,7 @@ describe("Claude usage parsing", () => {
   it("counts Claude user rows as prompts", () => {
     const claude = createClaudeHome();
     cleanups.push(claude.cleanup);
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
 
     const file = writeJsonlFile(claude.homeDir, ".claude/projects/project-b/session-c.jsonl", [
       {

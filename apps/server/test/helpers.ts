@@ -2,6 +2,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+const HOME_ENV_KEYS = ["HOME", "USERPROFILE", "HOMEDRIVE", "HOMEPATH"] as const;
+
 export interface TestCodexHome {
   dir: string;
   cleanup: () => void;
@@ -17,6 +19,8 @@ export interface TestCacheDir {
   dir: string;
   cleanup: () => void;
 }
+
+export type HomeEnvSnapshot = Partial<Record<(typeof HOME_ENV_KEYS)[number], string>>;
 
 export function createCodexHome(): TestCodexHome {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "agentic-insights-"));
@@ -48,6 +52,47 @@ export function createClaudeHome(): TestClaudeHome {
     claudeDir,
     cleanup: () => fs.rmSync(homeDir, { recursive: true, force: true })
   };
+}
+
+export function captureHomeEnv(): HomeEnvSnapshot {
+  return Object.fromEntries(
+    HOME_ENV_KEYS.flatMap((key) => {
+      const value = process.env[key];
+      return value === undefined ? [] : [[key, value]];
+    })
+  ) as HomeEnvSnapshot;
+}
+
+export function restoreHomeEnv(snapshot: HomeEnvSnapshot): void {
+  for (const key of HOME_ENV_KEYS) {
+    const value = snapshot[key];
+    if (value === undefined) {
+      delete process.env[key];
+      continue;
+    }
+
+    process.env[key] = value;
+  }
+}
+
+export function setUserHomeEnv(homeDir: string): void {
+  process.env.HOME = homeDir;
+  process.env.USERPROFILE = homeDir;
+
+  if (process.platform !== "win32") {
+    return;
+  }
+
+  const resolvedHomeDir = path.resolve(homeDir);
+  const parsed = path.parse(resolvedHomeDir);
+  if (/^[A-Za-z]:\\$/.test(parsed.root)) {
+    process.env.HOMEDRIVE = parsed.root.slice(0, 2);
+    process.env.HOMEPATH = resolvedHomeDir.slice(2);
+    return;
+  }
+
+  delete process.env.HOMEDRIVE;
+  delete process.env.HOMEPATH;
 }
 
 export function writeJsonlFile(root: string, relativePath: string, rows: unknown[]): string {

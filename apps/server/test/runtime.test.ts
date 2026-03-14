@@ -3,17 +3,27 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { createCacheDir, createClaudeHome, createCodexHome, writeJsonFile, writeJsonlFile } from "./helpers.js";
+import {
+  captureHomeEnv,
+  createCacheDir,
+  createClaudeHome,
+  createCodexHome,
+  restoreHomeEnv,
+  setUserHomeEnv,
+  writeJsonFile,
+  writeJsonlFile
+} from "./helpers.js";
+import type { HomeEnvSnapshot } from "./helpers.js";
 
 let previousCodexHome: string | undefined;
 let previousCacheDir: string | undefined;
-let previousHome: string | undefined;
+let previousHomeEnv: HomeEnvSnapshot = {};
 const cleanupDirs: string[] = [];
 
 beforeEach(() => {
   previousCodexHome = process.env.CODEX_HOME;
   previousCacheDir = process.env.AGENTIC_INSIGHTS_CACHE_DIR;
-  previousHome = process.env.HOME;
+  previousHomeEnv = captureHomeEnv();
 });
 
 afterEach(() => {
@@ -29,11 +39,7 @@ afterEach(() => {
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = previousCacheDir;
   }
 
-  if (previousHome === undefined) {
-    delete process.env.HOME;
-  } else {
-    process.env.HOME = previousHome;
-  }
+  restoreHomeEnv(previousHomeEnv);
 
   for (const dir of cleanupDirs.splice(0)) {
     fs.rmSync(dir, { recursive: true, force: true });
@@ -77,7 +83,7 @@ describe("server runtime", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonlFile(codex.dir, "sessions/2026/03/09/session-openai.jsonl", [
@@ -147,7 +153,7 @@ describe("server runtime", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = codex.dir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     writeJsonFile(claude.homeDir, ".claude/usage-data/session-meta/session-only-claude.json", {
@@ -185,7 +191,7 @@ describe("server runtime", () => {
     const claude = createClaudeHome();
     const cache = createCacheDir();
     process.env.CODEX_HOME = missingDir;
-    process.env.HOME = claude.homeDir;
+    setUserHomeEnv(claude.homeDir);
     process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
 
     const app = createApp();

@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Existing release tag to publish, for example v0.1.1
+        required: true
+        type: string
 
 jobs:
   publish:
@@ -13,10 +19,14 @@ jobs:
       contents: write
       id-token: write
       packages: write
+    env:
+      TAG_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.ref_name }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG_NAME }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,6 +35,10 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
+      - name: Clear legacy npm auth config
+        shell: bash
+        run: npm config delete always-auth --location=user || true
+
       - name: Install dependencies
         run: npm ci
 
@@ -32,7 +46,7 @@ jobs:
         shell: bash
         run: |
           PACKAGE_VERSION="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync('packages/cli/package.json', 'utf8')).version)")"
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          TAG_VERSION="${TAG_NAME#v}"
 
           if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
             echo "Tag version ($TAG_VERSION) does not match packages/cli/package.json ($PACKAGE_VERSION)."
@@ -55,7 +69,7 @@ jobs:
         id: release_notes
         shell: bash
         run: |
-          RELEASE_NOTES_PATH=".github/release-notes/${GITHUB_REF_NAME}.md"
+          RELEASE_NOTES_PATH=".github/release-notes/${TAG_NAME}.md"
 
           if [ ! -f "$RELEASE_NOTES_PATH" ]; then
             echo "Missing release notes file: $RELEASE_NOTES_PATH"
@@ -64,7 +78,14 @@ jobs:
 
           echo "path=$RELEASE_NOTES_PATH" >> "$GITHUB_OUTPUT"
 
-      - name: Publish npm package
+      - name: Publish npm package with automation token
+        if: ${{ secrets.NPM_TOKEN != '' }}
+        run: npm publish -w agentic-insights --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish npm package with trusted publishing
+        if: ${{ secrets.NPM_TOKEN == '' }}
         run: npm publish -w agentic-insights --access public --provenance
 
       - name: Prepare GitHub Packages mirror
@@ -79,5 +100,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.TAG_NAME }}
           body_path: ${{ steps.release_notes.outputs.path }}
           generate_release_notes: true

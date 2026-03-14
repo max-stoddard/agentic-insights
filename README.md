@@ -185,15 +185,17 @@ Releases are cut from GitHub Actions on tags like `v0.1.1`.
 The release workflow:
 
 1. Runs `npm run lint`, `npm run test`, `npm run build`, and `npm run test:pack`
-2. Publishes `agentic-insights` to npm with trusted publishing and provenance
+2. Publishes `agentic-insights` to npm with `NPM_TOKEN` if provided, otherwise with trusted publishing and provenance
 3. Generates a scoped mirror package and publishes `@max-stoddard/agentic-insights` to GitHub Packages
 4. Creates a GitHub Release from `.github/release-notes/vX.Y.Z.md`
 
 Before cutting a release:
 
-1. Verify `agentic-insights` is available on npm and `@max-stoddard/agentic-insights` is available on GitHub Packages
-2. Confirm npm trusted publishing is configured for `max-stoddard/agentic-insights` and `.github/workflows/release.yml`
-3. Add a matching release notes file at `.github/release-notes/vX.Y.Z.md`
+1. For the first npm publish of `agentic-insights`, add the `NPM_TOKEN` GitHub Actions secret for the npm account that will own the package
+2. Add a matching release notes file at `.github/release-notes/vX.Y.Z.md`
+3. Run the release workflow for the existing tag from GitHub Actions using the `tag_name` input, or push a fresh release tag
+4. After the first successful npm publish, configure npm trusted publishing for `max-stoddard/agentic-insights` and `.github/workflows/release.yml`, then remove `NPM_TOKEN`
+5. Verify `@max-stoddard/agentic-insights` is available on GitHub Packages
 
 ## References
 

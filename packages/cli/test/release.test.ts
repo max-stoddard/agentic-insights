@@ -62,10 +62,18 @@ describe("release metadata", () => {
     const releaseWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "release.yml"), "utf8");
 
     expect(releaseWorkflow).toContain("packages: write");
+    expect(releaseWorkflow).toContain("workflow_dispatch:");
+    expect(releaseWorkflow).toContain("tag_name:");
+    expect(releaseWorkflow).toContain("TAG_NAME:");
+    expect(releaseWorkflow).toContain("ref: ${{ env.TAG_NAME }}");
+    expect(releaseWorkflow).toContain("npm config delete always-auth --location=user || true");
+    expect(releaseWorkflow).toContain("secrets.NPM_TOKEN != ''");
+    expect(releaseWorkflow).toContain("secrets.NPM_TOKEN == ''");
     expect(releaseWorkflow).toContain("npm publish -w agentic-insights --access public --provenance");
     expect(releaseWorkflow).toContain("node ./packages/cli/scripts/prepare-github-package.mjs");
     expect(releaseWorkflow).toContain("npm publish ./packages/cli/.github-package");
     expect(releaseWorkflow).toContain("https://npm.pkg.github.com");
+    expect(releaseWorkflow).toContain("tag_name: ${{ env.TAG_NAME }}");
     expect(releaseWorkflow).toContain("softprops/action-gh-release@v2");
   });
 

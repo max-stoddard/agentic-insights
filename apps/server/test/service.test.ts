@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as aggregation from "../src/aggregation.js";
 import * as discovery from "../src/discovery.js";
@@ -151,7 +153,11 @@ describe("DashboardService", () => {
 
     expect(firstMonth).toEqual(secondMonth);
     expect(firstMonth.points[0]?.tokens).toBe(120);
+    expect(firstMonth.points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(firstMonth.points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(week.points[0]?.tokens).toBe(120);
+    expect(week.points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(week.points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).toHaveBeenCalledTimes(1);
     expect(bucketSpy).toHaveBeenCalledTimes(2);
 
@@ -187,6 +193,8 @@ describe("DashboardService", () => {
     const secondService = createImmediateDashboardService();
 
     expect(secondService.getTimeseries("week", "UTC").points[0]?.tokens).toBe(120);
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).not.toHaveBeenCalled();
     expect(bucketSpy).not.toHaveBeenCalled();
 
@@ -215,6 +223,8 @@ describe("DashboardService", () => {
     const secondService = createImmediateDashboardService();
 
     expect(secondService.getTimeseries("month", "UTC").points[0]?.tokens).toBe(200);
+    expect(secondService.getTimeseries("month", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(secondService.getTimeseries("month", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).toHaveBeenCalledTimes(1);
     expect(bucketSpy).toHaveBeenCalledTimes(2);
 
@@ -241,6 +251,8 @@ describe("DashboardService", () => {
 
     expect(service.getOverview("UTC").diagnostics.state).toBe("ready");
     expect(service.getTimeseries("day", "UTC").points[0]?.tokens).toBe(120);
+    expect(service.getTimeseries("day", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(service.getTimeseries("day", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(service.getTimeseries("week", "UTC").points[0]?.tokens).toBe(120);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
 
@@ -248,6 +260,50 @@ describe("DashboardService", () => {
 
     expect(service.getOverview("UTC").diagnostics.state).toBe("ready");
     expect(sessionSpy).toHaveBeenCalledTimes(2);
+
+    codex.cleanup();
+    claude.cleanup();
+    cache.cleanup();
+  });
+
+  it("rebuilds persisted aggregate bundles when the cached points are missing carbon data", () => {
+    const codex = createCodexHome();
+    const claude = createClaudeHome();
+    const cache = createCacheDir();
+    process.env.CODEX_HOME = codex.dir;
+    setUserHomeEnv(claude.homeDir);
+    process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
+
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-a.jsonl", createSessionRows("session-a", "2026-03-09T10:00:00.000Z", 120));
+
+    const firstService = createImmediateDashboardService();
+    expect(firstService.getTimeseries("month", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(firstService.getTimeseries("month", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
+
+    const cachePath = path.join(cache.dir, "timeseries.json");
+    const persisted = JSON.parse(fs.readFileSync(cachePath, "utf8")) as {
+      signature: string;
+      byTimeZone: Record<string, { day: Array<Record<string, unknown>>; week: Array<Record<string, unknown>>; month: Array<Record<string, unknown>> }>;
+    };
+
+    for (const bundle of Object.values(persisted.byTimeZone)) {
+      for (const series of [bundle.day, bundle.week, bundle.month]) {
+        for (const point of series) {
+          delete point.carbonKgCo2;
+        }
+      }
+    }
+
+    fs.writeFileSync(cachePath, JSON.stringify(persisted, null, 2));
+
+    const daySpy = vi.spyOn(aggregation, "aggregateDayTimeseries");
+    const bucketSpy = vi.spyOn(aggregation, "aggregateFromDayBuckets");
+    const secondService = createImmediateDashboardService();
+
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
+    expect(daySpy).toHaveBeenCalledTimes(1);
+    expect(bucketSpy).toHaveBeenCalledTimes(2);
 
     codex.cleanup();
     claude.cleanup();

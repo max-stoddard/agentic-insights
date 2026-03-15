@@ -213,6 +213,8 @@ describe("API routes", () => {
     expect(overview.tokenTotals.supportedTokens).toBe(200);
     expect(overview.tokenTotals.excludedTokens).toBe(100);
     expect(overview.tokenTotals.unestimatedTokens).toBe(60);
+    expect(overview.energyKwh).toBeGreaterThan(0);
+    expect(overview.carbonKgCo2).toBeGreaterThan(0);
     expect(overview.coverage.supportedEvents).toBe(2);
     expect(overview.coverageSummary).toEqual({
       sessions: 5,
@@ -305,6 +307,8 @@ describe("API routes", () => {
     const timeseries = timeseriesResponse.json();
     expect(timeseries.points).toHaveLength(1);
     expect(timeseries.points[0].tokens).toBe(360);
+    expect(timeseries.points[0].energyKwh).toBeGreaterThan(0);
+    expect(timeseries.points[0].carbonKgCo2).toBeGreaterThan(0);
 
     const methodologyResponse = await app.inject({ method: "GET", url: "/api/methodology" });
     const methodology = methodologyResponse.json();
@@ -315,6 +319,9 @@ describe("API routes", () => {
       central: 0.016904,
       high: 0.029926
     });
+    expect(methodology.energyBenchmarkKwh).toBe(0.004);
+    expect(methodology.carbonIntensityKgCo2PerKwh).toBe(0.445);
+    expect(methodology.carbonBenchmarkKgCo2).toBeCloseTo(0.00178, 8);
     expect(methodology.exclusions).toHaveLength(2);
     expect(methodology.pricingCatalog).toEqual(
       expect.objectContaining({
@@ -362,6 +369,50 @@ describe("API routes", () => {
         })
       ])
     );
+    expect(methodology.sourcesByTab.energy).toEqual(
+      expect.arrayContaining([
+        {
+          label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)",
+          url: "https://doi.org/10.1145/3724499"
+        },
+        {
+          label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
+          url: "https://arxiv.org/abs/2304.03271"
+        },
+        {
+          label: "NeurIPS 2020: Language Models are Few-Shot Learners (Brown et al.)",
+          url: "https://papers.nips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf"
+        },
+        {
+          label: "JMLR 2023: Estimating the Carbon Footprint of BLOOM",
+          url: "https://jmlr.org/papers/v24/23-0069.html"
+        }
+      ])
+    );
+    expect(methodology.sourcesByTab.carbon).toEqual(
+      expect.arrayContaining([
+        {
+          label: "IEA Electricity 2025: Emissions",
+          url: "https://www.iea.org/reports/electricity-2025/emissions"
+        },
+        {
+          label: "GHG Protocol Scope 2 Guidance",
+          url: "https://ghgprotocol.org/scope_2_guidance"
+        },
+        {
+          label: "GHG Protocol Scope 2 Frequently Asked Questions",
+          url: "https://ghgprotocol.org/scope-2-frequently-asked-questions"
+        },
+        {
+          label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)",
+          url: "https://doi.org/10.1145/3724499"
+        },
+        {
+          label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
+          url: "https://arxiv.org/abs/2304.03271"
+        }
+      ])
+    );
 
     await app.close();
     codex.cleanup();
@@ -382,6 +433,8 @@ describe("API routes", () => {
         central: 0,
         high: 0
       },
+      energyKwh: 0,
+      carbonKgCo2: 0,
       coverage: {
         supportedEvents: 0,
         excludedEvents: 0,

@@ -99,6 +99,8 @@ export interface OverviewDiagnostics {
 export interface OverviewResponse {
   tokenTotals: TokenTotals;
   waterLitres: WaterRange;
+  energyKwh: number;
+  carbonKgCo2: number;
   coverage: CoverageCounts;
   coverageSummary: CoverageSummary;
   weeklyGrowth: WeeklyGrowthSummary;
@@ -119,6 +121,8 @@ export interface TimeseriesPoint {
   excludedTokens: number;
   unestimatedTokens: number;
   waterLitres: WaterRange;
+  energyKwh: number;
+  carbonKgCo2: number;
 }
 
 export interface TimeseriesResponse {
@@ -255,6 +259,9 @@ export interface PricingCatalogMetadata {
 export interface MethodologyResponse {
   pricingTable: PricingEntry[];
   benchmarkCoefficients: WaterRange;
+  energyBenchmarkKwh: number;
+  carbonIntensityKgCo2PerKwh: number;
+  carbonBenchmarkKgCo2: number;
   calibration: CalibrationSnapshot | null;
   exclusions: ExclusionSummary[];
   pricingCatalog: PricingCatalogMetadata;

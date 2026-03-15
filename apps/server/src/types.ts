@@ -33,6 +33,8 @@ export interface RawUsageEvent {
 export interface ClassifiedUsageEvent extends RawUsageEvent {
   classification: CoverageClassification;
   waterLitres: WaterRange;
+  energyKwh: number;
+  carbonKgCo2: number;
   eventCostUsd: number | null;
   exclusionReason: string | null;
 }
@@ -72,6 +74,9 @@ export interface DataSnapshot {
   pricingCatalog: PricingCatalogMetadata;
   sourcesByTab: Record<MethodologyTabId, MethodologySourceLink[]>;
   benchmarks: WaterRange;
+  energyBenchmarkKwh: number;
+  carbonIntensityKgCo2PerKwh: number;
+  carbonBenchmarkKgCo2: number;
   calibration: CalibrationSnapshot | null;
   lastIndexedAt: number | null;
   diagnostics: OverviewDiagnostics;

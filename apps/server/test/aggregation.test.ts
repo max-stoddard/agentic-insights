@@ -23,7 +23,9 @@ function supportedEvent(id: string, ts: string, waterCentral: number): Classifie
       low: waterCentral / 2,
       central: waterCentral,
       high: waterCentral * 2
-    }
+    },
+    energyKwh: waterCentral / 10,
+    carbonKgCo2: waterCentral / 20
   };
 }
 
@@ -39,9 +41,15 @@ describe("aggregateTimeseries", () => {
     const week = aggregateFromDayBuckets(day, "week", "UTC");
     const month = aggregateFromDayBuckets(day, "month", "UTC");
 
-    const sum = (points: typeof day) => points.reduce((total, point) => total + point.waterLitres.central, 0);
-    expect(sum(day)).toBeCloseTo(sum(week), 6);
-    expect(sum(day)).toBeCloseTo(sum(month), 6);
+    const sumWater = (points: typeof day) => points.reduce((total, point) => total + point.waterLitres.central, 0);
+    const sumEnergy = (points: typeof day) => points.reduce((total, point) => total + point.energyKwh, 0);
+    const sumCarbon = (points: typeof day) => points.reduce((total, point) => total + point.carbonKgCo2, 0);
+    expect(sumWater(day)).toBeCloseTo(sumWater(week), 6);
+    expect(sumWater(day)).toBeCloseTo(sumWater(month), 6);
+    expect(sumEnergy(day)).toBeCloseTo(sumEnergy(week), 6);
+    expect(sumEnergy(day)).toBeCloseTo(sumEnergy(month), 6);
+    expect(sumCarbon(day)).toBeCloseTo(sumCarbon(week), 6);
+    expect(sumCarbon(day)).toBeCloseTo(sumCarbon(month), 6);
 
     expect(day).toHaveLength(13);
     expect(day[1]).toMatchObject({

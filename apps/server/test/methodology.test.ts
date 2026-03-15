@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { getOrCreateCalibration } from "../src/calibration.js";
 import {
   BENCHMARK_COEFFICIENTS,
+  ENERGY_BENCHMARK_KWH,
   PRICING_CATALOG_METADATA,
   calculateEventCostUsd,
   getMethodologySourcesByTab,
@@ -80,6 +81,7 @@ describe("pricing methodology", () => {
       central: 0.016904,
       high: 0.029926
     });
+    expect(ENERGY_BENCHMARK_KWH).toBe(0.004);
   });
 
   it("exposes catalog provenance and tab-scoped methodology sources", () => {
@@ -135,6 +137,42 @@ describe("pricing methodology", () => {
         {
           label: "GCSAA Golf Course Environmental Profile: Phase II Water Use and Conservation Practices on U.S. Golf Courses",
           url: "https://www.gcsaa.org/docs/default-source/Environment/phase-2-water-use-survey-full-report.pdf?sfvrsn=2b39123e_4"
+        }
+      ])
+    );
+    expect(sources.water).not.toEqual(
+      expect.arrayContaining([
+        {
+          label: "Portkey models repo (MIT)",
+          url: "https://github.com/Portkey-AI/models"
+        }
+      ])
+    );
+    expect(sources.energy).toEqual(
+      expect.arrayContaining([
+        {
+          label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)",
+          url: "https://doi.org/10.1145/3724499"
+        },
+        {
+          label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
+          url: "https://arxiv.org/abs/2304.03271"
+        },
+        {
+          label: "NeurIPS 2020: Language Models are Few-Shot Learners (Brown et al.)",
+          url: "https://papers.nips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf"
+        },
+        {
+          label: "JMLR 2023: Estimating the Carbon Footprint of BLOOM",
+          url: "https://jmlr.org/papers/v24/23-0069.html"
+        }
+      ])
+    );
+    expect(sources.energy).not.toEqual(
+      expect.arrayContaining([
+        {
+          label: "Portkey pricing: anthropic.json",
+          url: "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/anthropic.json"
         }
       ])
     );

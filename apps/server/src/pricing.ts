@@ -14,7 +14,11 @@ export const BENCHMARK_COEFFICIENTS: WaterRange = {
   high: 0.029926
 };
 
-const WATER_PAPER_SOURCES: MethodologySourceLink[] = [
+export const ENERGY_BENCHMARK_KWH = 0.004;
+export const CARBON_INTENSITY_KG_CO2_PER_KWH = 0.445;
+export const CARBON_BENCHMARK_KG_CO2 = ENERGY_BENCHMARK_KWH * CARBON_INTENSITY_KG_CO2_PER_KWH;
+
+const LI_METHOD_SOURCES: MethodologySourceLink[] = [
   {
     label: "CACM DOI: Making AI Less 'Thirsty' (Li, Yang, Islam, Ren)",
     url: "https://doi.org/10.1145/3724499"
@@ -22,7 +26,11 @@ const WATER_PAPER_SOURCES: MethodologySourceLink[] = [
   {
     label: "arXiv: Uncovering and Addressing the Secret Water Footprint of AI Models",
     url: "https://arxiv.org/abs/2304.03271"
-  },
+  }
+];
+
+const WATER_PAPER_SOURCES: MethodologySourceLink[] = [
+  ...LI_METHOD_SOURCES,
   ...WATER_SCALE_COMPARISONS.map((comparison) => ({
     label: comparison.sourceLabel,
     url: comparison.sourceUrl
@@ -30,22 +38,31 @@ const WATER_PAPER_SOURCES: MethodologySourceLink[] = [
 ];
 
 const ENERGY_SOURCES: MethodologySourceLink[] = [
+  ...LI_METHOD_SOURCES,
   {
-    label: "CodeCarbon methodology",
-    url: "https://mlco2.github.io/codecarbon/methodology.html"
+    label: "NeurIPS 2020: Language Models are Few-Shot Learners (Brown et al.)",
+    url: "https://papers.nips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf"
+  },
+  {
+    label: "JMLR 2023: Estimating the Carbon Footprint of BLOOM",
+    url: "https://jmlr.org/papers/v24/23-0069.html"
   }
 ];
 
 const CARBON_SOURCES: MethodologySourceLink[] = [
   {
-    label: "GHG Protocol Corporate Standard",
-    url: "https://ghgprotocol.org/corporate-standard"
+    label: "IEA Electricity 2025: Emissions",
+    url: "https://www.iea.org/reports/electricity-2025/emissions"
   },
   {
     label: "GHG Protocol Scope 2 Guidance",
-    url: "https://ghgprotocol.org/scope-2-guidance"
+    url: "https://ghgprotocol.org/scope_2_guidance"
   },
-  ...ENERGY_SOURCES
+  {
+    label: "GHG Protocol Scope 2 Frequently Asked Questions",
+    url: "https://ghgprotocol.org/scope-2-frequently-asked-questions"
+  },
+  ...LI_METHOD_SOURCES
 ];
 
 const LOCAL_MODEL_ALIASES = new Map<string, string>([
@@ -343,8 +360,8 @@ export function getMethodologySourcesByTab(providers: Iterable<string>): Record<
 
   return {
     prompts: catalogSources,
-    water: dedupeSourceLinks(...WATER_PAPER_SOURCES, ...catalogSources),
-    energy: dedupeSourceLinks(...ENERGY_SOURCES, ...catalogSources),
-    carbon: dedupeSourceLinks(...CARBON_SOURCES, ...catalogSources)
+    water: dedupeSourceLinks(...WATER_PAPER_SOURCES),
+    energy: dedupeSourceLinks(...ENERGY_SOURCES),
+    carbon: dedupeSourceLinks(...CARBON_SOURCES)
   };
 }

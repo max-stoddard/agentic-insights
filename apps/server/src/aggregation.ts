@@ -20,15 +20,22 @@ function createPoint(startTs: number, bucket: Bucket, timeZone: string): Timeser
     tokens: 0,
     excludedTokens: 0,
     unestimatedTokens: 0,
-    waterLitres: zeroRange()
+    waterLitres: zeroRange(),
+    energyKwh: 0,
+    carbonKgCo2: 0
   };
 }
 
-function addPointTotals(target: TimeseriesPoint, source: Pick<TimeseriesPoint, "tokens" | "excludedTokens" | "unestimatedTokens" | "waterLitres">) {
+function addPointTotals(
+  target: TimeseriesPoint,
+  source: Pick<TimeseriesPoint, "tokens" | "excludedTokens" | "unestimatedTokens" | "waterLitres" | "energyKwh" | "carbonKgCo2">
+) {
   target.tokens += source.tokens;
   target.excludedTokens += source.excludedTokens;
   target.unestimatedTokens += source.unestimatedTokens;
   addRange(target.waterLitres, source.waterLitres);
+  target.energyKwh += source.energyKwh;
+  target.carbonKgCo2 += source.carbonKgCo2;
 }
 
 function fillPoints(
@@ -64,6 +71,8 @@ export function aggregateDayTimeseries(events: ClassifiedUsageEvent[], timeZone:
 
     point.tokens += event.totalTokens;
     addRange(point.waterLitres, event.waterLitres);
+    point.energyKwh += event.energyKwh;
+    point.carbonKgCo2 += event.carbonKgCo2;
     if (event.classification === "excluded") {
       point.excludedTokens += event.totalTokens;
     }

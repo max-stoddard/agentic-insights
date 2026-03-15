@@ -38,6 +38,9 @@ import { aggregateDayTimeseries, aggregateFromDayBuckets } from "./aggregation.j
 import { getBucketStartTs, shiftZonedDateTimeByDays } from "./timezone.js";
 import {
   BENCHMARK_COEFFICIENTS,
+  CARBON_BENCHMARK_KG_CO2,
+  CARBON_INTENSITY_KG_CO2_PER_KWH,
+  ENERGY_BENCHMARK_KWH,
   PRICING_CATALOG_METADATA,
   PRICING_TABLE,
   calculateEventCostUsd,
@@ -98,6 +101,10 @@ function scaleRange(base: WaterRange, multiplier: number): WaterRange {
   };
 }
 
+function scaleValue(base: number, multiplier: number): number {
+  return base * multiplier;
+}
+
 function sumRange(target: WaterRange, source: WaterRange): void {
   target.low += source.low;
   target.central += source.central;
@@ -136,13 +143,66 @@ function buildTimeseriesBundle(events: ClassifiedUsageEvent[], timeZone: string)
   };
 }
 
+function isWaterRange(value: unknown): value is WaterRange {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<WaterRange>;
+  return (
+    typeof candidate.low === "number" &&
+    typeof candidate.central === "number" &&
+    typeof candidate.high === "number"
+  );
+}
+
+function isTimeseriesPoint(value: unknown): value is TimeseriesPoint {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<TimeseriesPoint>;
+  return (
+    typeof candidate.startTs === "number" &&
+    typeof candidate.key === "string" &&
+    typeof candidate.label === "string" &&
+    typeof candidate.tokens === "number" &&
+    typeof candidate.excludedTokens === "number" &&
+    typeof candidate.unestimatedTokens === "number" &&
+    typeof candidate.energyKwh === "number" &&
+    typeof candidate.carbonKgCo2 === "number" &&
+    isWaterRange(candidate.waterLitres)
+  );
+}
+
+function isTimeseriesBundle(value: unknown): value is TimeseriesBundle {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<TimeseriesBundle>;
+  return (
+    Array.isArray(candidate.day) &&
+    Array.isArray(candidate.week) &&
+    Array.isArray(candidate.month) &&
+    candidate.day.every((point) => isTimeseriesPoint(point)) &&
+    candidate.week.every((point) => isTimeseriesPoint(point)) &&
+    candidate.month.every((point) => isTimeseriesPoint(point))
+  );
+}
+
 function isPersistedTimeseriesCache(value: unknown): value is PersistedTimeseriesCache {
   if (!value || typeof value !== "object") {
     return false;
   }
 
   const candidate = value as Partial<PersistedTimeseriesCache>;
-  return typeof candidate.signature === "string" && candidate.byTimeZone !== null && typeof candidate.byTimeZone === "object";
+  return (
+    typeof candidate.signature === "string" &&
+    candidate.byTimeZone !== null &&
+    typeof candidate.byTimeZone === "object" &&
+    Object.values(candidate.byTimeZone).every((bundle) => isTimeseriesBundle(bundle))
+  );
 }
 
 function createDiagnostics(
@@ -168,6 +228,9 @@ function createSnapshot(signature: string, diagnostics: OverviewDiagnostics): Da
     pricingCatalog: PRICING_CATALOG_METADATA,
     sourcesByTab: getMethodologySourcesByTab([]),
     benchmarks: BENCHMARK_COEFFICIENTS,
+    energyBenchmarkKwh: ENERGY_BENCHMARK_KWH,
+    carbonIntensityKgCo2PerKwh: CARBON_INTENSITY_KG_CO2_PER_KWH,
+    carbonBenchmarkKgCo2: CARBON_BENCHMARK_KG_CO2,
     calibration: null,
     lastIndexedAt: null,
     diagnostics
@@ -461,6 +524,8 @@ function buildOverviewFromSnapshot(
 ): OverviewResponse {
   const coverageSummary = buildCoverageSummary(snapshot);
   const waterLitres = zeroRange();
+  let energyKwh = 0;
+  let carbonKgCo2 = 0;
   let totalTokens = 0;
   let supportedTokens = 0;
   let excludedTokens = 0;
@@ -472,6 +537,8 @@ function buildOverviewFromSnapshot(
   for (const event of snapshot.events) {
     totalTokens += event.totalTokens;
     sumRange(waterLitres, event.waterLitres);
+    energyKwh += event.energyKwh;
+    carbonKgCo2 += event.carbonKgCo2;
 
     if (event.classification === "supported") {
       supportedTokens += event.totalTokens;
@@ -493,6 +560,8 @@ function buildOverviewFromSnapshot(
       unestimatedTokens
     },
     waterLitres,
+    energyKwh,
+    carbonKgCo2,
     coverage: {
       supportedEvents,
       excludedEvents,
@@ -546,6 +615,8 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
         ...event,
         classification: "token_only",
         waterLitres: zeroRange(),
+        energyKwh: 0,
+        carbonKgCo2: 0,
         eventCostUsd: null,
         exclusionReason: reason
       };
@@ -561,6 +632,8 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
         ...event,
         classification: "excluded",
         waterLitres: zeroRange(),
+        energyKwh: 0,
+        carbonKgCo2: 0,
         eventCostUsd: null,
         exclusionReason: reason
       };
@@ -574,22 +647,26 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
         ...event,
         classification: "excluded",
         waterLitres: zeroRange(),
+        energyKwh: 0,
+        carbonKgCo2: 0,
         eventCostUsd: null,
         exclusionReason: reason
       };
     }
 
     const eventCostUsd = calculateEventCostUsd(pricing, event.inputTokens, event.cachedInputTokens, event.outputTokens);
-    const waterLitres =
-      calibration && calibration.referenceEventCostUsd > 0
-        ? scaleRange(BENCHMARK_COEFFICIENTS, eventCostUsd / calibration.referenceEventCostUsd)
-        : zeroRange();
+    const multiplier = calibration && calibration.referenceEventCostUsd > 0 ? eventCostUsd / calibration.referenceEventCostUsd : 0;
+    const waterLitres = multiplier > 0 ? scaleRange(BENCHMARK_COEFFICIENTS, multiplier) : zeroRange();
+    const energyKwh = multiplier > 0 ? scaleValue(ENERGY_BENCHMARK_KWH, multiplier) : 0;
+    const carbonKgCo2 = energyKwh * CARBON_INTENSITY_KG_CO2_PER_KWH;
     addCoverageDetail(coverageDetails, event, "supported", null);
 
     return {
       ...event,
       classification: "supported",
       waterLitres,
+      energyKwh,
+      carbonKgCo2,
       eventCostUsd,
       exclusionReason: null
     };
@@ -686,6 +763,9 @@ export class DashboardService {
     return {
       pricingTable: snapshot.pricingTable,
       benchmarkCoefficients: snapshot.benchmarks,
+      energyBenchmarkKwh: snapshot.energyBenchmarkKwh,
+      carbonIntensityKgCo2PerKwh: snapshot.carbonIntensityKgCo2PerKwh,
+      carbonBenchmarkKgCo2: snapshot.carbonBenchmarkKgCo2,
       calibration: snapshot.calibration,
       exclusions: snapshot.exclusions,
       pricingCatalog: snapshot.pricingCatalog,
@@ -855,6 +935,9 @@ export class DashboardService {
       pricingCatalog: PRICING_CATALOG_METADATA,
       sourcesByTab: getMethodologySourcesByTab(rawEvents.map((event) => event.provider)),
       benchmarks: BENCHMARK_COEFFICIENTS,
+      energyBenchmarkKwh: ENERGY_BENCHMARK_KWH,
+      carbonIntensityKgCo2PerKwh: CARBON_INTENSITY_KG_CO2_PER_KWH,
+      carbonBenchmarkKgCo2: CARBON_BENCHMARK_KG_CO2,
       calibration: classified.calibration,
       lastIndexedAt,
       diagnostics

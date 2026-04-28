@@ -165,5 +165,7 @@ describe("Claude usage parsing", () => {
     const parsed = parseClaudeProjectFile(file);
     expect(parsed.prompts).toHaveLength(2);
     expect(parsed.prompts[0]?.sessionId).toBe("session-c");
+    expect(parsed.prompts[0]?.previewText).toBe("Summarise this repo");
+    expect(parsed.prompts[1]?.previewText).toBe("Add tests");
   });
 });

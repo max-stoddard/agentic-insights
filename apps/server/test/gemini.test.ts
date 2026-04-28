@@ -77,6 +77,7 @@ describe("Gemini Integration", () => {
 
     expect(result.prompts[0]!.sessionId).toBe("test-session-1");
     expect(result.prompts[0]!.ts).toBe(Date.parse("2024-03-15T10:00:00.000Z"));
+    expect(result.prompts[0]!.previewText).toBe("Hello Gemini");
   });
 
   it("should return empty results for invalid files", () => {

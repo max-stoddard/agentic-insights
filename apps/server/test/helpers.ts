@@ -45,6 +45,7 @@ export function createClaudeHome(): TestClaudeHome {
   const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), "agentic-insights-home-"));
   const claudeDir = path.join(homeDir, ".claude");
   fs.mkdirSync(path.join(claudeDir, "projects"), { recursive: true });
+  fs.mkdirSync(path.join(claudeDir, "usage-data", "facets"), { recursive: true });
   fs.mkdirSync(path.join(claudeDir, "usage-data", "session-meta"), { recursive: true });
 
   return {

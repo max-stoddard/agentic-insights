@@ -100,7 +100,8 @@ export function parseGeminiSessionFile(filePath: string): { events: RawUsageEven
         prompts.push({
           id: makeEventId([sessionId, "user", String(ts), text]),
           sessionId: sessionId,
-          ts
+          ts,
+          previewText: text
         });
       }
       continue;

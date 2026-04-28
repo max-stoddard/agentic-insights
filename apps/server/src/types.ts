@@ -62,12 +62,19 @@ export interface PromptRecord {
   id: string;
   sessionId: string;
   ts: number;
+  previewText: string | null;
+}
+
+export interface SessionTitleRecord {
+  sessionId: string;
+  title: string;
 }
 
 export interface DataSnapshot {
   signature: string;
   events: ClassifiedUsageEvent[];
   promptRecords: PromptRecord[];
+  sessionTitles: SessionTitleRecord[];
   coverageDetails: CoverageDetailAggregate[];
   exclusions: ExclusionAggregate[];
   pricingTable: PricingEntry[];

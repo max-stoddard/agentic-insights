@@ -244,5 +244,7 @@ describe("parseSessionFile", () => {
     const prompts = parseSessionPrompts(file);
     expect(prompts).toHaveLength(2);
     expect(prompts[0]?.sessionId).toBe("session-prompts");
+    expect(prompts[0]?.previewText).toBe("Explain the result");
+    expect(prompts[1]?.previewText).toBe("Add a chart");
   });
 });

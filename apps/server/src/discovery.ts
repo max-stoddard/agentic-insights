@@ -34,6 +34,22 @@ export function listSessionFiles(codexHome: string): FileRecord[] {
   return files.sort((a, b) => a.path.localeCompare(b.path));
 }
 
+export function listCodexSessionIndexFiles(codexHome: string): FileRecord[] {
+  const filePath = path.join(codexHome, "session_index.jsonl");
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+    return [];
+  }
+
+  const stat = fs.statSync(filePath);
+  return [
+    {
+      path: filePath,
+      mtimeMs: Math.floor(stat.mtimeMs),
+      size: stat.size
+    }
+  ];
+}
+
 export function listClaudeProjectFiles(claudeHome: string): FileRecord[] {
   const files: FileRecord[] = [];
   walkFiles(path.join(claudeHome, "projects"), ".jsonl", files);
@@ -43,6 +59,12 @@ export function listClaudeProjectFiles(claudeHome: string): FileRecord[] {
 export function listClaudeSessionMetaFiles(claudeHome: string): FileRecord[] {
   const files: FileRecord[] = [];
   walkFiles(path.join(claudeHome, "usage-data", "session-meta"), ".json", files);
+  return files.sort((a, b) => a.path.localeCompare(b.path));
+}
+
+export function listClaudeFacetFiles(claudeHome: string): FileRecord[] {
+  const files: FileRecord[] = [];
+  walkFiles(path.join(claudeHome, "usage-data", "facets"), ".json", files);
   return files.sort((a, b) => a.path.localeCompare(b.path));
 }
 

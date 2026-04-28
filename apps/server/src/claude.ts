@@ -133,7 +133,8 @@ export function parseClaudeProjectFile(filePath: string): ClaudeProjectParseResu
         prompts.push({
           id: promptId,
           sessionId,
-          ts
+          ts,
+          previewText: text
         });
       }
     }

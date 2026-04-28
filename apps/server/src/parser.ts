@@ -383,7 +383,8 @@ export function parseSessionPrompts(filePath: string): PromptRecord[] {
       eventPrompts.push({
         id: makePromptId([sessionId, "event", String(ts), text]),
         sessionId,
-        ts
+        ts,
+        previewText: text
       });
       continue;
     }
@@ -397,7 +398,8 @@ export function parseSessionPrompts(filePath: string): PromptRecord[] {
       responsePrompts.push({
         id: makePromptId([sessionId, "response", String(ts), text]),
         sessionId,
-        ts
+        ts,
+        previewText: text
       });
     }
   }

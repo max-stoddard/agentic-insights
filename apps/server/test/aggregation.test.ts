@@ -17,7 +17,7 @@ function supportedEvent(id: string, ts: string, waterCentral: number): Classifie
     splitSource: "last_usage",
     transport: "session",
     classification: "supported",
-    eventCostUsd: 1,
+    eventCostUsd: waterCentral / 4,
     exclusionReason: null,
     waterLitres: {
       low: waterCentral / 2,
@@ -44,17 +44,21 @@ describe("aggregateTimeseries", () => {
     const sumWater = (points: typeof day) => points.reduce((total, point) => total + point.waterLitres.central, 0);
     const sumEnergy = (points: typeof day) => points.reduce((total, point) => total + point.energyKwh, 0);
     const sumCarbon = (points: typeof day) => points.reduce((total, point) => total + point.carbonKgCo2, 0);
+    const sumCost = (points: typeof day) => points.reduce((total, point) => total + point.apiCostUsd, 0);
     expect(sumWater(day)).toBeCloseTo(sumWater(week), 6);
     expect(sumWater(day)).toBeCloseTo(sumWater(month), 6);
     expect(sumEnergy(day)).toBeCloseTo(sumEnergy(week), 6);
     expect(sumEnergy(day)).toBeCloseTo(sumEnergy(month), 6);
     expect(sumCarbon(day)).toBeCloseTo(sumCarbon(week), 6);
     expect(sumCarbon(day)).toBeCloseTo(sumCarbon(month), 6);
+    expect(sumCost(day)).toBeCloseTo(sumCost(week), 6);
+    expect(sumCost(day)).toBeCloseTo(sumCost(month), 6);
 
     expect(day).toHaveLength(13);
     expect(day[1]).toMatchObject({
       key: "2026-03-04",
       tokens: 0,
+      apiCostUsd: 0,
       startTs: Date.parse("2026-03-04T00:00:00.000Z")
     });
     expect(week[0]?.label).toMatch(/^Week of /);

@@ -52,6 +52,25 @@ export interface ModelUsageEntry {
   statusNote: string | null;
 }
 
+export interface HighSpendSessionEntry {
+  sessionId: string;
+  title: string;
+  primaryProvider: string;
+  primaryModel: string;
+  additionalModelCount: number;
+  lastActiveAt: number;
+  promptCount: number;
+  totalTokens: number;
+  supportedTokens: number;
+  excludedTokens: number;
+  unestimatedTokens: number;
+  apiCostUsd: number;
+  waterLitres: WaterRange;
+  energyKwh: number;
+  carbonKgCo2: number;
+  statusNote: string | null;
+}
+
 export type CoverageClassification = "supported" | "excluded" | "token_only";
 
 export interface CoverageDetail {
@@ -105,6 +124,7 @@ export interface OverviewResponse {
   coverageSummary: CoverageSummary;
   weeklyGrowth: WeeklyGrowthSummary;
   modelUsage: ModelUsageEntry[];
+  highestSpendSessions: HighSpendSessionEntry[];
   coverageDetails: CoverageDetail[];
   exclusions: ExclusionSummary[];
   lastIndexedAt: number | null;
@@ -120,6 +140,7 @@ export interface TimeseriesPoint {
   tokens: number;
   excludedTokens: number;
   unestimatedTokens: number;
+  apiCostUsd: number;
   waterLitres: WaterRange;
   energyKwh: number;
   carbonKgCo2: number;

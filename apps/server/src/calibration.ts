@@ -10,6 +10,7 @@ interface CalibrationFile {
 }
 
 interface SignatureInput {
+  pricingCatalogVersion: string;
   codexHome: string;
   claudeHome?: string;
   geminiHome?: string;
@@ -22,6 +23,7 @@ function getCalibrationPath(): string {
 }
 
 export function buildSignature({
+  pricingCatalogVersion,
   codexHome,
   claudeHome,
   geminiHome,
@@ -32,7 +34,7 @@ export function buildSignature({
     .createHash("sha1")
     .update(
       JSON.stringify({
-        pricingVersion: "2026-03-13-portkey-catalog",
+        pricingVersion: pricingCatalogVersion,
         codexHome,
         claudeHome,
         geminiHome,

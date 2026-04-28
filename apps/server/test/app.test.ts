@@ -22,9 +22,13 @@ beforeEach(() => {
   previousCodexHome = process.env.CODEX_HOME;
   previousCacheDir = process.env.AGENTIC_INSIGHTS_CACHE_DIR;
   previousHomeEnv = captureHomeEnv();
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-03-09T12:00:00.000Z"));
 });
 
 afterEach(() => {
+  vi.useRealTimers();
+
   if (previousCodexHome === undefined) {
     delete process.env.CODEX_HOME;
   } else {
@@ -256,6 +260,24 @@ describe("API routes", () => {
         })
       ])
     );
+    expect(overview.highestSpendSessions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sessionId: sessionId,
+          title: "Explain the estimate",
+          primaryProvider: "openai",
+          primaryModel: "gpt-5.3-codex",
+          promptCount: 1
+        }),
+        expect.objectContaining({
+          sessionId: "session-claude",
+          title: "Review the methodology",
+          primaryProvider: "anthropic",
+          primaryModel: "claude-sonnet-4",
+          promptCount: 1
+        })
+      ])
+    );
     expect(overview.coverageDetails).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -307,6 +329,7 @@ describe("API routes", () => {
     const timeseries = timeseriesResponse.json();
     expect(timeseries.points).toHaveLength(1);
     expect(timeseries.points[0].tokens).toBe(360);
+    expect(timeseries.points[0].apiCostUsd).toBeGreaterThan(0);
     expect(timeseries.points[0].energyKwh).toBeGreaterThan(0);
     expect(timeseries.points[0].carbonKgCo2).toBeGreaterThan(0);
 
@@ -451,6 +474,7 @@ describe("API routes", () => {
         tokens: { current: 0, previous: 0, increase: 0 }
       },
       modelUsage: [],
+      highestSpendSessions: [],
       coverageDetails: [],
       exclusions: [],
       lastIndexedAt: null,

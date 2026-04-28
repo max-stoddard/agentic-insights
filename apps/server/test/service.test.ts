@@ -130,6 +130,42 @@ afterEach(() => {
 });
 
 describe("DashboardService", () => {
+  it("estimates GPT-5.5 usage on Apr 27 and Apr 28 in the daily timeseries", () => {
+    const codex = createCodexHome();
+    const claude = createClaudeHome();
+    const cache = createCacheDir();
+    process.env.CODEX_HOME = codex.dir;
+    setUserHomeEnv(claude.homeDir);
+    process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
+
+    writeJsonlFile(
+      codex.dir,
+      "sessions/2026/04/27/session-gpt-55-a.jsonl",
+      createSessionRows("session-gpt-55-a", "2026-04-27T10:00:00.000Z", 120, { model: "gpt-5.5" })
+    );
+    writeJsonlFile(
+      codex.dir,
+      "sessions/2026/04/28/session-gpt-55-b.jsonl",
+      createSessionRows("session-gpt-55-b", "2026-04-28T10:00:00.000Z", 180, { model: "gpt-5.5" })
+    );
+
+    const service = createImmediateDashboardService();
+    const points = service.getTimeseries("day", "Europe/Paris").points;
+
+    expect(points.map((point) => point.key)).toEqual(["2026-04-27", "2026-04-28"]);
+    for (const point of points) {
+      expect(point.apiCostUsd).toBeGreaterThan(0);
+      expect(point.waterLitres.central).toBeGreaterThan(0);
+      expect(point.energyKwh).toBeGreaterThan(0);
+      expect(point.carbonKgCo2).toBeGreaterThan(0);
+      expect(point.excludedTokens).toBe(0);
+    }
+
+    codex.cleanup();
+    claude.cleanup();
+    cache.cleanup();
+  });
+
   it("reuses cached day aggregations for repeated week and month requests until the snapshot changes", () => {
     const codex = createCodexHome();
     const claude = createClaudeHome();
@@ -153,9 +189,11 @@ describe("DashboardService", () => {
 
     expect(firstMonth).toEqual(secondMonth);
     expect(firstMonth.points[0]?.tokens).toBe(120);
+    expect(firstMonth.points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(firstMonth.points[0]?.energyKwh).toBeGreaterThan(0);
     expect(firstMonth.points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(week.points[0]?.tokens).toBe(120);
+    expect(week.points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(week.points[0]?.energyKwh).toBeGreaterThan(0);
     expect(week.points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).toHaveBeenCalledTimes(1);
@@ -193,6 +231,7 @@ describe("DashboardService", () => {
     const secondService = createImmediateDashboardService();
 
     expect(secondService.getTimeseries("week", "UTC").points[0]?.tokens).toBe(120);
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(secondService.getTimeseries("week", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
     expect(secondService.getTimeseries("week", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).not.toHaveBeenCalled();
@@ -223,6 +262,7 @@ describe("DashboardService", () => {
     const secondService = createImmediateDashboardService();
 
     expect(secondService.getTimeseries("month", "UTC").points[0]?.tokens).toBe(200);
+    expect(secondService.getTimeseries("month", "UTC").points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(secondService.getTimeseries("month", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
     expect(secondService.getTimeseries("month", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(daySpy).toHaveBeenCalledTimes(1);
@@ -251,6 +291,7 @@ describe("DashboardService", () => {
 
     expect(service.getOverview("UTC").diagnostics.state).toBe("ready");
     expect(service.getTimeseries("day", "UTC").points[0]?.tokens).toBe(120);
+    expect(service.getTimeseries("day", "UTC").points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(service.getTimeseries("day", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
     expect(service.getTimeseries("day", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
     expect(service.getTimeseries("week", "UTC").points[0]?.tokens).toBe(120);
@@ -302,6 +343,48 @@ describe("DashboardService", () => {
 
     expect(secondService.getTimeseries("week", "UTC").points[0]?.energyKwh).toBeGreaterThan(0);
     expect(secondService.getTimeseries("week", "UTC").points[0]?.carbonKgCo2).toBeGreaterThan(0);
+    expect(daySpy).toHaveBeenCalledTimes(1);
+    expect(bucketSpy).toHaveBeenCalledTimes(2);
+
+    codex.cleanup();
+    claude.cleanup();
+    cache.cleanup();
+  });
+
+  it("rebuilds persisted aggregate bundles when the cached points are missing cost data", () => {
+    const codex = createCodexHome();
+    const claude = createClaudeHome();
+    const cache = createCacheDir();
+    process.env.CODEX_HOME = codex.dir;
+    setUserHomeEnv(claude.homeDir);
+    process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
+
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-a.jsonl", createSessionRows("session-a", "2026-03-09T10:00:00.000Z", 120));
+
+    const firstService = createImmediateDashboardService();
+    expect(firstService.getTimeseries("month", "UTC").points[0]?.apiCostUsd).toBeGreaterThan(0);
+
+    const cachePath = path.join(cache.dir, "timeseries.json");
+    const persisted = JSON.parse(fs.readFileSync(cachePath, "utf8")) as {
+      signature: string;
+      byTimeZone: Record<string, { day: Array<Record<string, unknown>>; week: Array<Record<string, unknown>>; month: Array<Record<string, unknown>> }>;
+    };
+
+    for (const bundle of Object.values(persisted.byTimeZone)) {
+      for (const series of [bundle.day, bundle.week, bundle.month]) {
+        for (const point of series) {
+          delete point.apiCostUsd;
+        }
+      }
+    }
+
+    fs.writeFileSync(cachePath, JSON.stringify(persisted, null, 2));
+
+    const daySpy = vi.spyOn(aggregation, "aggregateDayTimeseries");
+    const bucketSpy = vi.spyOn(aggregation, "aggregateFromDayBuckets");
+    const secondService = createImmediateDashboardService();
+
+    expect(secondService.getTimeseries("week", "UTC").points[0]?.apiCostUsd).toBeGreaterThan(0);
     expect(daySpy).toHaveBeenCalledTimes(1);
     expect(bucketSpy).toHaveBeenCalledTimes(2);
 
@@ -834,6 +917,281 @@ describe("DashboardService", () => {
       expectedClaudeCost,
       12
     );
+
+    codex.cleanup();
+    claude.cleanup();
+    cache.cleanup();
+  });
+
+  it("ranks highest spend sessions by cost, breaks ties by recency, and excludes zero-cost sessions", () => {
+    const codex = createCodexHome();
+    const claude = createClaudeHome();
+    const cache = createCacheDir();
+    process.env.CODEX_HOME = codex.dir;
+    setUserHomeEnv(claude.homeDir);
+    process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
+
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-top-a.jsonl", [
+      ...createSessionRows("session-top-a", "2026-03-09T10:00:00.000Z", 200, {
+        model: "gpt-5.3-codex"
+      }),
+      {
+        timestamp: "2026-03-09T10:00:04.000Z",
+        type: "event_msg",
+        payload: {
+          type: "user_message",
+          message: "Review session top a"
+        }
+      }
+    ]);
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-top-b.jsonl", [
+      ...createSessionRows("session-top-b", "2026-03-09T10:05:00.000Z", 200, {
+        model: "gpt-5.3-codex"
+      }),
+      {
+        timestamp: "2026-03-09T10:05:04.000Z",
+        type: "event_msg",
+        payload: {
+          type: "user_message",
+          message: "Review session top b"
+        }
+      }
+    ]);
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-low.jsonl", [
+      ...createSessionRows("session-low", "2026-03-09T10:10:00.000Z", 80, {
+        model: "gpt-5.3-codex"
+      }),
+      {
+        timestamp: "2026-03-09T10:10:04.000Z",
+        type: "event_msg",
+        payload: {
+          type: "user_message",
+          message: "Review session low"
+        }
+      }
+    ]);
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-zero.jsonl", createSessionRows("session-zero", "2026-03-09T10:15:00.000Z", 500, {
+      provider: "ollama",
+      source: "exec",
+      model: "qwen3.5:9b"
+    }));
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-mixed.jsonl", [
+      {
+        timestamp: "2026-03-09T11:00:00.000Z",
+        type: "session_meta",
+        payload: {
+          id: "session-mixed",
+          model_provider: "openai",
+          source: "vscode"
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:01.000Z",
+        type: "turn_context",
+        payload: {
+          model: "gpt-5.3-codex"
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:02.000Z",
+        type: "event_msg",
+        payload: {
+          type: "token_count",
+          info: {
+            total_token_usage: {
+              total_tokens: 120,
+              input_tokens: 100,
+              output_tokens: 20,
+              cached_input_tokens: 10
+            },
+            last_token_usage: {
+              input_tokens: 100,
+              output_tokens: 20,
+              cached_input_tokens: 10
+            }
+          }
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:03.000Z",
+        type: "event_msg",
+        payload: {
+          type: "user_message",
+          message: "Investigate mixed coverage"
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:04.000Z",
+        type: "turn_context",
+        payload: {
+          model: "qwen3.5:9b"
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:05.000Z",
+        type: "event_msg",
+        payload: {
+          type: "token_count",
+          info: {
+            total_token_usage: {
+              total_tokens: 170,
+              input_tokens: 150,
+              output_tokens: 20,
+              cached_input_tokens: 10
+            },
+            last_token_usage: {
+              input_tokens: 50,
+              output_tokens: 0,
+              cached_input_tokens: 0
+            }
+          }
+        }
+      },
+      {
+        timestamp: "2026-03-09T11:00:06.000Z",
+        type: "event_msg",
+        payload: {
+          type: "token_count",
+          info: {
+            total_token_usage: {
+              total_tokens: 210
+            }
+          }
+        }
+      }
+    ]);
+
+    const service = createImmediateDashboardService();
+    const overview = service.getOverview("UTC");
+
+    expect(overview.highestSpendSessions.map((item) => item.sessionId)).toEqual([
+      "session-top-b",
+      "session-top-a",
+      "session-mixed",
+      "session-low"
+    ]);
+    expect(overview.highestSpendSessions.find((item) => item.sessionId === "session-mixed")).toEqual(
+      expect.objectContaining({
+        title: "Investigate mixed coverage",
+        primaryProvider: "openai",
+        primaryModel: "gpt-5.3-codex",
+        promptCount: 1,
+        totalTokens: 210,
+        supportedTokens: 120,
+        excludedTokens: 50,
+        unestimatedTokens: 40,
+        statusNote: "includes unpriced and fallback-only usage"
+      })
+    );
+    expect(overview.highestSpendSessions.some((item) => item.sessionId === "session-zero")).toBe(false);
+
+    codex.cleanup();
+    claude.cleanup();
+    cache.cleanup();
+  });
+
+  it("uses codex, claude, session-meta, and prompt fallback titles for ranked sessions", () => {
+    const codex = createCodexHome();
+    const claude = createClaudeHome();
+    const cache = createCacheDir();
+    process.env.CODEX_HOME = codex.dir;
+    setUserHomeEnv(claude.homeDir);
+    process.env.AGENTIC_INSIGHTS_CACHE_DIR = cache.dir;
+
+    writeJsonlFile(codex.dir, "session_index.jsonl", [
+      {
+        id: "session-codex-title",
+        thread_name: "Codex thread title"
+      }
+    ]);
+    writeJsonlFile(codex.dir, "sessions/2026/03/09/session-codex-title.jsonl", createSessionRows("session-codex-title", "2026-03-09T10:00:00.000Z", 140));
+
+    writeJsonlFile(claude.homeDir, ".claude/projects/project-a/session-claude-facet.jsonl", [
+      {
+        type: "user",
+        uuid: "prompt-claude-facet",
+        timestamp: "2026-03-09T10:30:00.000Z",
+        sessionId: "session-claude-facet",
+        message: {
+          content: "Claude prompt preview"
+        }
+      },
+      {
+        type: "assistant",
+        timestamp: "2026-03-09T10:30:01.000Z",
+        sessionId: "session-claude-facet",
+        message: {
+          id: "msg-claude-facet",
+          model: "claude-sonnet-4-20250514",
+          usage: {
+            input_tokens: 50,
+            cache_creation_input_tokens: 10,
+            cache_read_input_tokens: 10,
+            output_tokens: 20
+          }
+        }
+      }
+    ]);
+    writeJsonFile(claude.homeDir, ".claude/usage-data/facets/session-claude-facet.json", {
+      session_id: "session-claude-facet",
+      brief_summary: "Claude facet title"
+    });
+
+    writeJsonlFile(claude.homeDir, ".claude/projects/project-b/session-claude-meta.jsonl", [
+      {
+        type: "user",
+        uuid: "prompt-claude-meta",
+        timestamp: "2026-03-09T11:00:00.000Z",
+        sessionId: "session-claude-meta",
+        message: {
+          model: "claude-sonnet-4-20250514",
+          content: "Claude project prompt preview"
+        }
+      }
+    ]);
+    writeJsonFile(claude.homeDir, ".claude/usage-data/session-meta/session-claude-meta.json", {
+      session_id: "session-claude-meta",
+      start_time: "2026-03-09T11:00:00.000Z",
+      input_tokens: 60,
+      output_tokens: 20,
+      first_prompt: "Claude meta first prompt"
+    });
+
+    writeJsonFile(claude.homeDir, ".gemini/tmp/hash123/chats/session-gemini.json", {
+      sessionId: "session-gemini-title",
+      messages: [
+        {
+          id: "gemini-user-1",
+          timestamp: "2026-03-09T12:00:00.000Z",
+          type: "user",
+          content: "Gemini prompt fallback title"
+        },
+        {
+          id: "gemini-assistant-1",
+          timestamp: "2026-03-09T12:00:01.000Z",
+          type: "gemini",
+          model: "gemini-2.5-pro",
+          content: "Okay",
+          tokens: {
+            input: 40,
+            output: 10,
+            cached: 0,
+            thoughts: 0,
+            tool: 0,
+            total: 50
+          }
+        }
+      ]
+    });
+
+    const service = createImmediateDashboardService();
+    const overview = service.getOverview("UTC");
+    const titles = new Map(overview.highestSpendSessions.map((item) => [item.sessionId, item.title]));
+
+    expect(titles.get("session-codex-title")).toBe("Codex thread title");
+    expect(titles.get("session-claude-facet")).toBe("Claude facet title");
+    expect(titles.get("session-claude-meta")).toBe("Claude meta first prompt");
+    expect(titles.get("session-gemini-title")).toBe("Gemini prompt fallback title");
 
     codex.cleanup();
     claude.cleanup();

@@ -20,6 +20,7 @@ function createPoint(startTs: number, bucket: Bucket, timeZone: string): Timeser
     tokens: 0,
     excludedTokens: 0,
     unestimatedTokens: 0,
+    apiCostUsd: 0,
     waterLitres: zeroRange(),
     energyKwh: 0,
     carbonKgCo2: 0
@@ -28,11 +29,12 @@ function createPoint(startTs: number, bucket: Bucket, timeZone: string): Timeser
 
 function addPointTotals(
   target: TimeseriesPoint,
-  source: Pick<TimeseriesPoint, "tokens" | "excludedTokens" | "unestimatedTokens" | "waterLitres" | "energyKwh" | "carbonKgCo2">
+  source: Pick<TimeseriesPoint, "tokens" | "excludedTokens" | "unestimatedTokens" | "apiCostUsd" | "waterLitres" | "energyKwh" | "carbonKgCo2">
 ) {
   target.tokens += source.tokens;
   target.excludedTokens += source.excludedTokens;
   target.unestimatedTokens += source.unestimatedTokens;
+  target.apiCostUsd += source.apiCostUsd;
   addRange(target.waterLitres, source.waterLitres);
   target.energyKwh += source.energyKwh;
   target.carbonKgCo2 += source.carbonKgCo2;
@@ -70,6 +72,7 @@ export function aggregateDayTimeseries(events: ClassifiedUsageEvent[], timeZone:
     const point = pointsByStart.get(startTs) ?? createPoint(startTs, "day", timeZone);
 
     point.tokens += event.totalTokens;
+    point.apiCostUsd += event.eventCostUsd ?? 0;
     addRange(point.waterLitres, event.waterLitres);
     point.energyKwh += event.energyKwh;
     point.carbonKgCo2 += event.carbonKgCo2;

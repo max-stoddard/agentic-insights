@@ -3,6 +3,7 @@ import path from "node:path";
 import type {
   Bucket,
   CoverageClassification,
+  HighSpendSessionEntry,
   IndexingPhase,
   IndexingStatus,
   MethodologyResponse,
@@ -21,8 +22,10 @@ import { parseClaudeProjectFile, parseClaudeSessionMetaFile } from "./claude.js"
 import { parseGeminiSessionFile } from "./gemini.js";
 import {
   getTuiLogPath,
+  listClaudeFacetFiles,
   listClaudeProjectFiles,
   listClaudeSessionMetaFiles,
+  listCodexSessionIndexFiles,
   listGeminiSessionFiles,
   listSessionFiles
 } from "./discovery.js";
@@ -48,7 +51,7 @@ import {
   getMethodologySourcesByTab,
   getPricingEntry
 } from "./pricing.js";
-import type { ClassifiedUsageEvent, CoverageDetailAggregate, DataSnapshot, PromptRecord, RawUsageEvent } from "./types.js";
+import type { ClassifiedUsageEvent, CoverageDetailAggregate, DataSnapshot, PromptRecord, RawUsageEvent, SessionTitleRecord } from "./types.js";
 
 const DISCOVERY_CACHE_TTL_MS = 1_000;
 
@@ -62,8 +65,10 @@ interface DiscoveredInputs {
   foundArtifacts: boolean;
   codexConfiguredInvalid: boolean;
   codexFiles: Array<{ path: string; mtimeMs: number; size: number }>;
+  codexSessionIndexFiles: Array<{ path: string; mtimeMs: number; size: number }>;
   claudeProjectFiles: Array<{ path: string; mtimeMs: number; size: number }>;
   claudeSessionMetaFiles: Array<{ path: string; mtimeMs: number; size: number }>;
+  claudeFacetFiles: Array<{ path: string; mtimeMs: number; size: number }>;
   geminiFiles: Array<{ path: string; mtimeMs: number; size: number }>;
   tuiLogPath: string;
 }
@@ -128,6 +133,14 @@ function dedupePrompts(prompts: PromptRecord[]): PromptRecord[] {
     const existing = map.get(prompt.id);
     if (!existing || prompt.ts < existing.ts) {
       map.set(prompt.id, prompt);
+      continue;
+    }
+
+    if (!existing.previewText && prompt.previewText) {
+      map.set(prompt.id, {
+        ...existing,
+        previewText: prompt.previewText
+      });
     }
   }
 
@@ -169,6 +182,7 @@ function isTimeseriesPoint(value: unknown): value is TimeseriesPoint {
     typeof candidate.tokens === "number" &&
     typeof candidate.excludedTokens === "number" &&
     typeof candidate.unestimatedTokens === "number" &&
+    typeof candidate.apiCostUsd === "number" &&
     typeof candidate.energyKwh === "number" &&
     typeof candidate.carbonKgCo2 === "number" &&
     isWaterRange(candidate.waterLitres)
@@ -222,6 +236,7 @@ function createSnapshot(signature: string, diagnostics: OverviewDiagnostics): Da
     signature,
     events: [],
     promptRecords: [],
+    sessionTitles: [],
     coverageDetails: [],
     exclusions: [],
     pricingTable: PRICING_TABLE,
@@ -440,6 +455,290 @@ function buildModelUsage(events: ClassifiedUsageEvent[]): ModelUsageEntry[] {
     });
 }
 
+function normalizeSessionTitle(value: string | null | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (!normalized) {
+    return null;
+  }
+
+  return normalized.length > 80 ? `${normalized.slice(0, 79).trimEnd()}...` : normalized;
+}
+
+function formatShortSessionId(sessionId: string): string {
+  const trimmed = sessionId.trim();
+  if (!trimmed) {
+    return "Unknown session";
+  }
+
+  if (trimmed.length <= 18) {
+    return trimmed;
+  }
+
+  return `${trimmed.slice(0, 8)}...${trimmed.slice(-4)}`;
+}
+
+function parseCodexSessionIndexTitles(files: DiscoveredInputs["codexSessionIndexFiles"]): SessionTitleRecord[] {
+  const titles = new Map<string, string>();
+
+  for (const file of files) {
+    const lines = fs.readFileSync(file.path, "utf8").split(/\r?\n/).filter(Boolean);
+    for (const line of lines) {
+      let row: { id?: unknown; thread_name?: unknown };
+      try {
+        row = JSON.parse(line) as typeof row;
+      } catch {
+        continue;
+      }
+
+      const sessionId = typeof row.id === "string" ? row.id : null;
+      const title = normalizeSessionTitle(typeof row.thread_name === "string" ? row.thread_name : null);
+      if (sessionId && title) {
+        titles.set(sessionId, title);
+      }
+    }
+  }
+
+  return [...titles.entries()].map(([sessionId, title]) => ({ sessionId, title }));
+}
+
+function parseClaudeFacetTitles(files: DiscoveredInputs["claudeFacetFiles"]): SessionTitleRecord[] {
+  const titles = new Map<string, string>();
+
+  for (const file of files) {
+    let row: { session_id?: unknown; brief_summary?: unknown };
+    try {
+      row = JSON.parse(fs.readFileSync(file.path, "utf8")) as typeof row;
+    } catch {
+      continue;
+    }
+
+    const sessionId = typeof row.session_id === "string" ? row.session_id : null;
+    const title = normalizeSessionTitle(typeof row.brief_summary === "string" ? row.brief_summary : null);
+    if (sessionId && title) {
+      titles.set(sessionId, title);
+    }
+  }
+
+  return [...titles.entries()].map(([sessionId, title]) => ({ sessionId, title }));
+}
+
+function parseClaudeMetaTitles(files: DiscoveredInputs["claudeSessionMetaFiles"]): SessionTitleRecord[] {
+  const titles = new Map<string, string>();
+
+  for (const file of files) {
+    let row: { session_id?: unknown; first_prompt?: unknown };
+    try {
+      row = JSON.parse(fs.readFileSync(file.path, "utf8")) as typeof row;
+    } catch {
+      continue;
+    }
+
+    const sessionId = typeof row.session_id === "string" ? row.session_id : null;
+    const title = normalizeSessionTitle(typeof row.first_prompt === "string" ? row.first_prompt : null);
+    if (sessionId && title) {
+      titles.set(sessionId, title);
+    }
+  }
+
+  return [...titles.entries()].map(([sessionId, title]) => ({ sessionId, title }));
+}
+
+function buildSessionTitles(snapshot: {
+  codexTitles: SessionTitleRecord[];
+  claudeFacetTitles: SessionTitleRecord[];
+  claudeMetaTitles: SessionTitleRecord[];
+  promptRecords: PromptRecord[];
+}): SessionTitleRecord[] {
+  const titles = new Map<string, { title: string; priority: number }>();
+  const setTitle = (sessionId: string, title: string | null, priority: number) => {
+    if (!title) {
+      return;
+    }
+
+    const current = titles.get(sessionId);
+    if (!current || priority > current.priority) {
+      titles.set(sessionId, { title, priority });
+    }
+  };
+
+  for (const record of snapshot.codexTitles) {
+    setTitle(record.sessionId, record.title, 4);
+  }
+
+  for (const record of snapshot.claudeFacetTitles) {
+    setTitle(record.sessionId, record.title, 3);
+  }
+
+  for (const record of snapshot.claudeMetaTitles) {
+    setTitle(record.sessionId, record.title, 2);
+  }
+
+  for (const prompt of snapshot.promptRecords) {
+    setTitle(prompt.sessionId, normalizeSessionTitle(prompt.previewText), 1);
+  }
+
+  return [...titles.entries()]
+    .map(([sessionId, value]) => ({
+      sessionId,
+      title: value.title
+    }))
+    .sort((left, right) => left.sessionId.localeCompare(right.sessionId));
+}
+
+function buildHighSpendSessionStatus(item: Pick<HighSpendSessionEntry, "excludedTokens" | "unestimatedTokens">): string | null {
+  if (item.excludedTokens > 0 && item.unestimatedTokens > 0) {
+    return "includes unpriced and fallback-only usage";
+  }
+
+  if (item.excludedTokens > 0) {
+    return "includes unpriced usage";
+  }
+
+  if (item.unestimatedTokens > 0) {
+    return "includes fallback-only usage";
+  }
+
+  return null;
+}
+
+function buildHighestSpendSessions(snapshot: DataSnapshot): HighSpendSessionEntry[] {
+  const sessionTitles = new Map(snapshot.sessionTitles.map((record) => [record.sessionId, record.title]));
+  const sessions = new Map<
+    string,
+    HighSpendSessionEntry & {
+      models: Map<string, { provider: string; model: string; apiCostUsd: number; totalTokens: number }>;
+    }
+  >();
+
+  for (const prompt of snapshot.promptRecords) {
+    const current = sessions.get(prompt.sessionId) ?? {
+      sessionId: prompt.sessionId,
+      title: sessionTitles.get(prompt.sessionId) ?? formatShortSessionId(prompt.sessionId),
+      primaryProvider: "unknown",
+      primaryModel: "unknown",
+      additionalModelCount: 0,
+      lastActiveAt: prompt.ts,
+      promptCount: 0,
+      totalTokens: 0,
+      supportedTokens: 0,
+      excludedTokens: 0,
+      unestimatedTokens: 0,
+      apiCostUsd: 0,
+      waterLitres: zeroRange(),
+      energyKwh: 0,
+      carbonKgCo2: 0,
+      statusNote: null,
+      models: new Map()
+    };
+
+    current.promptCount += 1;
+    current.lastActiveAt = Math.max(current.lastActiveAt, prompt.ts);
+    sessions.set(prompt.sessionId, current);
+  }
+
+  for (const event of snapshot.events) {
+    const current = sessions.get(event.sessionId) ?? {
+      sessionId: event.sessionId,
+      title: sessionTitles.get(event.sessionId) ?? formatShortSessionId(event.sessionId),
+      primaryProvider: "unknown",
+      primaryModel: "unknown",
+      additionalModelCount: 0,
+      lastActiveAt: event.ts,
+      promptCount: 0,
+      totalTokens: 0,
+      supportedTokens: 0,
+      excludedTokens: 0,
+      unestimatedTokens: 0,
+      apiCostUsd: 0,
+      waterLitres: zeroRange(),
+      energyKwh: 0,
+      carbonKgCo2: 0,
+      statusNote: null,
+      models: new Map()
+    };
+
+    current.lastActiveAt = Math.max(current.lastActiveAt, event.ts);
+    current.totalTokens += event.totalTokens;
+    current.apiCostUsd += event.eventCostUsd ?? 0;
+    sumRange(current.waterLitres, event.waterLitres);
+    current.energyKwh += event.energyKwh;
+    current.carbonKgCo2 += event.carbonKgCo2;
+
+    if (event.classification === "supported") {
+      current.supportedTokens += event.totalTokens;
+    } else if (event.classification === "excluded") {
+      current.excludedTokens += event.totalTokens;
+    } else {
+      current.unestimatedTokens += event.totalTokens;
+    }
+
+    const displayIdentity = canonicalizeDisplayIdentity(event.provider, event.model);
+    const modelKey = `${displayIdentity.provider}:${displayIdentity.model}`;
+    const modelEntry = current.models.get(modelKey) ?? {
+      provider: displayIdentity.provider,
+      model: displayIdentity.model,
+      apiCostUsd: 0,
+      totalTokens: 0
+    };
+    modelEntry.apiCostUsd += event.eventCostUsd ?? 0;
+    modelEntry.totalTokens += event.totalTokens;
+    current.models.set(modelKey, modelEntry);
+
+    sessions.set(event.sessionId, current);
+  }
+
+  return [...sessions.values()]
+    .filter((item) => item.apiCostUsd > 0)
+    .map((item) => {
+      const [primaryModel] = [...item.models.values()].sort((left, right) => {
+        if (right.apiCostUsd !== left.apiCostUsd) {
+          return right.apiCostUsd - left.apiCostUsd;
+        }
+
+        if (right.totalTokens !== left.totalTokens) {
+          return right.totalTokens - left.totalTokens;
+        }
+
+        return `${left.provider}:${left.model}`.localeCompare(`${right.provider}:${right.model}`);
+      });
+
+      return {
+        sessionId: item.sessionId,
+        title: sessionTitles.get(item.sessionId) ?? item.title,
+        primaryProvider: primaryModel?.provider ?? "unknown",
+        primaryModel: primaryModel?.model ?? "unknown",
+        additionalModelCount: Math.max(item.models.size - 1, 0),
+        lastActiveAt: item.lastActiveAt,
+        promptCount: item.promptCount,
+        totalTokens: item.totalTokens,
+        supportedTokens: item.supportedTokens,
+        excludedTokens: item.excludedTokens,
+        unestimatedTokens: item.unestimatedTokens,
+        apiCostUsd: item.apiCostUsd,
+        waterLitres: item.waterLitres,
+        energyKwh: item.energyKwh,
+        carbonKgCo2: item.carbonKgCo2,
+        statusNote: buildHighSpendSessionStatus(item)
+      };
+    })
+    .sort((left, right) => {
+      if (right.apiCostUsd !== left.apiCostUsd) {
+        return right.apiCostUsd - left.apiCostUsd;
+      }
+
+      if (right.lastActiveAt !== left.lastActiveAt) {
+        return right.lastActiveAt - left.lastActiveAt;
+      }
+
+      return left.sessionId.localeCompare(right.sessionId);
+    })
+    .slice(0, 5);
+}
+
 function buildCoverageSummary(snapshot: DataSnapshot): OverviewResponse["coverageSummary"] {
   return {
     sessions: new Set([...snapshot.events.map((event) => event.sessionId), ...snapshot.promptRecords.map((prompt) => prompt.sessionId)]).size,
@@ -570,6 +869,7 @@ function buildOverviewFromSnapshot(
     coverageSummary,
     weeklyGrowth: buildWeeklyGrowth(snapshot, timeZone, options.nowTs),
     modelUsage: buildModelUsage(snapshot.events),
+    highestSpendSessions: buildHighestSpendSessions(snapshot),
     coverageDetails: snapshot.coverageDetails,
     exclusions: snapshot.exclusions,
     lastIndexedAt: snapshot.lastIndexedAt,
@@ -794,6 +1094,7 @@ export class DashboardService {
       const geminiIsDirectory = geminiExists && fs.statSync(geminiHome).isDirectory();
 
       const codexFiles = codexIsDirectory ? listSessionFiles(codexHome) : [];
+      const codexSessionIndexFiles = codexIsDirectory ? listCodexSessionIndexFiles(codexHome) : [];
       const tuiLogPath = getTuiLogPath(codexHome);
       const logFingerprint =
         codexIsDirectory && fs.existsSync(tuiLogPath)
@@ -801,19 +1102,23 @@ export class DashboardService {
           : [];
       const claudeProjectFiles = claudeIsDirectory ? listClaudeProjectFiles(claudeHome) : [];
       const claudeSessionMetaFiles = claudeIsDirectory ? listClaudeSessionMetaFiles(claudeHome) : [];
+      const claudeFacetFiles = claudeIsDirectory ? listClaudeFacetFiles(claudeHome) : [];
       const geminiFiles = geminiIsDirectory ? listGeminiSessionFiles(geminiHome) : [];
 
       const fingerprint = [
         ...codexFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size })),
+        ...codexSessionIndexFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size })),
         ...logFingerprint,
         ...claudeProjectFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size })),
         ...claudeSessionMetaFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size })),
+        ...claudeFacetFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size })),
         ...geminiFiles.map((file) => ({ path: file.path, mtimeMs: file.mtimeMs, size: file.size }))
       ];
       const foundArtifacts = fingerprint.length > 0;
       const codexConfiguredInvalid =
         codexHomeConfig.fromEnv && (!codexExists || (codexExists && !codexIsDirectory));
       const signature = buildSignature({
+        pricingCatalogVersion: PRICING_CATALOG_METADATA.generatedAt,
         codexHome,
         claudeHome,
         geminiHome,
@@ -830,8 +1135,10 @@ export class DashboardService {
         foundArtifacts,
         codexConfiguredInvalid,
         codexFiles,
+        codexSessionIndexFiles,
         claudeProjectFiles,
         claudeSessionMetaFiles,
+        claudeFacetFiles,
         geminiFiles,
         tuiLogPath
       };
@@ -908,6 +1215,12 @@ export class DashboardService {
       ...claudeMetaEvents
     ]);
     const promptRecords = dedupePrompts([...codexPrompts, ...geminiPrompts, ...claudeProjectPrompts]);
+    const sessionTitles = buildSessionTitles({
+      codexTitles: parseCodexSessionIndexTitles(discovery.codexSessionIndexFiles),
+      claudeFacetTitles: parseClaudeFacetTitles(discovery.claudeFacetFiles),
+      claudeMetaTitles: parseClaudeMetaTitles(discovery.claudeSessionMetaFiles),
+      promptRecords
+    });
     const diagnostics =
       rawEvents.length > 0 || promptRecords.length > 0
         ? createDiagnostics("ready", dataPath, null)
@@ -929,6 +1242,7 @@ export class DashboardService {
       signature: discovery.signature,
       events: classified.events,
       promptRecords,
+      sessionTitles,
       coverageDetails: classified.coverageDetails,
       exclusions: classified.exclusions,
       pricingTable: PRICING_TABLE,
@@ -973,6 +1287,7 @@ export class DashboardService {
 
     return createSnapshot(
       buildSignature({
+        pricingCatalogVersion: PRICING_CATALOG_METADATA.generatedAt,
         codexHome,
         claudeHome,
         codexHomeState: "read_error",

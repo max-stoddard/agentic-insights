@@ -5,12 +5,12 @@ import type { GeneratedPricingCatalog } from "../pricing-catalog-transform.js";
 
 export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
   "metadata": {
-    "generatedAt": "2026-03-13T12:05:06.495Z",
+    "generatedAt": "2026-04-28T14:53:35.943Z",
     "sourceRepoUrl": "https://github.com/Portkey-AI/models",
     "sourceDirectoryUrl": "https://github.com/Portkey-AI/models/tree/main/pricing",
     "licenseUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/LICENSE",
     "providerCount": 39,
-    "modelCount": 1971
+    "modelCount": 2332
   },
   "providerSources": [
     {
@@ -485,6 +485,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "anthropic",
+      "model": "claude-4-sonnet-20250514",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.3,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/anthropic.json",
+      "sourceLabel": "Portkey pricing: anthropic.json"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/anthropic.json",
+      "sourceLabel": "Portkey pricing: anthropic.json"
+    },
+    {
+      "provider": "anthropic",
       "model": "claude-haiku-4-5-20251001",
       "inputUsdPerMillion": 1,
       "cachedInputUsdPerMillion": 0.1,
@@ -549,6 +567,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "anthropic",
       "model": "claude-opus-4-6",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/anthropic.json",
+      "sourceLabel": "Portkey pricing: anthropic.json"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-opus-4-7",
       "inputUsdPerMillion": 5,
       "cachedInputUsdPerMillion": 0.5,
       "outputUsdPerMillion": 25,
@@ -819,6 +846,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "azure-ai",
       "model": "claude-opus-4-6",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "claude-opus-4-7",
       "inputUsdPerMillion": 5,
       "cachedInputUsdPerMillion": 0.5,
       "outputUsdPerMillion": 25,
@@ -1664,6 +1700,114 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "azure-ai",
+      "model": "grok-3",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-beta",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-fast",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.75,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-fast-beta",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.75,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-fast-latest",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.75,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-latest",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini",
+      "inputUsdPerMillion": 0.25,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.27,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini-beta",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini-fast",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini-fast-beta",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini-fast-latest",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "grok-3-mini-latest",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
       "model": "jamba-1.5-large",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0,
@@ -1677,6 +1821,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "Kimi-K2.5",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
+      "sourceLabel": "Portkey pricing: azure-ai.json"
+    },
+    {
+      "provider": "azure-ai",
+      "model": "Kimi-K2.6",
+      "inputUsdPerMillion": 0.95,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-ai.json",
       "sourceLabel": "Portkey pricing: azure-ai.json"
     },
@@ -3032,6 +3194,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "azure-openai",
+      "model": "gpt-5.2-chat-2025-12-11",
+      "inputUsdPerMillion": 1.75,
+      "cachedInputUsdPerMillion": 0.175,
+      "outputUsdPerMillion": 14,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
       "model": "gpt-5.2-chat-latest",
       "inputUsdPerMillion": 1.75,
       "cachedInputUsdPerMillion": 0.175,
@@ -3095,9 +3266,63 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "azure-openai",
+      "model": "gpt-5.4-mini",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-5.4-nano",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0.02,
+      "outputUsdPerMillion": 1.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-5.4-nano-2026-03-17",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0.02,
+      "outputUsdPerMillion": 1.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
       "model": "gpt-5.4-pro",
       "inputUsdPerMillion": 30,
       "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 180,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-5.5",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 30,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-5.5-pro",
+      "inputUsdPerMillion": 30,
+      "cachedInputUsdPerMillion": 3,
       "outputUsdPerMillion": 180,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
       "sourceLabel": "Portkey pricing: azure-openai.json"
@@ -3135,6 +3360,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 5,
       "cachedInputUsdPerMillion": 1.25,
       "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-image-2",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 1.25,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
+      "sourceLabel": "Portkey pricing: azure-openai.json"
+    },
+    {
+      "provider": "azure-openai",
+      "model": "gpt-image-2-2026-04-21",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 1.25,
+      "outputUsdPerMillion": 0,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/azure-openai.json",
       "sourceLabel": "Portkey pricing: azure-openai.json"
     },
@@ -3797,6 +4040,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "bedrock",
+      "model": "anthropic.claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "anthropic.claude-opus-4-7-v1",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
       "model": "anthropic.claude-sonnet-4-20250514-v1:0",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
@@ -4139,6 +4400,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "bedrock",
+      "model": "eu.anthropic.claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "eu.anthropic.claude-opus-4-7-v1",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
       "model": "eu.anthropic.claude-sonnet-4-6",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
@@ -4175,25 +4454,25 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "bedrock",
+      "model": "global.anthropic.claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "global.anthropic.claude-opus-4-7-v1",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
       "model": "global.anthropic.claude-sonnet-4-6",
-      "inputUsdPerMillion": 3,
-      "cachedInputUsdPerMillion": 0.3,
-      "outputUsdPerMillion": 15,
-      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
-      "sourceLabel": "Portkey pricing: bedrock.json"
-    },
-    {
-      "provider": "bedrock",
-      "model": "global.anthropic.claude-sonnet-4-6-v1",
-      "inputUsdPerMillion": 3,
-      "cachedInputUsdPerMillion": 0.3,
-      "outputUsdPerMillion": 15,
-      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
-      "sourceLabel": "Portkey pricing: bedrock.json"
-    },
-    {
-      "provider": "bedrock",
-      "model": "global.anthropic.claude-sonnet-4-6-v1:0",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
       "outputUsdPerMillion": 15,
@@ -4328,6 +4607,33 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "bedrock",
+      "model": "minimax.minimax-m2",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "minimax.minimax-m2.1",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "minimax.minimax-m2.5",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
       "model": "mistral.magistral-small-2509",
       "inputUsdPerMillion": 0.5,
       "cachedInputUsdPerMillion": 0,
@@ -4440,6 +4746,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.1,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "moonshot.kimi-k2-thinking",
+      "inputUsdPerMillion": 6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "moonshotai.kimi-k2.5",
+      "inputUsdPerMillion": 6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 30,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
       "sourceLabel": "Portkey pricing: bedrock.json"
     },
@@ -4571,6 +4895,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "bedrock",
+      "model": "us.anthropic.claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "us.anthropic.claude-opus-4-7-v1",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
       "model": "us.anthropic.claude-sonnet-4-6",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
@@ -4593,6 +4935,33 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
       "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "zai.glm-4.7",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "zai.glm-4.7-flash",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
+      "sourceLabel": "Portkey pricing: bedrock.json"
+    },
+    {
+      "provider": "bedrock",
+      "model": "zai.glm-5",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/bedrock.json",
       "sourceLabel": "Portkey pricing: bedrock.json"
     },
@@ -4877,10 +5246,154 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "deepseek-r1",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.294,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "deepseek-v3.2",
+      "inputUsdPerMillion": 0.57,
+      "cachedInputUsdPerMillion": 0.114,
+      "outputUsdPerMillion": 1.71,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "glm-4.6",
+      "inputUsdPerMillion": 0.431,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.007,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "glm-4.7",
+      "inputUsdPerMillion": 0.431,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.007,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "glm-5",
+      "inputUsdPerMillion": 0.573,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.58,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "kimi-k2-thinking",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.294,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "kimi-k2.5",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.011,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "MiniMax-M2.1",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.95,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "MiniMax-M2.5",
+      "inputUsdPerMillion": 0.304,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.213,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "Moonshot-Kimi-K2-Instruct",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.294,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qvq-max",
       "inputUsdPerMillion": 1.2,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 4.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-max-2025-03-25",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-max-2025-05-15",
+      "inputUsdPerMillion": 1.147,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4.588,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-max-latest",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-plus",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.717,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-plus-2025-05-15",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.717,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qvq-plus-latest",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.717,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
     },
@@ -4895,9 +5408,63 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen-coder-plus",
+      "inputUsdPerMillion": 0.502,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.004,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-coder-plus-2024-11-06",
+      "inputUsdPerMillion": 0.502,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.004,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-coder-plus-latest",
+      "inputUsdPerMillion": 0.502,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.004,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-coder-turbo",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-coder-turbo-2024-09-19",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-coder-turbo-latest",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen-flash",
       "inputUsdPerMillion": 0.05,
-      "cachedInputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0.01,
       "outputUsdPerMillion": 0.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
@@ -4913,10 +5480,136 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen-flash-character",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-long-2025-01-25",
+      "inputUsdPerMillion": 0.072,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.287,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-long-latest",
+      "inputUsdPerMillion": 0.072,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.287,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-plus",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.721,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-plus-2024-08-16",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.721,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-plus-2024-09-19",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.721,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-plus-latest",
+      "inputUsdPerMillion": 0.574,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.721,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-turbo",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-turbo-2024-09-19",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-math-turbo-latest",
+      "inputUsdPerMillion": 0.287,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.861,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen-max",
+      "inputUsdPerMillion": 1.6,
+      "cachedInputUsdPerMillion": 0.32,
+      "outputUsdPerMillion": 6.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-max-2025-01-25",
       "inputUsdPerMillion": 1.6,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 6.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-max-latest",
+      "inputUsdPerMillion": 1.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-mt-flash",
+      "inputUsdPerMillion": 0.16,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.49,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-mt-lite",
+      "inputUsdPerMillion": 0.12,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.36,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
     },
@@ -4949,7 +5642,52 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen-omni-turbo-2025-01-19",
+      "inputUsdPerMillion": 0.058,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.23,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-omni-turbo-2025-03-26",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.27,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-omni-turbo-latest",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.27,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen-omni-turbo-realtime",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.07,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-omni-turbo-realtime-2025-05-08",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.07,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-omni-turbo-realtime-latest",
       "inputUsdPerMillion": 0.27,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 1.07,
@@ -5007,6 +5745,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.4,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-plus-2025-12-01",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-plus-character",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
     },
@@ -5075,16 +5831,115 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
-      "model": "qwen-vl-ocr",
-      "inputUsdPerMillion": 0.72,
+      "model": "qwen-vl-max-2025-04-02",
+      "inputUsdPerMillion": 0.431,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.72,
+      "outputUsdPerMillion": 1.291,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-max-2025-04-08",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-max-2025-08-13",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-max-latest",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-ocr",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.16,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-ocr-2025-11-20",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.16,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-ocr-latest",
+      "inputUsdPerMillion": 0.043,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.072,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
     },
     {
       "provider": "dashscope",
       "model": "qwen-vl-plus",
+      "inputUsdPerMillion": 0.21,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.63,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-plus-2025-01-25",
+      "inputUsdPerMillion": 0.21,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.63,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-plus-2025-05-07",
+      "inputUsdPerMillion": 0.21,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.63,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-plus-2025-07-10",
+      "inputUsdPerMillion": 0.022,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.216,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-plus-2025-08-15",
+      "inputUsdPerMillion": 0.21,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.63,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen-vl-plus-latest",
       "inputUsdPerMillion": 0.21,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.63,
@@ -5138,6 +5993,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen2-5-vl-32b-instruct",
+      "inputUsdPerMillion": 1.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen2-5-vl-3b-instruct",
+      "inputUsdPerMillion": 0.21,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.63,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen2-5-vl-72b-instruct",
       "inputUsdPerMillion": 2.8,
       "cachedInputUsdPerMillion": 0,
@@ -5156,6 +6029,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen2-vl-72b-instruct",
+      "inputUsdPerMillion": 2.294,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6.881,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen3-14b",
       "inputUsdPerMillion": 0.35,
       "cachedInputUsdPerMillion": 0,
@@ -5166,6 +6048,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "dashscope",
       "model": "qwen3-235b-a22b",
+      "inputUsdPerMillion": 0.7,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-30b-a3b",
       "inputUsdPerMillion": 0.7,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 2.8,
@@ -5237,6 +6128,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen3-coder-next",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen3-coder-plus",
       "inputUsdPerMillion": 1,
       "cachedInputUsdPerMillion": 0,
@@ -5247,6 +6147,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "dashscope",
       "model": "qwen3-coder-plus-2025-07-22",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-coder-plus-2025-09-23",
       "inputUsdPerMillion": 1,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 5,
@@ -5266,6 +6175,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "provider": "dashscope",
       "model": "qwen3-max",
       "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0.24,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-max-2025-09-23",
+      "inputUsdPerMillion": 0.861,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.441,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-max-2026-01-23",
+      "inputUsdPerMillion": 1.2,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 6,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
@@ -5275,7 +6202,7 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "provider": "dashscope",
       "model": "qwen3-max-preview",
       "inputUsdPerMillion": 1.2,
-      "cachedInputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0.24,
       "outputUsdPerMillion": 6,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
@@ -5300,7 +6227,34 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen3-omni-30b-a3b-captioner",
+      "inputUsdPerMillion": 3.81,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.06,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen3-omni-flash",
+      "inputUsdPerMillion": 0.43,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.66,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-omni-flash-2025-09-15",
+      "inputUsdPerMillion": 0.43,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.66,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-omni-flash-2025-12-01",
       "inputUsdPerMillion": 0.43,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 1.66,
@@ -5318,10 +6272,46 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
-      "model": "qwen3-vl-235b-a22b",
-      "inputUsdPerMillion": 0.7,
+      "model": "qwen3-omni-flash-realtime-2025-09-15",
+      "inputUsdPerMillion": 0.52,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 2.8,
+      "outputUsdPerMillion": 1.99,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-omni-flash-realtime-2025-12-01",
+      "inputUsdPerMillion": 0.52,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.99,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-235b-a22b",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-235b-a22b-instruct",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-235b-a22b-thinking",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
       "sourceLabel": "Portkey pricing: dashscope.json"
     },
@@ -5336,6 +6326,87 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen3-vl-30b-a3b-instruct",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-30b-a3b-thinking",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-32b-instruct",
+      "inputUsdPerMillion": 0.16,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.64,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-32b-thinking",
+      "inputUsdPerMillion": 0.16,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.64,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-8b-instruct",
+      "inputUsdPerMillion": 0.18,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.7,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-8b-thinking",
+      "inputUsdPerMillion": 0.18,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-flash",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-flash-2025-10-15",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-flash-2026-01-22",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwen3-vl-plus",
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0,
@@ -5345,7 +6416,97 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "dashscope",
+      "model": "qwen3-vl-plus-2025-09-23",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3-vl-plus-2025-12-19",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3.5-flash",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3.5-flash-2026-02-23",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3.5-plus",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwen3.5-plus-2026-02-15",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwq-32b",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.58,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwq-32b-preview",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
       "model": "qwq-plus",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwq-plus-2025-03-05",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/dashscope.json",
+      "sourceLabel": "Portkey pricing: dashscope.json"
+    },
+    {
+      "provider": "dashscope",
+      "model": "qwq-plus-latest",
       "inputUsdPerMillion": 0.8,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 2.4,
@@ -5741,6 +6902,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "allenai/olmOCR-7B-0725-FP8",
+      "inputUsdPerMillion": 0.09,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.19,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "anthropic/claude-3-7-sonnet-latest",
       "inputUsdPerMillion": 3.3,
       "cachedInputUsdPerMillion": 0.33,
@@ -5763,6 +6933,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 3.3,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 16.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Austism/chronos-hermes-13b-v2",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6083,10 +7262,37 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "cognitivecomputations/dolphin-2.6-mixtral-8x7b",
+      "inputUsdPerMillion": 0.12,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.39,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "deepinfra/airoboros-70b",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.32,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "deepseek-ai/DeepSeek-OCR",
       "inputUsdPerMillion": 0.03,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "deepseek-ai/DeepSeek-R1",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0.4,
+      "outputUsdPerMillion": 2.15,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6119,6 +7325,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "inputUsdPerMillion": 0.7,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "deepseek-ai/DeepSeek-R1-Turbo",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0.4,
+      "outputUsdPerMillion": 2.15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "deepseek-ai/DeepSeek-V3",
       "inputUsdPerMillion": 0.32,
       "cachedInputUsdPerMillion": 0,
@@ -6129,6 +7353,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "deepinfra",
       "model": "deepseek-ai/DeepSeek-V3-0324",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0.106,
+      "outputUsdPerMillion": 0.77,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "deepseek-ai/DeepSeek-V3-0324-Turbo",
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0.106,
       "outputUsdPerMillion": 0.77,
@@ -6317,6 +7550,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "meta-llama/Llama-2-13b-chat-hf",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.04,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "meta-llama/Llama-2-70b-chat-hf",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "meta-llama/Llama-3.2-11B-Vision-Instruct",
       "inputUsdPerMillion": 0.049,
       "cachedInputUsdPerMillion": 0,
@@ -6330,6 +7581,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.02,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.02,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "meta-llama/Llama-3.2-90B-Vision-Instruct",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "meta-llama/Llama-3.3-70B-Instruct",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.32,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6353,10 +7622,28 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-Turbo",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
       "inputUsdPerMillion": 0.08,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "meta-llama/Llama-Guard-3-8B",
+      "inputUsdPerMillion": 0.18,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.18,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6506,6 +7793,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "mistralai/Devstral-Small-2507",
+      "inputUsdPerMillion": 0.075,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "mistralai/Mistral-7B-Instruct-v0.1",
+      "inputUsdPerMillion": 0.075,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "mistralai/Mistral-7B-Instruct-v0.3",
       "inputUsdPerMillion": 0.03,
       "cachedInputUsdPerMillion": 0,
@@ -6533,6 +7838,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+      "inputUsdPerMillion": 0.075,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
       "inputUsdPerMillion": 0.075,
       "cachedInputUsdPerMillion": 0,
@@ -6546,6 +7860,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.54,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.54,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "moonshotai/Kimi-K2-Instruct",
+      "inputUsdPerMillion": 4,
+      "cachedInputUsdPerMillion": 1.5,
+      "outputUsdPerMillion": 20,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6623,10 +7946,28 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "nvidia/llama-nemotron-embed-vl-1b-v2",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "nvidia/Nemotron-3-Nano-30B-A3B",
       "inputUsdPerMillion": 0.05,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0.04,
+      "outputUsdPerMillion": 0.5,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6695,6 +8036,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "Phind/Phind-CodeLlama-34B-v2",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "PrunaAI/p-image",
       "inputUsdPerMillion": 0,
       "cachedInputUsdPerMillion": 0,
@@ -6740,10 +8090,37 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "Qwen/Qwen/Qwen3.5-397B-A17B",
+      "inputUsdPerMillion": 0.54,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "Qwen/Qwen2.5-72B-Instruct",
       "inputUsdPerMillion": 0.12,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.39,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "inputUsdPerMillion": 0.12,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.24,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "inputUsdPerMillion": 0.08,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.28,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6762,6 +8139,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.12,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.24,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3-235B-A22B",
+      "inputUsdPerMillion": 0.071,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.1,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -6902,6 +8288,51 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "deepinfra",
+      "model": "Qwen/Qwen3-Reranker-0.6B",
+      "inputUsdPerMillion": 0.01,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3-Reranker-4B",
+      "inputUsdPerMillion": 0.025,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3-Reranker-8B",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3-TTS",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3-TTS-VoiceDesign",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
       "model": "Qwen/Qwen3-VL-235B-A22B-Instruct",
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0,
@@ -6915,6 +8346,78 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.15,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-0.8B",
+      "inputUsdPerMillion": 0.01,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.05,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-122B-A10B",
+      "inputUsdPerMillion": 0.29,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.9,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-27B",
+      "inputUsdPerMillion": 0.26,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-2B",
+      "inputUsdPerMillion": 0.02,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-35B-A3B",
+      "inputUsdPerMillion": 0.22,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-4B",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/Qwen3.5-9B",
+      "inputUsdPerMillion": 0.04,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "Qwen/QwQ-32B",
+      "inputUsdPerMillion": 0.08,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.28,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -7059,6 +8562,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "zai-org/GLM-4.5",
+      "inputUsdPerMillion": 0.43,
+      "cachedInputUsdPerMillion": 0.08,
+      "outputUsdPerMillion": 1.74,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
+      "sourceLabel": "Portkey pricing: deepinfra.json"
+    },
+    {
+      "provider": "deepinfra",
+      "model": "zai-org/GLM-4.5-Air",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.14,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/deepinfra.json",
       "sourceLabel": "Portkey pricing: deepinfra.json"
     },
@@ -7236,9 +8757,18 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "fireworks-ai",
       "model": "deepseek-v3",
-      "inputUsdPerMillion": 0.9,
+      "inputUsdPerMillion": 0.56,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.9,
+      "outputUsdPerMillion": 1.68,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
+      "sourceLabel": "Portkey pricing: fireworks-ai.json"
+    },
+    {
+      "provider": "fireworks-ai",
+      "model": "glm-5",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
       "sourceLabel": "Portkey pricing: fireworks-ai.json"
     },
@@ -7302,6 +8832,33 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.15,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
+      "sourceLabel": "Portkey pricing: fireworks-ai.json"
+    },
+    {
+      "provider": "fireworks-ai",
+      "model": "minimax-m2p1",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
+      "sourceLabel": "Portkey pricing: fireworks-ai.json"
+    },
+    {
+      "provider": "fireworks-ai",
+      "model": "minimax-m2p5",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
+      "sourceLabel": "Portkey pricing: fireworks-ai.json"
+    },
+    {
+      "provider": "fireworks-ai",
+      "model": "minimax-m2p7",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/fireworks-ai.json",
       "sourceLabel": "Portkey pricing: fireworks-ai.json"
     },
@@ -7712,6 +9269,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "google",
+      "model": "gemini-2.5-computer-use-preview-10-2025-gt-128k",
+      "inputUsdPerMillion": 1.25,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-computer-use-preview-10-2025-lte-128k",
+      "inputUsdPerMillion": 1.25,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
       "model": "gemini-2.5-flash-gt-128k",
       "inputUsdPerMillion": 0.3,
       "cachedInputUsdPerMillion": 0.03,
@@ -7883,6 +9458,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "google",
+      "model": "gemini-2.5-flash-preview-tts-gt-128k",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-flash-preview-tts-lte-128k",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
       "model": "gemini-2.5-pro-gt-128k",
       "inputUsdPerMillion": 2.5,
       "cachedInputUsdPerMillion": 0.25,
@@ -7932,6 +9525,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 1.25,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro-preview-tts-gt-128k",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 20,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro-preview-tts-lte-128k",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 20,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
       "sourceLabel": "Portkey pricing: google.json"
     },
@@ -8144,6 +9755,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "google",
+      "model": "gemini-embedding-2-preview-gt-128k",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-embedding-2-preview-lte-128k",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
       "model": "gemini-flash-latest-gt-128k",
       "inputUsdPerMillion": 0.5,
       "cachedInputUsdPerMillion": 0.05,
@@ -8211,6 +9840,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.25,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-robotics-er-1.5-preview-gt-128k",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
+      "sourceLabel": "Portkey pricing: google.json"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-robotics-er-1.5-preview-lte-128k",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.5,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/google.json",
       "sourceLabel": "Portkey pricing: google.json"
     },
@@ -8639,6 +10286,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "mistral-ai",
+      "model": "codestral-2501",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.9,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
       "model": "codestral-2508",
       "inputUsdPerMillion": 0.3,
       "cachedInputUsdPerMillion": 0,
@@ -8855,6 +10511,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "mistral-ai",
+      "model": "mistral-large-2407",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
       "model": "mistral-large-2411",
       "inputUsdPerMillion": 0.5,
       "cachedInputUsdPerMillion": 0,
@@ -8931,6 +10596,33 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.7,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.7,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
+      "model": "mistral-small-2409",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
+      "model": "mistral-small-2501",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
+      "model": "mistral-small-2503",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
       "sourceLabel": "Portkey pricing: mistral-ai.json"
     },
@@ -9044,6 +10736,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "mistral-ai",
+      "model": "pixtral-12b-2409",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/mistral-ai.json",
+      "sourceLabel": "Portkey pricing: mistral-ai.json"
+    },
+    {
+      "provider": "mistral-ai",
       "model": "pixtral-large-2411",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0,
@@ -9152,6 +10853,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "moonshot",
+      "model": "kimi-k2.6",
+      "inputUsdPerMillion": 0.95,
+      "cachedInputUsdPerMillion": 0.16,
+      "outputUsdPerMillion": 4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/moonshot.json",
+      "sourceLabel": "Portkey pricing: moonshot.json"
+    },
+    {
+      "provider": "moonshot",
       "model": "moonshot-v1-128k",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0,
@@ -9206,10 +10916,289 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "nebius",
+      "model": "BAAI/bge-multilingual-gemma2",
+      "inputUsdPerMillion": 0.01,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
       "model": "deepseek-ai/DeepSeek-R1-0528",
       "inputUsdPerMillion": 0.8,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "deepseek-ai/DeepSeek-R1-0528-fast",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "deepseek-ai/DeepSeek-V3-0324",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "deepseek-ai/DeepSeek-V3-0324-fast",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "google/gemma-2-2b-it",
+      "inputUsdPerMillion": 0.02,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.06,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "google/gemma-2-9b-it-fast",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.09,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "google/gemma-3-27b-it",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "google/gemma-3-27b-it-fast",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "intfloat/e5-mistral-7b-instruct",
+      "inputUsdPerMillion": 0.01,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "meta-llama/Llama-3.3-70B-Instruct",
+      "inputUsdPerMillion": 0.13,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "meta-llama/Llama-3.3-70B-Instruct-fast",
+      "inputUsdPerMillion": 0.25,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.75,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "meta-llama/Llama-Guard-3-8B",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "inputUsdPerMillion": 0.02,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.06,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-fast",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.09,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "moonshotai/Kimi-K2-Instruct",
+      "inputUsdPerMillion": 0.5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "NousResearch/Hermes-4-405B",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "NousResearch/Hermes-4-70B",
+      "inputUsdPerMillion": 0.13,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "nvidia/Llama-3_1-Nemotron-Ultra-253B-v1",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "openai/gpt-oss-120b",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "openai/gpt-oss-20b",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen2.5-Coder-7B-fast",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.09,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-235B-A22B-Thinking-2507",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-30B-A3B-Thinking-2507",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-32B",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-32B-fast",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "zai-org/GLM-4.5",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
+      "sourceLabel": "Portkey pricing: nebius.json"
+    },
+    {
+      "provider": "nebius",
+      "model": "zai-org/GLM-4.5-Air",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/nebius.json",
       "sourceLabel": "Portkey pricing: nebius.json"
     },
@@ -9224,10 +11213,136 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "novita-ai",
+      "model": "baidu/ernie-4.5-21B-a3b-thinking",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.28,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "baidu/ernie-4.5-300b-a47b-paddle",
+      "inputUsdPerMillion": 0.28,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "baidu/ernie-4.5-vl-28b-a3b-thinking",
+      "inputUsdPerMillion": 0.39,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.39,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-ocr-2",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.03,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-prover-v2-671b",
+      "inputUsdPerMillion": 0.7,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-r1-turbo",
+      "inputUsdPerMillion": 0.7,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3-0324",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0.135,
+      "outputUsdPerMillion": 1.12,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3-turbo",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3.1",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0.135,
+      "outputUsdPerMillion": 1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3.1-terminus",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0.135,
+      "outputUsdPerMillion": 1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3.2",
+      "inputUsdPerMillion": 0.269,
+      "cachedInputUsdPerMillion": 0.1345,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "deepseek/deepseek-v3.2-exp",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.41,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "google/gemma-3-27b-it",
+      "inputUsdPerMillion": 0.119,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
       "model": "gryphe/mythomax-l2-13b",
       "inputUsdPerMillion": 0.19,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.19,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "kwaipilot/kat-coder-pro",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.06,
+      "outputUsdPerMillion": 1.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
       "sourceLabel": "Portkey pricing: novita-ai.json"
     },
@@ -9243,27 +11358,108 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "novita-ai",
       "model": "meta-llama/llama-3-70b-instruct",
-      "inputUsdPerMillion": 0.8,
+      "inputUsdPerMillion": 0.51,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.8,
+      "outputUsdPerMillion": 0.74,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
       "sourceLabel": "Portkey pricing: novita-ai.json"
     },
     {
       "provider": "novita-ai",
       "model": "meta-llama/llama-3-8b-instruct",
-      "inputUsdPerMillion": 0.1,
+      "inputUsdPerMillion": 0.04,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 0.04,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "inputUsdPerMillion": 0.135,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "meta-llama/llama-4-maverick-17b-128e-instruct-fp8",
+      "inputUsdPerMillion": 0.27,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.85,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+      "inputUsdPerMillion": 0.18,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.59,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
       "sourceLabel": "Portkey pricing: novita-ai.json"
     },
     {
       "provider": "novita-ai",
       "model": "microsoft/wizardlm-2-8x22b",
-      "inputUsdPerMillion": 0.9,
+      "inputUsdPerMillion": 0.62,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.9,
+      "outputUsdPerMillion": 0.62,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "minimax/minimax-m2.1",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.03,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "minimaxai/minimax-m1-80k",
+      "inputUsdPerMillion": 0.55,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "moonshotai/kimi-k2-0905",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "moonshotai/kimi-k2-instruct",
+      "inputUsdPerMillion": 0.57,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "moonshotai/kimi-k2-thinking",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0.15,
+      "outputUsdPerMillion": 2.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "moonshotai/kimi-k2.5",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 3,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
       "sourceLabel": "Portkey pricing: novita-ai.json"
     },
@@ -9278,6 +11474,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "novita-ai",
+      "model": "nousresearch/hermes-2-pro-llama-3-8b",
+      "inputUsdPerMillion": 0.14,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.14,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
       "model": "nousresearch/nous-hermes-llama2-13b",
       "inputUsdPerMillion": 0.26,
       "cachedInputUsdPerMillion": 0,
@@ -9287,10 +11492,217 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "novita-ai",
+      "model": "openai/gpt-oss-120b",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen-2.5-72b-instruct",
+      "inputUsdPerMillion": 0.38,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen2.5-7b-instruct",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.07,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen2.5-vl-72b-instruct",
+      "inputUsdPerMillion": 0.8,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-235b-a22b-fp8",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.8,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-235b-a22b-instruct-2507",
+      "inputUsdPerMillion": 0.09,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.58,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-235b-a22b-thinking-2507",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-30b-a3b-fp8",
+      "inputUsdPerMillion": 0.09,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.45,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-32b-fp8",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.45,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-4b-fp8",
+      "inputUsdPerMillion": 0.03,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.03,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.27,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-coder-480b-a35b-instruct",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-coder-next",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-max",
+      "inputUsdPerMillion": 2.11,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 8.45,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-vl-235b-a22b-instruct",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-vl-235b-a22b-thinking",
+      "inputUsdPerMillion": 0.98,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.95,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-vl-30b-a3b-instruct",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.7,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "qwen/qwen3-vl-8b-instruct",
+      "inputUsdPerMillion": 0.08,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "sao10k/l3-70b-euryale-v2.1",
+      "inputUsdPerMillion": 1.48,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.48,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "sao10k/l3-8b-lunaris",
+      "inputUsdPerMillion": 0.05,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.05,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
       "model": "teknium/openhermes-2.5-mistral-7b",
       "inputUsdPerMillion": 0.17,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.17,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "xiaomimimo/mimo-v2-flash",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0.02,
+      "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "zai-org/autoglm-phone-9b-multilingual",
+      "inputUsdPerMillion": 0.035,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.138,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
+      "sourceLabel": "Portkey pricing: novita-ai.json"
+    },
+    {
+      "provider": "novita-ai",
+      "model": "zai-org/glm-4.7",
+      "inputUsdPerMillion": 0.6,
+      "cachedInputUsdPerMillion": 0.11,
+      "outputUsdPerMillion": 2.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/novita-ai.json",
       "sourceLabel": "Portkey pricing: novita-ai.json"
     },
@@ -9334,7 +11746,7 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "provider": "openai",
       "model": "codex-mini-latest",
       "inputUsdPerMillion": 1.5,
-      "cachedInputUsdPerMillion": 6,
+      "cachedInputUsdPerMillion": 0.375,
       "outputUsdPerMillion": 6,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
       "sourceLabel": "Portkey pricing: openai.json"
@@ -10214,6 +12626,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openai",
+      "model": "gpt-5.2-chat-2025-12-11",
+      "inputUsdPerMillion": 1.75,
+      "cachedInputUsdPerMillion": 0.175,
+      "outputUsdPerMillion": 14,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
       "model": "gpt-5.2-chat-latest",
       "inputUsdPerMillion": 1.75,
       "cachedInputUsdPerMillion": 0.175,
@@ -10286,6 +12707,42 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openai",
+      "model": "gpt-5.4-mini",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0.075,
+      "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.4-nano",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0.02,
+      "outputUsdPerMillion": 1.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.4-nano-2026-03-17",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0.02,
+      "outputUsdPerMillion": 1.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
       "model": "gpt-5.4-pro",
       "inputUsdPerMillion": 30,
       "cachedInputUsdPerMillion": 0,
@@ -10298,6 +12755,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "model": "gpt-5.4-pro-2026-03-05",
       "inputUsdPerMillion": 30,
       "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 180,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 30,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.5-pro",
+      "inputUsdPerMillion": 30,
+      "cachedInputUsdPerMillion": 3,
       "outputUsdPerMillion": 180,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
       "sourceLabel": "Portkey pricing: openai.json"
@@ -10389,6 +12864,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 5,
       "cachedInputUsdPerMillion": 1.25,
       "outputUsdPerMillion": 10,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 1.25,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
+      "sourceLabel": "Portkey pricing: openai.json"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-image-2-2026-04-21",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 1.25,
+      "outputUsdPerMillion": 0,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openai.json",
       "sourceLabel": "Portkey pricing: openai.json"
     },
@@ -11114,6 +13607,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "anthropic/claude-opus-4.6-fast",
+      "inputUsdPerMillion": 30,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 150,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "anthropic/claude-opus-4.7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "anthropic/claude-sonnet-4",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0,
@@ -11172,6 +13683,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "arcee-ai/trinity-large-thinking",
+      "inputUsdPerMillion": 0.22,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.85,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -11298,6 +13818,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.075,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "bytedance-seed/seed-2.0-lite",
+      "inputUsdPerMillion": 0.25,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -11457,7 +13986,7 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "deepseek/deepseek-r1-0528",
-      "inputUsdPerMillion": 0.45,
+      "inputUsdPerMillion": 0.5,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 2.15,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
@@ -11529,9 +14058,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "deepseek/deepseek-v3.2",
-      "inputUsdPerMillion": 0.25,
+      "inputUsdPerMillion": 0.26,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.4,
+      "outputUsdPerMillion": 0.38,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -11790,9 +14319,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "google/gemma-3-27b-it",
-      "inputUsdPerMillion": 0.03,
+      "inputUsdPerMillion": 0.08,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.11,
+      "outputUsdPerMillion": 0.16,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -11835,15 +14364,69 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "google/gemma-3n-e4b-it",
-      "inputUsdPerMillion": 0.02,
+      "inputUsdPerMillion": 0.06,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.04,
+      "outputUsdPerMillion": 0.12,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
     {
       "provider": "openrouter",
       "model": "google/gemma-3n-e4b-it:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/gemma-4-26b-a4b-it",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/gemma-4-26b-a4b-it:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/gemma-4-31b-it",
+      "inputUsdPerMillion": 0.13,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.38,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/gemma-4-31b-it:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/lyria-3-clip-preview",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "google/lyria-3-pro-preview",
       "inputUsdPerMillion": 0,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0,
@@ -11946,6 +14529,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.207,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.828,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "kwaipilot/kat-coder-pro-v2",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12096,9 +14688,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "meta-llama/llama-3.2-11b-vision-instruct",
-      "inputUsdPerMillion": 0.049,
+      "inputUsdPerMillion": 0.245,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.049,
+      "outputUsdPerMillion": 0.245,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12186,9 +14778,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "meta-llama/llama-guard-3-8b",
-      "inputUsdPerMillion": 0.02,
+      "inputUsdPerMillion": 0.48,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.06,
+      "outputUsdPerMillion": 0.03,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12198,6 +14790,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.18,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.18,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "meta-llama/llama-guard-4-12b:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12240,7 +14841,7 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "microsoft/phi-4",
-      "inputUsdPerMillion": 0.06,
+      "inputUsdPerMillion": 0.065,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.14,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
@@ -12312,7 +14913,7 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "minimax/minimax-m2.1",
-      "inputUsdPerMillion": 0.27,
+      "inputUsdPerMillion": 0.29,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.95,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
@@ -12321,7 +14922,25 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "minimax/minimax-m2.5",
-      "inputUsdPerMillion": 0.295,
+      "inputUsdPerMillion": 0.118,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.99,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "minimax/minimax-m2.5:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "minimax/minimax-m2.7",
+      "inputUsdPerMillion": 0.3,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 1.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
@@ -12572,6 +15191,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "mistralai/mistral-small-2603",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "mistralai/mistral-small-3.1-24b-instruct",
       "inputUsdPerMillion": 0.35,
       "cachedInputUsdPerMillion": 0,
@@ -12591,9 +15219,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "mistralai/mistral-small-3.2-24b-instruct",
-      "inputUsdPerMillion": 0.06,
+      "inputUsdPerMillion": 0.075,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.18,
+      "outputUsdPerMillion": 0.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12672,9 +15300,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "moonshotai/kimi-k2",
-      "inputUsdPerMillion": 0.55,
+      "inputUsdPerMillion": 0.57,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 2.2,
+      "outputUsdPerMillion": 2.3,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12699,9 +15327,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "moonshotai/kimi-k2-thinking",
-      "inputUsdPerMillion": 0.47,
+      "inputUsdPerMillion": 0.6,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 2,
+      "outputUsdPerMillion": 2.5,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12717,9 +15345,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "moonshotai/kimi-k2.5",
-      "inputUsdPerMillion": 0.45,
+      "inputUsdPerMillion": 0.3827,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 2.2,
+      "outputUsdPerMillion": 1.72,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12771,9 +15399,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "nex-agi/deepseek-v3.1-nex-n1",
-      "inputUsdPerMillion": 0.27,
+      "inputUsdPerMillion": 0.135,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 1,
+      "outputUsdPerMillion": 0.5,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -12888,6 +15516,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
       "inputUsdPerMillion": 0,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0,
@@ -13328,6 +15974,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "openai/gpt-5.4-mini",
+      "inputUsdPerMillion": 0.75,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "openai/gpt-5.4-nano",
+      "inputUsdPerMillion": 0.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "openai/gpt-5.4-pro",
       "inputUsdPerMillion": 30,
       "cachedInputUsdPerMillion": 0,
@@ -13562,8 +16226,53 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "openrouter/elephant-alpha",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "openrouter/free",
       "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "openrouter/healer-alpha",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "openrouter/hunter-alpha",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "perplexity/pplx-embed-v1-0.6b",
+      "inputUsdPerMillion": 0.004,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "perplexity/pplx-embed-v1-4b",
+      "inputUsdPerMillion": 0.03,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
@@ -13653,9 +16362,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen-2.5-coder-32b-instruct",
-      "inputUsdPerMillion": 0.2,
+      "inputUsdPerMillion": 0.66,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 1,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13689,9 +16398,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen-plus",
-      "inputUsdPerMillion": 0.4,
+      "inputUsdPerMillion": 0.26,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 1.2,
+      "outputUsdPerMillion": 0.78,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13725,9 +16434,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen-vl-max",
-      "inputUsdPerMillion": 0.8,
+      "inputUsdPerMillion": 0.52,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 3.2,
+      "outputUsdPerMillion": 2.08,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13797,9 +16506,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-235b-a22b-thinking-2507",
-      "inputUsdPerMillion": 0.11,
+      "inputUsdPerMillion": 0.1495,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.6,
+      "outputUsdPerMillion": 1.495,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13833,9 +16542,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-30b-a3b-thinking-2507",
-      "inputUsdPerMillion": 0.051,
+      "inputUsdPerMillion": 0.08,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.34,
+      "outputUsdPerMillion": 0.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13905,9 +16614,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-coder-next",
-      "inputUsdPerMillion": 0.12,
+      "inputUsdPerMillion": 0.15,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.75,
+      "outputUsdPerMillion": 0.8,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13959,9 +16668,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-max",
-      "inputUsdPerMillion": 1.2,
+      "inputUsdPerMillion": 0.78,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 6,
+      "outputUsdPerMillion": 3.9,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -13995,9 +16704,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-next-80b-a3b-thinking",
-      "inputUsdPerMillion": 0.15,
+      "inputUsdPerMillion": 0.0975,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 1.2,
+      "outputUsdPerMillion": 0.78,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14013,9 +16722,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-vl-235b-a22b-thinking",
-      "inputUsdPerMillion": 0,
+      "inputUsdPerMillion": 0.26,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2.6,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14031,9 +16740,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "qwen/qwen3-vl-30b-a3b-thinking",
-      "inputUsdPerMillion": 0,
+      "inputUsdPerMillion": 0.13,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.56,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14102,10 +16811,19 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
-      "model": "qwen/qwen3.5-flash-02-23",
-      "inputUsdPerMillion": 0.1,
+      "model": "qwen/qwen3.5-9b",
+      "inputUsdPerMillion": 0.05,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.4,
+      "outputUsdPerMillion": 0.15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "qwen/qwen3.5-flash-02-23",
+      "inputUsdPerMillion": 0.065,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.26,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14120,10 +16838,19 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "qwen/qwen3.6-plus",
+      "inputUsdPerMillion": 0.325,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1.95,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "qwen/qwq-32b",
       "inputUsdPerMillion": 0.15,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.4,
+      "outputUsdPerMillion": 0.58,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14133,6 +16860,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 4.5,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 4.5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "rekaai/reka-edge",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.1,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "rekaai/reka-flash-3",
+      "inputUsdPerMillion": 0.1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.2,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14184,9 +16929,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "sao10k/l3.1-euryale-70b",
-      "inputUsdPerMillion": 0.65,
+      "inputUsdPerMillion": 0.85,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.75,
+      "outputUsdPerMillion": 0.85,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14382,9 +17127,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "tngtech/deepseek-r1t2-chimera",
-      "inputUsdPerMillion": 0.25,
+      "inputUsdPerMillion": 0.3,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 0.85,
+      "outputUsdPerMillion": 1.1,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14516,6 +17261,42 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "openrouter",
+      "model": "x-ai/grok-4.20",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "x-ai/grok-4.20-beta",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "x-ai/grok-4.20-multi-agent",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "x-ai/grok-4.20-multi-agent-beta",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
       "model": "x-ai/grok-code-fast-1",
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0,
@@ -14529,6 +17310,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.09,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.29,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "xiaomi/mimo-v2-omni",
+      "inputUsdPerMillion": 0.4,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "xiaomi/mimo-v2-pro",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14607,9 +17406,9 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "z-ai/glm-4.7",
-      "inputUsdPerMillion": 0.38,
+      "inputUsdPerMillion": 0.39,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 1.98,
+      "outputUsdPerMillion": 1.75,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -14625,9 +17424,36 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "openrouter",
       "model": "z-ai/glm-5",
-      "inputUsdPerMillion": 0.8,
+      "inputUsdPerMillion": 0.72,
       "cachedInputUsdPerMillion": 0,
-      "outputUsdPerMillion": 2.56,
+      "outputUsdPerMillion": 2.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "z-ai/glm-5-turbo",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "z-ai/glm-5.1",
+      "inputUsdPerMillion": 0.95,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 3.15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
+      "sourceLabel": "Portkey pricing: openrouter.json"
+    },
+    {
+      "provider": "openrouter",
+      "model": "z-ai/glm-5v-turbo",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/openrouter.json",
       "sourceLabel": "Portkey pricing: openrouter.json"
     },
@@ -15569,6 +18395,33 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "together-ai",
+      "model": "minimax/video-01-director",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/together-ai.json",
+      "sourceLabel": "Portkey pricing: together-ai.json"
+    },
+    {
+      "provider": "together-ai",
+      "model": "MiniMaxAI/MiniMax-M2.5",
+      "inputUsdPerMillion": 300,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 1200,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/together-ai.json",
+      "sourceLabel": "Portkey pricing: together-ai.json"
+    },
+    {
+      "provider": "together-ai",
+      "model": "MiniMaxAI/MiniMax-M2.7",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.06,
+      "outputUsdPerMillion": 1.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/together-ai.json",
+      "sourceLabel": "Portkey pricing: together-ai.json"
+    },
+    {
+      "provider": "together-ai",
       "model": "mistralai/Mistral-7B-Instruct-v0.1",
       "inputUsdPerMillion": 0.2,
       "cachedInputUsdPerMillion": 0,
@@ -16361,6 +19214,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "vertex-ai",
+      "model": "anthropic.claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
       "model": "claude-3-5-haiku@20241022",
       "inputUsdPerMillion": 0.8,
       "cachedInputUsdPerMillion": 0.08,
@@ -16433,6 +19295,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "vertex-ai",
+      "model": "claude-haiku-4-5",
+      "inputUsdPerMillion": 1,
+      "cachedInputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
       "model": "claude-haiku-4-5-20251001",
       "inputUsdPerMillion": 1,
       "cachedInputUsdPerMillion": 0.1,
@@ -16451,10 +19322,37 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "vertex-ai",
+      "model": "claude-opus-4-1-20250805",
+      "inputUsdPerMillion": 15,
+      "cachedInputUsdPerMillion": 1.5,
+      "outputUsdPerMillion": 75,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
       "model": "claude-opus-4-1@20250805",
       "inputUsdPerMillion": 15,
       "cachedInputUsdPerMillion": 1.5,
       "outputUsdPerMillion": 75,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
+      "model": "claude-opus-4-20250514",
+      "inputUsdPerMillion": 15,
+      "cachedInputUsdPerMillion": 1.5,
+      "outputUsdPerMillion": 75,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
+      "model": "claude-opus-4-5",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
       "sourceLabel": "Portkey pricing: vertex-ai.json"
     },
@@ -16487,6 +19385,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "vertex-ai",
+      "model": "claude-opus-4-7",
+      "inputUsdPerMillion": 5,
+      "cachedInputUsdPerMillion": 0.5,
+      "outputUsdPerMillion": 25,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
       "model": "claude-opus-4@20250514",
       "inputUsdPerMillion": 15,
       "cachedInputUsdPerMillion": 1.5,
@@ -16497,6 +19404,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "vertex-ai",
       "model": "claude-sonnet-4",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.3,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
+      "model": "claude-sonnet-4-20250514",
+      "inputUsdPerMillion": 3,
+      "cachedInputUsdPerMillion": 0.3,
+      "outputUsdPerMillion": 15,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
+      "model": "claude-sonnet-4-5",
       "inputUsdPerMillion": 3,
       "cachedInputUsdPerMillion": 0.3,
       "outputUsdPerMillion": 15,
@@ -16721,6 +19646,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "vertex-ai",
+      "model": "gemini-2.0-flash-exp",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
       "model": "gemini-2.0-flash-exp-001",
       "inputUsdPerMillion": 0.15,
       "cachedInputUsdPerMillion": 0,
@@ -16752,6 +19686,15 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 0.075,
       "cachedInputUsdPerMillion": 0,
       "outputUsdPerMillion": 0.3,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
+      "sourceLabel": "Portkey pricing: vertex-ai.json"
+    },
+    {
+      "provider": "vertex-ai",
+      "model": "gemini-2.0-flash-preview-image-generation",
+      "inputUsdPerMillion": 0.15,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0.6,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/vertex-ai.json",
       "sourceLabel": "Portkey pricing: vertex-ai.json"
     },
@@ -17612,6 +20555,51 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "x-ai",
+      "model": "grok-4.20",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-0309",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-0309-non-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-0309-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-0309-reasoning-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
       "model": "grok-4.20-beta",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0.2,
@@ -17693,6 +20681,87 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "x-ai",
+      "model": "grok-4.20-beta-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-0304",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-0304-non-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-0304-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-non-reasoning-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-experimental-beta-reasoning-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-multi-agent",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-multi-agent-0309",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
       "model": "grok-4.20-multi-agent-beta-0309",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0.2,
@@ -17712,6 +20781,87 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     {
       "provider": "x-ai",
       "model": "grok-4.20-multi-agent-beta-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-multi-agent-experimental-beta-0304",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-multi-agent-experimental-beta-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-multi-agent-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-non-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-non-reasoning-gv2",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-non-reasoning-latest",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-reasoning",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-reasoning-gv2",
+      "inputUsdPerMillion": 2,
+      "cachedInputUsdPerMillion": 0.2,
+      "outputUsdPerMillion": 6,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/x-ai.json",
+      "sourceLabel": "Portkey pricing: x-ai.json"
+    },
+    {
+      "provider": "x-ai",
+      "model": "grok-4.20-reasoning-latest",
       "inputUsdPerMillion": 2,
       "cachedInputUsdPerMillion": 0.2,
       "outputUsdPerMillion": 6,
@@ -17864,10 +21014,46 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "z-ai",
+      "model": "glm-4.6v",
+      "inputUsdPerMillion": 0.3,
+      "cachedInputUsdPerMillion": 0.05,
+      "outputUsdPerMillion": 0.9,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
+      "model": "glm-4.6v-flash",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
       "model": "glm-4.7",
       "inputUsdPerMillion": 0.6,
       "cachedInputUsdPerMillion": 0.11,
       "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
+      "model": "glm-4.7-flash",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
+      "model": "glm-4.7-flashx",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0.01,
+      "outputUsdPerMillion": 0.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
       "sourceLabel": "Portkey pricing: z-ai.json"
     },
@@ -17886,6 +21072,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 1.2,
       "cachedInputUsdPerMillion": 0.3,
       "outputUsdPerMillion": 5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
+      "model": "glm-5-turbo",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0.24,
+      "outputUsdPerMillion": 4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
+      "sourceLabel": "Portkey pricing: z-ai.json"
+    },
+    {
+      "provider": "z-ai",
+      "model": "glm-5.1",
+      "inputUsdPerMillion": 1.4,
+      "cachedInputUsdPerMillion": 0.26,
+      "outputUsdPerMillion": 4.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/z-ai.json",
       "sourceLabel": "Portkey pricing: z-ai.json"
     },
@@ -17963,10 +21167,37 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
     },
     {
       "provider": "zhipu",
+      "model": "glm-4.6v-flash",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
+      "sourceLabel": "Portkey pricing: zhipu.json"
+    },
+    {
+      "provider": "zhipu",
       "model": "glm-4.7",
       "inputUsdPerMillion": 0.6,
       "cachedInputUsdPerMillion": 0.11,
       "outputUsdPerMillion": 2.2,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
+      "sourceLabel": "Portkey pricing: zhipu.json"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-4.7-flash",
+      "inputUsdPerMillion": 0,
+      "cachedInputUsdPerMillion": 0,
+      "outputUsdPerMillion": 0,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
+      "sourceLabel": "Portkey pricing: zhipu.json"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-4.7-flashx",
+      "inputUsdPerMillion": 0.07,
+      "cachedInputUsdPerMillion": 0.01,
+      "outputUsdPerMillion": 0.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
       "sourceLabel": "Portkey pricing: zhipu.json"
     },
@@ -17985,6 +21216,24 @@ export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
       "inputUsdPerMillion": 1.2,
       "cachedInputUsdPerMillion": 0.3,
       "outputUsdPerMillion": 5,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
+      "sourceLabel": "Portkey pricing: zhipu.json"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-5-turbo",
+      "inputUsdPerMillion": 1.2,
+      "cachedInputUsdPerMillion": 0.24,
+      "outputUsdPerMillion": 4,
+      "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
+      "sourceLabel": "Portkey pricing: zhipu.json"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-5.1",
+      "inputUsdPerMillion": 1.4,
+      "cachedInputUsdPerMillion": 0.26,
+      "outputUsdPerMillion": 4.4,
       "sourceUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/pricing/zhipu.json",
       "sourceLabel": "Portkey pricing: zhipu.json"
     }

@@ -40,6 +40,17 @@ describe("pricing methodology", () => {
     expect(pricing?.cachedInputUsdPerMillion).toBe(0.175);
   });
 
+  it("looks up GPT-5.5 pricing for current Codex usage", () => {
+    const pricing = getPricingEntry("openai", "gpt-5.5");
+    expect(pricing).toMatchObject({
+      provider: "openai",
+      model: "gpt-5.5",
+      inputUsdPerMillion: 5,
+      cachedInputUsdPerMillion: 0.5,
+      outputUsdPerMillion: 30
+    });
+  });
+
   it("resolves anthropic model aliases and provider aliases", () => {
     const pricing = getPricingEntry("claude", "claude-sonnet-4-20250514");
     expect(pricing).not.toBeNull();
@@ -62,6 +73,7 @@ describe("pricing methodology", () => {
   it("returns null for truly unknown models", () => {
     expect(getPricingEntry("anthropic", "qwen3.5:9b")).toBeNull();
     expect(getPricingEntry("ollama", "qwen3.5:9b")).toBeNull();
+    expect(getPricingEntry("openai", "gpt-5.3-codex-spark")).toBeNull();
   });
 
   it("computes cost-equivalent usage deterministically", () => {

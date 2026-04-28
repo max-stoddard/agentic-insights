@@ -4,3 +4,4 @@ coverage
 .cache
 TODO.md
 packages/cli/.github-package
+.codex

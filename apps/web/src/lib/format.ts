@@ -45,6 +45,16 @@ export function formatUsdCost(value: number): string {
   })}`;
 }
 
+export function formatCompactUsdCost(value: number): string {
+  if (value === 0) {
+    return "0";
+  }
+
+  return `$${new Intl.NumberFormat("en-US", {
+    maximumSignificantDigits: 3
+  }).format(value)}`;
+}
+
 export function formatScaledLitres(value: number): string {
   const absolute = Math.abs(value);
 

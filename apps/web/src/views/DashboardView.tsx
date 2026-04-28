@@ -5,6 +5,7 @@ import { BucketToggle } from "../components/BucketToggle";
 import { CoverageSummary } from "../components/CoverageSummary";
 import { DataStatusPanel } from "../components/DataStatusPanel";
 import { HeroBanner } from "../components/HeroBanner";
+import { HighestSpendSessionsCard } from "../components/HighestSpendSessionsCard";
 import { ImpactMetricToggle } from "../components/ImpactMetricToggle";
 import { IndexingStatusCard } from "../components/IndexingStatusCard";
 import { ScrollReveal } from "../components/ScrollReveal";
@@ -12,7 +13,7 @@ import { SkeletonBlock } from "../components/SkeletonBlock";
 import { WaterScaleChart } from "../components/WaterScaleChart";
 import { CarbonUsageCard, EnergyUsageCard, UsageCardsSkeleton, WaterUsageCard } from "../components/WaterUsageCard";
 import { ImpactChart } from "../components/WaterChart";
-import type { ImpactMetric } from "../lib/footprint";
+import type { ChartMetric } from "../lib/footprint";
 
 interface DashboardViewProps {
   bucket: Bucket;
@@ -35,7 +36,7 @@ interface UsageOverTimeSectionProps {
 }
 
 function UsageOverTimeSection({ bucket, loading, error, timeseries, onBucketChange }: UsageOverTimeSectionProps) {
-  const [metric, setMetric] = useState<ImpactMetric>("water");
+  const [metric, setMetric] = useState<ChartMetric>("water");
 
   return (
     <section className="card px-6 py-6 sm:px-8 sm:py-8">
@@ -70,6 +71,7 @@ function hasOverviewContent(overview: OverviewResponse): boolean {
     overview.coverageSummary.sessions > 0 ||
     overview.coverageSummary.prompts > 0 ||
     overview.modelUsage.length > 0 ||
+    overview.highestSpendSessions.length > 0 ||
     overview.coverageDetails.length > 0 ||
     overview.exclusions.length > 0 ||
     overview.lastIndexedAt !== null ||
@@ -118,6 +120,7 @@ export function DashboardView({
           <UsageOverTimeSection bucket={bucket} loading error={null} timeseries={null} onBucketChange={onBucketChange} />
           <SkeletonBlock className="h-[34rem]" data-testid="water-scale-skeleton" />
           <SkeletonBlock className="h-96" data-testid="coverage-summary-skeleton" />
+          <SkeletonBlock className="h-80" data-testid="highest-spend-skeleton" />
         </>
       ) : showNotReady ? (
         <ScrollReveal>
@@ -151,6 +154,10 @@ export function DashboardView({
 
           <ScrollReveal delayMs={240}>
             <CoverageSummary overview={overview} onOpenMethodology={onOpenMethodology} />
+          </ScrollReveal>
+
+          <ScrollReveal delayMs={320}>
+            <HighestSpendSessionsCard sessions={overview.highestSpendSessions} />
           </ScrollReveal>
         </>
       ) : null}

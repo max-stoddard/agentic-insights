@@ -14,6 +14,7 @@ interface DashboardResponseOptions {
     sessions: number;
     prompts: number;
   };
+  highestSpendSessions?: Array<Record<string, unknown>>;
   supportedTokens?: number;
   waterLitres?: {
     low: number;
@@ -49,6 +50,74 @@ function createReadyOverviewResponse(options?: DashboardResponseOptions) {
     sessions: 12,
     prompts: 47
   };
+  const highestSpendSessions = options?.highestSpendSessions ?? [
+    {
+      sessionId: "session-top-1",
+      title: "Investigate slow spend spikes",
+      primaryProvider: "openai",
+      primaryModel: "gpt-5.4",
+      additionalModelCount: 1,
+      lastActiveAt: Date.parse("2026-03-09T16:20:00.000Z"),
+      promptCount: 18,
+      totalTokens: 1450,
+      supportedTokens: 1300,
+      excludedTokens: 0,
+      unestimatedTokens: 150,
+      apiCostUsd: 0.0371,
+      waterLitres: {
+        low: 0.22,
+        central: 0.61,
+        high: 1.05
+      },
+      energyKwh: 0.148,
+      carbonKgCo2: 0.06586,
+      statusNote: "includes fallback-only usage"
+    },
+    {
+      sessionId: "session-top-2",
+      title: "Audit Claude cost drift",
+      primaryProvider: "anthropic",
+      primaryModel: "claude-sonnet-4",
+      additionalModelCount: 0,
+      lastActiveAt: Date.parse("2026-03-08T13:40:00.000Z"),
+      promptCount: 11,
+      totalTokens: 820,
+      supportedTokens: 820,
+      excludedTokens: 0,
+      unestimatedTokens: 0,
+      apiCostUsd: 0.0214,
+      waterLitres: {
+        low: 0.12,
+        central: 0.31,
+        high: 0.54
+      },
+      energyKwh: 0.074,
+      carbonKgCo2: 0.03293,
+      statusNote: null
+    },
+    {
+      sessionId: "session-top-3",
+      title: "Trace Gemini token spikes",
+      primaryProvider: "google",
+      primaryModel: "gemini-1.5-pro",
+      additionalModelCount: 0,
+      lastActiveAt: Date.parse("2026-03-07T09:10:00.000Z"),
+      promptCount: 6,
+      totalTokens: 610,
+      supportedTokens: 540,
+      excludedTokens: 70,
+      unestimatedTokens: 0,
+      apiCostUsd: 0.0112,
+      waterLitres: {
+        low: 0.07,
+        central: 0.18,
+        high: 0.32
+      },
+      energyKwh: 0.043,
+      carbonKgCo2: 0.0191,
+      statusNote: "includes unpriced usage"
+    }
+  ];
   const supportedTokens = options?.supportedTokens ?? 900;
   const waterLitres = options?.waterLitres ?? {
     low: 0.5,
@@ -129,6 +198,7 @@ function createReadyOverviewResponse(options?: DashboardResponseOptions) {
         statusNote: "Ran on local hardware"
       }
     ],
+    highestSpendSessions,
     coverageDetails: [
       {
         provider: "openai",
@@ -333,6 +403,8 @@ function createMethodologyResponse() {
 }
 
 function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = createReadyOverviewResponse()) {
+  const rawApiCostUsd = overview.modelUsage.reduce((total, item) => total + item.apiCostUsd, 0);
+
   if (bucket === "day") {
     return {
       bucket: "day",
@@ -344,6 +416,7 @@ function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = c
           tokens: 1000,
           excludedTokens: 50,
           unestimatedTokens: 50,
+          apiCostUsd: rawApiCostUsd,
           waterLitres: overview.waterLitres,
           energyKwh: overview.energyKwh,
           carbonKgCo2: overview.carbonKgCo2
@@ -363,6 +436,7 @@ function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = c
           tokens: 2000,
           excludedTokens: 100,
           unestimatedTokens: 100,
+          apiCostUsd: 0.083,
           waterLitres: {
             low: 1,
             central: 2.4,
@@ -385,6 +459,7 @@ function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = c
         tokens: 600,
         excludedTokens: 0,
         unestimatedTokens: 0,
+        apiCostUsd: 0.023,
         waterLitres: {
           low: 0.2,
           central: 0.6,
@@ -400,6 +475,7 @@ function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = c
         tokens: 0,
         excludedTokens: 0,
         unestimatedTokens: 0,
+        apiCostUsd: 0,
         waterLitres: {
           low: 0,
           central: 0,
@@ -415,6 +491,7 @@ function createTimeseriesResponse(bucket: "day" | "week" | "month", overview = c
         tokens: 400,
         excludedTokens: 50,
         unestimatedTokens: 50,
+        apiCostUsd: 0.014,
         waterLitres: {
           low: 0.3,
           central: 0.6,
@@ -560,6 +637,27 @@ describe("App", () => {
     expect(screen.getByText("Pricing not available")).toBeInTheDocument();
     expect(within(breakdownSection!).queryByText("Local usage")).not.toBeInTheDocument();
 
+    const highestSpendHeading = screen.getByText("Highest spend sessions");
+    const highestSpendSection = highestSpendHeading.closest("section");
+    expect(highestSpendSection).not.toBeNull();
+    expect(highestSpendSection).toHaveTextContent(
+      "Rank the sessions that drove the most estimated spend so you can quickly connect costly conversations to their tokens, prompts, models, and estimated footprint."
+    );
+    expect(screen.getByRole("columnheader", { name: "Prompts" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "Spend" })).toBeInTheDocument();
+    expect(within(highestSpendSection!).getAllByText("Investigate slow spend spikes").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("openai / gpt-5.4").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("+1 more model").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("$0.0371").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("610 mL").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("148 Wh").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("66 g CO2").length).toBeGreaterThan(0);
+    expect(within(highestSpendSection!).getAllByText("includes fallback-only usage").length).toBeGreaterThan(0);
+    expect(highestSpendSection!.querySelector(".overflow-x-auto")).toBeNull();
+    expect(
+      breakdownSection!.compareDocumentPosition(highestSpendSection!)
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+
     expect(screen.queryByText(/Coming soon/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Regional grid factors/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Richer provider coverage/i)).not.toBeInTheDocument();
@@ -568,6 +666,19 @@ describe("App", () => {
     expect(container.querySelectorAll('img[src="/agent.svg"]').length).toBeGreaterThan(0);
     expect(screen.getByText(/Copyright Max Stoddard 2026/i)).toBeInTheDocument();
     expect(screen.getByText(/Last indexed 9 Mar 2026/i)).toBeInTheDocument();
+  });
+
+  it("shows an empty state when no priced sessions are available for the spend ranking", async () => {
+    mockDashboardResponses({
+      highestSpendSessions: []
+    });
+
+    render(<App />);
+
+    expect(await screen.findByText("Highest spend sessions")).toBeInTheDocument();
+    expect(
+      screen.getByText("No priced sessions have been indexed yet, so there is no spend ranking to show.")
+    ).toBeInTheDocument();
   });
 
   it("renders the hero and localized shells while overview is still loading", async () => {
@@ -599,6 +710,7 @@ describe("App", () => {
     expect(screen.getByTestId("water-scale-skeleton")).toBeInTheDocument();
     expect(screen.getByTestId("usage-over-time-skeleton")).toBeInTheDocument();
     expect(screen.getByTestId("coverage-summary-skeleton")).toBeInTheDocument();
+    expect(screen.getByTestId("highest-spend-skeleton")).toBeInTheDocument();
     expect(
       screen.getByTestId("usage-over-time-skeleton").compareDocumentPosition(screen.getByTestId("water-scale-skeleton"))
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
@@ -651,6 +763,7 @@ describe("App", () => {
               tokens: { current: 0, previous: 0, increase: 0 }
             },
             modelUsage: [],
+            highestSpendSessions: [],
             coverageDetails: [],
             exclusions: [],
             lastIndexedAt: null,
@@ -700,6 +813,7 @@ describe("App", () => {
               tokens: { current: 0, previous: 0, increase: 0 }
             },
             modelUsage: [],
+            highestSpendSessions: [],
             coverageDetails: [],
             exclusions: [],
             lastIndexedAt: null,
@@ -1072,6 +1186,21 @@ describe("App", () => {
 
     const carbonTooltip = await screen.findByTestId("impact-chart-tooltip");
     expect(within(carbonTooltip).getByText("75 g CO2")).toBeInTheDocument();
+
+    fireEvent.keyDown(screen.getByRole("tab", { name: "Carbon" }), { key: "ArrowRight", code: "ArrowRight" });
+
+    await waitFor(() => {
+      expect(screen.getByRole("tab", { name: "Cost" })).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByTestId("impact-chart")).toHaveClass("border-emerald-200/80");
+    });
+
+    fireEvent.mouseMove(chartWrapper as Element, {
+      clientX: 512,
+      clientY: 140
+    });
+
+    const costTooltip = await screen.findByTestId("impact-chart-tooltip");
+    expect(within(costTooltip).getByText("$0.0371")).toBeInTheDocument();
   });
 
   it("opens and closes the privacy badge popup", async () => {
@@ -1322,12 +1451,14 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Show all models/i }));
 
-    expect(screen.getAllByText("openai / gpt-5.4")).toHaveLength(1);
-    expect(screen.getByText("anthropic / claude-sonnet-4")).toBeInTheDocument();
-    expect(screen.getByText("950 tokens · $0.0325 raw API cost · includes fallback-only usage")).toBeInTheDocument();
-    expect(screen.getByText("50 tokens · pricing not available yet")).toBeInTheDocument();
-    expect(screen.getByText("ollama / qwen2.5-coder:7b")).toBeInTheDocument();
-    expect(screen.getByText("40 tokens · Ran on local hardware")).toBeInTheDocument();
+    const breakdownSection = screen.getByText("Agent usage by model").closest("section");
+    expect(breakdownSection).not.toBeNull();
+    expect(within(breakdownSection!).getAllByText("openai / gpt-5.4")).toHaveLength(1);
+    expect(within(breakdownSection!).getByText("anthropic / claude-sonnet-4")).toBeInTheDocument();
+    expect(within(breakdownSection!).getByText("950 tokens · $0.0325 raw API cost · includes fallback-only usage")).toBeInTheDocument();
+    expect(within(breakdownSection!).getByText("50 tokens · pricing not available yet")).toBeInTheDocument();
+    expect(within(breakdownSection!).getByText("ollama / qwen2.5-coder:7b")).toBeInTheDocument();
+    expect(within(breakdownSection!).getByText("40 tokens · Ran on local hardware")).toBeInTheDocument();
     expect(screen.queryByLabelText("Fourth place")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Show fewer models/i })).toBeInTheDocument();
   });
@@ -1384,6 +1515,7 @@ describe("App", () => {
             tokens: { current: 0, previous: 0, increase: 0 }
           },
           modelUsage: [],
+          highestSpendSessions: [],
           coverageDetails: [],
           diagnostics: {
             state: "no_data",
@@ -1444,6 +1576,7 @@ describe("App", () => {
             tokens: { current: 0, previous: 0, increase: 0 }
           },
           modelUsage: [],
+          highestSpendSessions: [],
           coverageDetails: [],
           diagnostics: {
             state: "read_error",

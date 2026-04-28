@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { ComponentProps } from "react";
 import type { TimeseriesPoint } from "@agentic-insights/shared";
 import { Bar, BarChart, CartesianGrid, Cell, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { IMPACT_METRIC_DEFINITION, getImpactMetricValue, type ImpactMetric } from "../lib/footprint";
-import { formatLitres, formatNumber } from "../lib/format";
+import { CHART_METRIC_DEFINITION, getChartMetricValue, type ChartMetric } from "../lib/footprint";
+import { formatCompactUsdCost, formatLitres, formatNumber } from "../lib/format";
 
 interface ImpactChartProps {
-  metric: ImpactMetric;
+  metric: ChartMetric;
   points: TimeseriesPoint[];
 }
 
@@ -21,7 +21,7 @@ interface ChartDatum {
 
 interface TooltipContentProps {
   active?: boolean;
-  metric: ImpactMetric;
+  metric: ChartMetric;
   payload?: Array<{ payload: ChartDatum }>;
 }
 
@@ -43,8 +43,11 @@ interface ChartTheme {
 
 const MAX_VISIBLE_LABELS = 5;
 const MIN_CHART_HEIGHT = 280;
+const CHART_DOMAIN_HEADROOM_MULTIPLIER = 1.08;
+const MIN_NON_ZERO_DOMAIN_MAX = 1;
+const CHART_BAR_ANIMATION_ENABLED = typeof navigator === "undefined" || !/\bjsdom\b/i.test(navigator.userAgent);
 
-const CHART_THEME_BY_METRIC: Record<ImpactMetric, ChartTheme> = {
+const CHART_THEME_BY_METRIC: Record<ChartMetric, ChartTheme> = {
   water: {
     fillId: "water-bar-fill",
     start: "#0EA5E9",
@@ -80,14 +83,26 @@ const CHART_THEME_BY_METRIC: Record<ImpactMetric, ChartTheme> = {
     gridStroke: "#E2E8F0",
     shell:
       "min-w-0 h-72 overflow-hidden rounded-2xl border border-slate-300/80 bg-[linear-gradient(180deg,rgba(248,250,252,0.98),rgba(241,245,249,0.92))] px-3 pb-3 pt-4 sm:h-80 sm:px-4"
+  },
+  cost: {
+    fillId: "cost-bar-fill",
+    start: "#10B981",
+    end: "#34D399",
+    activeFill: "#059669",
+    activeStroke: "#D1FAE5",
+    background: "rgba(167, 243, 208, 0.26)",
+    cursor: "rgba(16, 185, 129, 0.10)",
+    gridStroke: "#CFF7E5",
+    shell:
+      "min-w-0 h-72 overflow-hidden rounded-2xl border border-emerald-200/80 bg-[linear-gradient(180deg,rgba(236,253,245,0.98),rgba(240,253,250,0.92))] px-3 pb-3 pt-4 sm:h-80 sm:px-4"
   }
 };
 
-function toChartData(points: TimeseriesPoint[], metric: ImpactMetric): ChartDatum[] {
+function toChartData(points: TimeseriesPoint[], metric: ChartMetric): ChartDatum[] {
   return points.map((point) => ({
     key: point.key,
     label: point.label,
-    value: getImpactMetricValue(metric, point),
+    value: getChartMetricValue(metric, point),
     low: metric === "water" ? point.waterLitres.low : null,
     high: metric === "water" ? point.waterLitres.high : null,
     tokens: point.tokens
@@ -102,9 +117,23 @@ function getXAxisInterval(pointCount: number): number {
   return Math.ceil(pointCount / MAX_VISIBLE_LABELS) - 1;
 }
 
-function formatAxisValue(metric: ImpactMetric, value: number): string {
+function getYAxisMax(chartData: ChartDatum[]): number {
+  const peakValue = chartData.reduce((currentMax, point) => Math.max(currentMax, point.value), 0);
+
+  if (!(peakValue > 0)) {
+    return MIN_NON_ZERO_DOMAIN_MAX;
+  }
+
+  return peakValue * CHART_DOMAIN_HEADROOM_MULTIPLIER;
+}
+
+function formatAxisValue(metric: ChartMetric, value: number): string {
   if (value === 0) {
     return "0";
+  }
+
+  if (metric === "cost") {
+    return formatCompactUsdCost(value);
   }
 
   if (metric === "water") {
@@ -142,13 +171,17 @@ function formatAxisValue(metric: ImpactMetric, value: number): string {
   return `${value.toFixed(1)}kg`;
 }
 
-function tooltipDetail(metric: ImpactMetric, point: ChartDatum): string {
+function tooltipDetail(metric: ChartMetric, point: ChartDatum): string {
   if (metric === "water" && point.low !== null && point.high !== null) {
     return `Between ${formatLitres(point.low)} and ${formatLitres(point.high)}`;
   }
 
   if (metric === "energy") {
     return "Benchmark-based estimate from the same priced token activity.";
+  }
+
+  if (metric === "cost") {
+    return "Raw API cost for priced usage in this bucket.";
   }
 
   return "Derived from the same energy estimate using a global electricity CO2 factor.";
@@ -167,7 +200,7 @@ function ChartTooltipContent({ active, metric, payload }: TooltipContentProps) {
       className="w-[220px] rounded-lg border border-slate-800/70 bg-slate-950/95 px-3 py-2.5 text-white shadow-2xl backdrop-blur"
     >
       <p className="text-xs font-medium text-slate-400">{point.label}</p>
-      <p className="mt-1 text-lg font-bold tracking-[-0.03em]">{IMPACT_METRIC_DEFINITION[metric].formatter(point.value)}</p>
+      <p className="mt-1 text-lg font-bold tracking-[-0.03em]">{CHART_METRIC_DEFINITION[metric].formatter(point.value)}</p>
       <p className="mt-0.5 text-xs text-slate-400">{tooltipDetail(metric, point)}</p>
       <p className="mt-1 text-xs text-slate-400">{formatNumber(point.tokens)} tokens</p>
     </div>
@@ -181,6 +214,7 @@ function ChartBarShape({ payload, ...shapeProps }: ChartBarShapeProps) {
 export function ImpactChart({ metric, points }: ImpactChartProps) {
   const chartData = useMemo(() => toChartData(points, metric), [metric, points]);
   const xAxisInterval = useMemo(() => getXAxisInterval(chartData.length), [chartData.length]);
+  const yAxisMax = useMemo(() => getYAxisMax(chartData), [chartData]);
   const chartRef = useRef<HTMLDivElement>(null);
   const [chartSize, setChartSize] = useState({ width: 0, height: MIN_CHART_HEIGHT });
   const theme = CHART_THEME_BY_METRIC[metric];
@@ -229,7 +263,7 @@ export function ImpactChart({ metric, points }: ImpactChartProps) {
   if (chartData.length === 0) {
     return (
       <div className="mt-6 rounded-xl border border-dashed border-slate-200 px-4 py-10 text-center text-sm text-ink-secondary">
-        No {IMPACT_METRIC_DEFINITION[metric].emptyStateLabel} estimate available for this time range.
+        No {CHART_METRIC_DEFINITION[metric].emptyStateLabel} estimate available for this time range.
       </div>
     );
   }
@@ -266,7 +300,9 @@ export function ImpactChart({ metric, points }: ImpactChartProps) {
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                width={56}
+                width={metric === "cost" ? 72 : 56}
+                domain={[0, yAxisMax]}
+                allowDataOverflow
                 tick={{ fill: "#94A3B8", fontSize: 11 }}
                 tickFormatter={(value) => formatAxisValue(metric, value)}
               />
@@ -283,6 +319,7 @@ export function ImpactChart({ metric, points }: ImpactChartProps) {
                 fill={`url(#${theme.fillId})`}
                 activeBar={{ fill: theme.activeFill, stroke: theme.activeStroke, strokeWidth: 1.25 }}
                 background={{ fill: theme.background }}
+                isAnimationActive={CHART_BAR_ANIMATION_ENABLED}
                 minPointSize={chartData.length > 1 ? 3 : 6}
                 shape={<ChartBarShape />}
               >

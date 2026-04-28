@@ -7,7 +7,8 @@ module.exports = {
           water: "#0EA5E9",
           energy: "#F59E0B",
           token: "#4F46E5",
-          carbon: "#475569"
+          carbon: "#475569",
+          cost: "#16A34A"
         },
         surface: {
           DEFAULT: "#FFFFFF",

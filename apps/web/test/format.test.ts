@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatCarbon, formatCarbonIntensity, formatCompactNumber, formatEnergy, formatScaledLitres, formatUsdCost } from "../src/lib/format";
+import { formatCarbon, formatCarbonIntensity, formatCompactNumber, formatCompactUsdCost, formatEnergy, formatScaledLitres, formatUsdCost } from "../src/lib/format";
 
 describe("formatCompactNumber", () => {
   it("formats small values without suffixes", () => {
@@ -33,6 +33,14 @@ describe("formatUsdCost", () => {
 
   it("formats multi-dollar values as standard currency", () => {
     expect(formatUsdCost(12.5)).toBe("$12.50");
+  });
+});
+
+describe("formatCompactUsdCost", () => {
+  it("keeps chart axis labels short while preserving small-value precision", () => {
+    expect(formatCompactUsdCost(12.534)).toBe("$12.5");
+    expect(formatCompactUsdCost(1.2534)).toBe("$1.25");
+    expect(formatCompactUsdCost(0.004567)).toBe("$0.00457");
   });
 });
 

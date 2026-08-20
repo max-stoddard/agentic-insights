@@ -7,7 +7,7 @@ Local TypeScript dashboard that reads Codex and Claude Code usage artifacts from
 Requires Node `18+`.
 
 ```bash
-npx agentic-insights@0.1.2
+npx agentic-insights@0.2.0
 ```
 
 That command starts a local server, opens the dashboard in your browser, and reads local coding-agent usage from your own machine.
@@ -214,7 +214,7 @@ npm run test:pack
 
 ## Release
 
-Releases are cut from GitHub Actions on tags like `v0.1.2`.
+Releases are cut from GitHub Actions on tags like `v0.2.0`.
 
 The release workflow:
 

@@ -18,7 +18,7 @@ describe("release metadata", () => {
     const webPackage = readJson("apps/web/package.json");
     const sharedPackage = readJson("packages/shared/package.json");
 
-    expect(rootPackage.version).toBe("0.1.2");
+    expect(rootPackage.version).toBe("0.2.0");
     expect(cliPackage.version).toBe(rootPackage.version);
     expect(serverPackage.version).toBe(rootPackage.version);
     expect(webPackage.version).toBe(rootPackage.version);
@@ -32,7 +32,7 @@ describe("release metadata", () => {
     const releaseNotesPath = path.join(repoRoot, ".github", "release-notes", `v${cliPackage.version}.md`);
 
     expect(fs.existsSync(releaseNotesPath)).toBe(true);
-    expect(fs.readFileSync(releaseNotesPath, "utf8")).toContain("adds energy and carbon estimates");
+    expect(fs.readFileSync(releaseNotesPath, "utf8")).toContain("refreshes the bundled Portkey MIT pricing catalog");
   });
 
   it("publishes the CLI under the expected npm package and GitHub repository", () => {

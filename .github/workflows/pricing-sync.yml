@@ -1,0 +1,193 @@
+name: Pricing catalog sync
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      source_revision:
+        description: Exact Portkey commit SHA to inspect; leave empty for main
+        required: false
+        type: string
+      approve_suspicious:
+        description: Approve soft safeguards for the exact source revision
+        required: false
+        default: false
+        type: boolean
+      check_only:
+        description: Produce a report without creating a PR or incident
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: pricing-catalog-sync
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    name: Prepare pricing update
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_REVISION: ${{ inputs.source_revision || '' }}
+      APPROVE_SUSPICIOUS: ${{ inputs.approve_suspicious || false }}
+      CHECK_ONLY: ${{ inputs.check_only || false }}
+      RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Ensure the current package is published
+        id: current_release
+        shell: bash
+        continue-on-error: true
+        run: |
+          CURRENT_VERSION="$(node -p "require('./packages/cli/package.json').version")"
+          npm view "agentic-insights@${CURRENT_VERSION}" version --registry https://registry.npmjs.org
+
+      - name: Report an incomplete previous release
+        if: ${{ steps.current_release.outcome == 'failure' && env.CHECK_ONLY != 'true' }}
+        run: node scripts/report-pricing-incident.mjs --phase unpublished-current-version --run-url "$RUN_URL"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Stop while a previous release needs recovery
+        if: ${{ steps.current_release.outcome == 'failure' }}
+        run: |
+          echo "Current package version is not available from npm; no new version will be prepared." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check for an active pricing release
+        if: ${{ steps.current_release.outcome == 'success' }}
+        id: active_release
+        shell: bash
+        run: |
+          PR_NUMBER="$(gh pr list --state open --json number,headRefName --jq '[.[] | select(.headRefName | startswith("automation/pricing-v"))][0].number')"
+          if [ -n "$PR_NUMBER" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Pricing release PR #${PR_NUMBER} is already open; this run will not replace its tested head." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate candidate and semantic report
+        if: ${{ steps.current_release.outcome == 'success' && (steps.active_release.outputs.exists != 'true' || env.CHECK_ONLY == 'true') }}
+        id: sync
+        shell: bash
+        continue-on-error: true
+        run: |
+          ARGS=(--output /tmp/pricing-catalog.ts --report /tmp/pricing-report.json)
+          if [ -n "$SOURCE_REVISION" ]; then
+            ARGS+=(--source-revision "$SOURCE_REVISION")
+          fi
+          if [ "$APPROVE_SUSPICIOUS" = "true" ]; then
+            ARGS+=(--approve-suspicious)
+          fi
+          npm run sync:pricing -- "${ARGS[@]}"
+
+      - name: Read pricing decision
+        if: ${{ steps.current_release.outcome == 'success' && steps.sync.outcome == 'success' }}
+        id: decision
+        shell: bash
+        run: |
+          node -e "const fs=require('node:fs');const r=JSON.parse(fs.readFileSync('/tmp/pricing-report.json','utf8'));for(const k of ['decision','fingerprint','sourceRevision'])fs.appendFileSync(process.env.GITHUB_OUTPUT, k.replace(/[A-Z]/g,c=>'_'+c.toLowerCase())+'='+r[k]+'\n')"
+
+      - name: Upload pricing report
+        if: ${{ always() && steps.current_release.outcome == 'success' && (steps.active_release.outputs.exists != 'true' || env.CHECK_ONLY == 'true') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pricing-catalog-report
+          path: |
+            /tmp/pricing-report.json
+            /tmp/pricing-catalog.ts
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Report blocked pricing update
+        if: ${{ steps.current_release.outcome == 'success' && steps.active_release.outputs.exists != 'true' && env.CHECK_ONLY != 'true' && (steps.sync.outcome == 'failure' || steps.decision.outputs.decision == 'blocked') }}
+        shell: bash
+        run: |
+          if [ -f /tmp/pricing-report.json ]; then
+            node scripts/report-pricing-incident.mjs --phase catalog-safeguards --report /tmp/pricing-report.json --run-url "$RUN_URL"
+          else
+            node scripts/report-pricing-incident.mjs --phase catalog-sync --run-url "$RUN_URL"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Summarize no-op check
+        if: ${{ steps.decision.outputs.decision == 'no-change' || env.CHECK_ONLY == 'true' }}
+        run: echo "Pricing check completed without creating a release PR. Decision=${{ steps.decision.outputs.decision || 'unavailable' }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Prepare patch release
+        if: ${{ steps.decision.outputs.decision == 'safe' && env.CHECK_ONLY != 'true' }}
+        id: release
+        run: node --import tsx scripts/prepare-pricing-release.ts --candidate /tmp/pricing-catalog.ts --report /tmp/pricing-report.json
+
+      - name: Verify release target is unused
+        if: ${{ steps.release.outcome == 'success' }}
+        shell: bash
+        run: |
+          git diff --check
+          if git rev-parse --verify --quiet "refs/tags/${{ steps.release.outputs.tag_name }}"; then
+            echo "Tag ${{ steps.release.outputs.tag_name }} already exists."
+            exit 1
+          fi
+          npm view agentic-insights versions --json --registry https://registry.npmjs.org > /tmp/npm-versions.json
+          node -e "const value=JSON.parse(require('node:fs').readFileSync('/tmp/npm-versions.json','utf8'));const versions=Array.isArray(value)?value:[value];if(versions.includes('${{ steps.release.outputs.version }}')){throw new Error('Target npm version already exists.')}"
+
+      - name: Create release branch and pull request
+        if: ${{ steps.release.outcome == 'success' }}
+        id: pull_request
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "${{ steps.release.outputs.branch_name }}"
+          git add package.json package-lock.json apps/server/package.json apps/web/package.json packages/cli/package.json packages/shared/package.json apps/server/src/generated/pricing-catalog.ts ".github/release-notes/${{ steps.release.outputs.tag_name }}.md"
+          git commit -m "${{ steps.release.outputs.title }}"
+          git push --force-with-lease origin "HEAD:${{ steps.release.outputs.branch_name }}"
+          gh label create pricing-sync-automation --color 0E8A16 --description "Automated pricing catalog release" --force
+          PR_NUMBER="$(gh pr list --head "${{ steps.release.outputs.branch_name }}" --state open --json number --jq '.[0].number')"
+          if [ -z "$PR_NUMBER" ]; then
+            PR_URL="$(gh pr create --base main --head "${{ steps.release.outputs.branch_name }}" --title "${{ steps.release.outputs.title }}" --body "Automated pricing update from Portkey revision \`${{ steps.decision.outputs.source_revision }}\`. Validation and publication continue automatically when safeguards pass. Workflow: $RUN_URL" --label pricing-sync-automation)"
+            PR_NUMBER="$(gh pr view "$PR_URL" --json number --jq .number)"
+          fi
+          HEAD_SHA="$(git rev-parse HEAD)"
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch exact-head validation and release
+        if: ${{ steps.pull_request.outcome == 'success' }}
+        run: gh workflow run pricing-release.yml --ref "${{ steps.release.outputs.branch_name }}" -f pr_number="${{ steps.pull_request.outputs.pr_number }}" -f expected_head_sha="${{ steps.pull_request.outputs.head_sha }}"
+
+      - name: Report preparation failure
+        if: ${{ failure() && env.CHECK_ONLY != 'true' }}
+        shell: bash
+        run: |
+          if [ -f /tmp/pricing-report.json ]; then
+            node scripts/report-pricing-incident.mjs --phase release-preparation --report /tmp/pricing-report.json --run-url "$RUN_URL"
+          else
+            node scripts/report-pricing-incident.mjs --phase release-preparation --run-url "$RUN_URL"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

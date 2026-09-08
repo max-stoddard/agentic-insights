@@ -1,0 +1,271 @@
+name: Pricing release validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Automated pricing pull request number
+        required: true
+        type: string
+      expected_head_sha:
+        description: Exact pull request head commit to validate
+        required: true
+        type: string
+
+concurrency:
+  group: pricing-release-${{ inputs.pr_number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write
+  issues: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  context:
+    name: Validate automation context
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+      base_sha: ${{ steps.pr_context.outputs.base_sha }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Check out exact pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_head_sha }}
+          fetch-depth: 0
+
+      - name: Verify pull request identity and file scope
+        id: pr_context
+        shell: bash
+        run: |
+          gh pr view "${{ inputs.pr_number }}" --json state,baseRefName,baseRefOid,headRefName,headRefOid,headRepositoryOwner,files,labels > /tmp/pr.json
+          node -e '
+            const pr = JSON.parse(require("node:fs").readFileSync("/tmp/pr.json", "utf8"));
+            const expected = process.env.EXPECTED_HEAD;
+            if (pr.state !== "OPEN" || pr.baseRefName !== "main") throw new Error("Pricing PR must be open against main.");
+            if (pr.headRefOid !== expected) throw new Error("Pricing PR head changed after dispatch.");
+            if (pr.headRepositoryOwner?.login !== "max-stoddard" || !pr.headRefName.startsWith("automation/pricing-v")) throw new Error("Unexpected pricing PR source.");
+            const allowed = [/^package\.json$/, /^package-lock\.json$/, /^apps\/(server|web)\/package\.json$/, /^packages\/(cli|shared)\/package\.json$/, /^apps\/server\/src\/generated\/pricing-catalog\.ts$/, /^\.github\/release-notes\/v\d+\.\d+\.\d+\.md$/];
+            const unexpected = pr.files.map(file => file.path).filter(file => !allowed.some(pattern => pattern.test(file)));
+            if (unexpected.length) throw new Error(`Unexpected files in pricing PR: ${unexpected.join(", ")}`);
+            const paths = new Set(pr.files.map(file => file.path));
+            const required = ["package.json", "package-lock.json", "apps/server/package.json", "apps/web/package.json", "packages/cli/package.json", "packages/shared/package.json", "apps/server/src/generated/pricing-catalog.ts"];
+            const missing = required.filter(file => !paths.has(file));
+            if (missing.length) throw new Error(`Required pricing release files are missing: ${missing.join(", ")}`);
+            if (!pr.labels.some(label => label.name === "pricing-sync-automation")) throw new Error("Pricing PR is missing its automation label.");
+          '
+          BASE_SHA="$(node -p "JSON.parse(require('node:fs').readFileSync('/tmp/pr.json', 'utf8')).baseRefOid")"
+          echo "base_sha=$BASE_SHA" >> "$GITHUB_OUTPUT"
+        env:
+          EXPECTED_HEAD: ${{ inputs.expected_head_sha }}
+
+      - name: Resolve release metadata
+        id: release
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./packages/cli/package.json').version")"
+          TAG_NAME="v${VERSION}"
+          EXPECTED_TITLE="chore [MS]: refresh model pricing for ${TAG_NAME}"
+          ACTUAL_TITLE="$(gh pr view "${{ inputs.pr_number }}" --json title --jq .title)"
+          if [ "$ACTUAL_TITLE" != "$EXPECTED_TITLE" ]; then
+            echo "Unexpected PR title: $ACTUAL_TITLE"
+            exit 1
+          fi
+          if [ ! -f ".github/release-notes/${TAG_NAME}.md" ]; then
+            echo "Missing release notes for ${TAG_NAME}."
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+
+  validate:
+    name: Validate (${{ matrix.os }})
+    needs: context
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - name: Check out exact pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_head_sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+  pack_smoke:
+    name: Pack smoke
+    needs: context
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out exact pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_head_sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run packed launcher smoke test
+        run: npm run test:pack
+
+  merge_and_tag:
+    name: Merge tested pricing release
+    needs:
+      - context
+      - validate
+      - pack_smoke
+    runs-on: ubuntu-latest
+    outputs:
+      merge_sha: ${{ steps.merge.outputs.merge_sha }}
+      tag_name: ${{ needs.context.outputs.tag_name }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge only the tested head
+        id: merge
+        shell: bash
+        run: |
+          gh pr view "${{ inputs.pr_number }}" --json baseRefOid,headRefOid > /tmp/pr-before-merge.json
+          CURRENT_HEAD="$(node -p "JSON.parse(require('node:fs').readFileSync('/tmp/pr-before-merge.json', 'utf8')).headRefOid")"
+          CURRENT_BASE="$(node -p "JSON.parse(require('node:fs').readFileSync('/tmp/pr-before-merge.json', 'utf8')).baseRefOid")"
+          if [ "$CURRENT_HEAD" != "${{ inputs.expected_head_sha }}" ]; then
+            echo "Pricing PR head changed after validation."
+            exit 1
+          fi
+          if [ "$CURRENT_BASE" != "${{ needs.context.outputs.base_sha }}" ]; then
+            echo "Main changed after cross-platform validation; refusing to merge an untested base."
+            exit 1
+          fi
+          gh pr merge "${{ inputs.pr_number }}" --squash --delete-branch --match-head-commit "${{ inputs.expected_head_sha }}"
+          MERGE_SHA="$(gh pr view "${{ inputs.pr_number }}" --json mergeCommit --jq .mergeCommit.oid)"
+          git fetch origin main --tags
+          if [ "$(git rev-parse origin/main)" != "$MERGE_SHA" ]; then
+            echo "Main moved before the pricing tag could be created."
+            exit 1
+          fi
+          git checkout "$MERGE_SHA"
+          if git rev-parse --verify --quiet "refs/tags/${{ needs.context.outputs.tag_name }}"; then
+            echo "Release tag already exists."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ needs.context.outputs.tag_name }}" -m "${{ needs.context.outputs.tag_name }}"
+          git push origin "${{ needs.context.outputs.tag_name }}"
+          echo "merge_sha=$MERGE_SHA" >> "$GITHUB_OUTPUT"
+
+  publish:
+    name: Publish tested pricing release
+    needs:
+      - context
+      - merge_and_tag
+    uses: ./.github/workflows/release.yml
+    with:
+      tag_name: ${{ needs.context.outputs.tag_name }}
+    secrets: inherit
+
+  incident:
+    name: Report blocked release
+    if: ${{ always() && (needs.context.result == 'failure' || needs.validate.result == 'failure' || needs.pack_smoke.result == 'failure' || needs.merge_and_tag.result == 'failure' || needs.publish.result == 'failure') }}
+    needs:
+      - context
+      - validate
+      - pack_smoke
+      - merge_and_tag
+      - publish
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    steps:
+      - name: Check out incident reporter
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_head_sha }}
+
+      - name: Block the pricing pull request
+        run: |
+          gh label create pricing-sync-blocked --color D93F0B --description "Publication is blocked by a pricing safeguard" --force
+          gh pr edit "${{ inputs.pr_number }}" --add-label pricing-sync-blocked || true
+
+      - name: Build validation incident report
+        shell: bash
+        run: |
+          node -e '
+            const crypto = require("node:crypto");
+            const fs = require("node:fs");
+            const generated = fs.readFileSync("apps/server/src/generated/pricing-catalog.ts", "utf8");
+            const sourceRevision = /"sourceRevision": "([a-f0-9]+)"/i.exec(generated)?.[1] ?? "unresolved";
+            const outcomes = {
+              context: process.env.CONTEXT_RESULT,
+              validate: process.env.VALIDATE_RESULT,
+              pack: process.env.PACK_RESULT,
+              merge: process.env.MERGE_RESULT,
+              publish: process.env.PUBLISH_RESULT
+            };
+            const hardFailures = Object.entries(outcomes).filter(([, value]) => value === "failure").map(([name]) => `${name} job failed.`);
+            const fingerprint = crypto.createHash("sha256").update(JSON.stringify({ sourceRevision, outcomes })).digest("hex");
+            fs.writeFileSync("/tmp/pricing-release-incident.json", JSON.stringify({ sourceRevision, fingerprint, hardFailures, suspiciousReasons: [] }, null, 2) + "\n");
+          '
+        env:
+          CONTEXT_RESULT: ${{ needs.context.result }}
+          VALIDATE_RESULT: ${{ needs.validate.result }}
+          PACK_RESULT: ${{ needs.pack_smoke.result }}
+          MERGE_RESULT: ${{ needs.merge_and_tag.result }}
+          PUBLISH_RESULT: ${{ needs.publish.result }}
+
+      - name: Upload validation incident report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pricing-release-incident
+          path: /tmp/pricing-release-incident.json
+          retention-days: 30
+
+      - name: Create or remind incident
+        run: node scripts/report-pricing-incident.mjs --phase validation-or-publication --report /tmp/pricing-release-incident.json --run-url "$RUN_URL"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

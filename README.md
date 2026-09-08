@@ -1,6 +1,6 @@
 # Agentic Insights
 
-Local TypeScript dashboard that reads Codex and Claude Code usage artifacts from your machine and helps you understand coding-agent activity with token, water, energy, and carbon estimates.
+Local dashboard that reads Codex and Claude Code usage artifacts from your machine and estimates your water, energy, and carbon usage to help you understand your coding-agent activity.
 
 ## Launch in one command
 

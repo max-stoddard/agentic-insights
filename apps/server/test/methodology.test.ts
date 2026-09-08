@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { PricingEntry } from "@agentic-insights/shared";
 import { getOrCreateCalibration } from "../src/calibration.js";
+import { GENERATED_PRICING_CATALOG } from "../src/generated/pricing-catalog.js";
 import {
   BENCHMARK_COEFFICIENTS,
   ENERGY_BENCHMARK_KWH,
@@ -12,6 +14,24 @@ import { createCacheDir } from "./helpers.js";
 
 let previousCacheDir: string | undefined;
 let cleanupCacheDir: (() => void) | null = null;
+
+function generatedPricing(provider: string, model: string): PricingEntry {
+  const pricing = GENERATED_PRICING_CATALOG.entries.find(
+    (entry) => entry.provider === provider && entry.model === model
+  );
+  if (!pricing) {
+    throw new Error(`Missing generated pricing fixture for ${provider}:${model}.`);
+  }
+  return pricing;
+}
+
+function expectPricesToMatch(pricing: PricingEntry | null, expected: PricingEntry) {
+  expect(pricing).toMatchObject({
+    inputUsdPerMillion: expected.inputUsdPerMillion,
+    cachedInputUsdPerMillion: expected.cachedInputUsdPerMillion,
+    outputUsdPerMillion: expected.outputUsdPerMillion
+  });
+}
 
 beforeEach(() => {
   previousCacheDir = process.env.AGENTIC_INSIGHTS_CACHE_DIR;
@@ -36,26 +56,36 @@ afterEach(() => {
 describe("pricing methodology", () => {
   it("looks up cached-input pricing correctly", () => {
     const pricing = getPricingEntry("openai", "gpt-5.3-codex");
-    expect(pricing).not.toBeNull();
-    expect(pricing?.cachedInputUsdPerMillion).toBe(0.175);
+    expectPricesToMatch(pricing, generatedPricing("openai", "gpt-5.3-codex"));
   });
 
   it("looks up GPT-5.5 pricing for current Codex usage", () => {
     const pricing = getPricingEntry("openai", "gpt-5.5");
-    expect(pricing).toMatchObject({
-      provider: "openai",
-      model: "gpt-5.5",
-      inputUsdPerMillion: 5,
-      cachedInputUsdPerMillion: 0.5,
-      outputUsdPerMillion: 30
+    expect(pricing).toMatchObject({ provider: "openai", model: "gpt-5.5" });
+    expectPricesToMatch(pricing, generatedPricing("openai", "gpt-5.5"));
+  });
+
+  it("retains pricing coverage for current Gemini CLI usage", () => {
+    const shortContext = getPricingEntry("google", "gemini-2.5-pro");
+    expect(shortContext).toMatchObject({
+      provider: "google",
+      model: "gemini-2.5-pro-lte-128k"
     });
+    expectPricesToMatch(shortContext, generatedPricing("google", "gemini-2.5-pro-lte-128k"));
+
+    const longContext = getPricingEntry("google", "gemini-2.5-pro", 128_001);
+    expect(longContext).toMatchObject({
+      provider: "google",
+      model: "gemini-2.5-pro-gt-128k"
+    });
+    expectPricesToMatch(longContext, generatedPricing("google", "gemini-2.5-pro-gt-128k"));
   });
 
   it("resolves anthropic model aliases and provider aliases", () => {
     const pricing = getPricingEntry("claude", "claude-sonnet-4-20250514");
     expect(pricing).not.toBeNull();
     expect(pricing?.model).toBe("claude-sonnet-4");
-    expect(pricing?.inputUsdPerMillion).toBe(3);
+    expectPricesToMatch(pricing, generatedPricing("anthropic", "claude-sonnet-4-20250514"));
   });
 
   it("normalizes dated Claude 4.5 and 4.6 model ids", () => {
@@ -77,9 +107,16 @@ describe("pricing methodology", () => {
   });
 
   it("computes cost-equivalent usage deterministically", () => {
-    const pricing = getPricingEntry("openai", "gpt-5.4");
-    const result = calculateEventCostUsd(pricing!, 1_000_000, 500_000, 250_000);
-    expect(result).toBeCloseTo(6.375, 6);
+    const pricing: PricingEntry = {
+      provider: "test",
+      model: "test-model",
+      inputUsdPerMillion: 1,
+      cachedInputUsdPerMillion: 0.5,
+      outputUsdPerMillion: 2,
+      sourceUrl: "https://example.com/pricing",
+      sourceLabel: "Test pricing"
+    };
+    expect(calculateEventCostUsd(pricing, 1_000_000, 500_000, 250_000)).toBeCloseTo(1.75, 6);
   });
 
   it("uses a deterministic median for calibration", () => {

@@ -891,7 +891,7 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
         return [];
       }
 
-      const pricing = getPricingEntry(event.provider, event.model);
+      const pricing = getPricingEntry(event.provider, event.model, event.inputTokens + event.cachedInputTokens);
       return pricing
         ? [calculateEventCostUsd(pricing, event.inputTokens, event.cachedInputTokens, event.outputTokens)]
         : [];
@@ -923,7 +923,7 @@ function classifyEvents(rawEvents: RawUsageEvent[], signature: string): Pick<Dat
     }
 
     const displayIdentity = canonicalizeDisplayIdentity(event.provider, event.model);
-    const pricing = getPricingEntry(event.provider, event.model);
+    const pricing = getPricingEntry(event.provider, event.model, event.inputTokens + event.cachedInputTokens);
     if (isLocalProvider(event.provider)) {
       const reason = `Local usage: ${displayIdentity.model}`;
       addCoverageDetail(coverageDetails, event, "excluded", reason);

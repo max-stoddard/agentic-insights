@@ -301,7 +301,20 @@ const registry = buildPricingRegistry();
 
 export const PRICING_TABLE: PricingEntry[] = registry.canonicalEntries;
 
-export function getPricingEntry(provider: string, model: string): PricingEntry | null {
+function getProviderScopedPricingFallback(
+  provider: string,
+  model: string,
+  inputTokens: number
+): PricingEntry | null {
+  if (provider !== "google" || !model.startsWith("gemini-") || /-(?:lte|gt)-128k$/.test(model)) {
+    return null;
+  }
+
+  const tier = inputTokens > 128_000 ? "gt" : "lte";
+  return registry.aliases.get(`${provider}:${model}-${tier}-128k`) ?? null;
+}
+
+export function getPricingEntry(provider: string, model: string, inputTokens = 0): PricingEntry | null {
   const { provider: normalizedProvider } = canonicalizePricingIdentity(provider, model);
   const normalizedModel = model.trim().toLowerCase();
   const directMatch =
@@ -309,6 +322,15 @@ export function getPricingEntry(provider: string, model: string): PricingEntry |
     registry.aliases.get(`${normalizedProvider}:${normalizeModel(normalizedProvider, model)}`);
   if (directMatch) {
     return directMatch;
+  }
+
+  const providerFallback = getProviderScopedPricingFallback(
+    normalizedProvider,
+    normalizeModel(normalizedProvider, model),
+    inputTokens
+  );
+  if (providerFallback) {
+    return providerFallback;
   }
 
   for (const candidate of getModelFallbackCandidates(normalizedProvider, model)) {

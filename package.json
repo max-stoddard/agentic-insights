@@ -14,7 +14,7 @@
     "test": "npm run test -w @agentic-insights/shared && npm run test -w @agentic-insights/server && npm run test -w @agentic-insights/web && npm run test -w agentic-insights",
     "test:pack": "node ./packages/cli/test/smoke.mjs",
     "sync:pricing": "node --import tsx ./scripts/sync-pricing-catalog.ts",
-    "lint": "npm run lint -w @agentic-insights/shared && npm run lint -w @agentic-insights/server && npm run lint -w @agentic-insights/web && npm run lint -w agentic-insights",
+    "lint": "eslint scripts --ext .ts,.mjs && npm run lint -w @agentic-insights/shared && npm run lint -w @agentic-insights/server && npm run lint -w @agentic-insights/web && npm run lint -w agentic-insights",
     "pack:cli": "npm pack -w agentic-insights"
   },
   "devDependencies": {

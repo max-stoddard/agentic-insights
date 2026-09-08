@@ -270,6 +270,7 @@ export const WATER_PRODUCT_EQUIVALENTS: readonly WaterProductEquivalent[] = WATE
 
 export interface PricingCatalogMetadata {
   generatedAt: string;
+  sourceRevision: string;
   sourceRepoUrl: string;
   sourceDirectoryUrl: string;
   licenseUrl: string;

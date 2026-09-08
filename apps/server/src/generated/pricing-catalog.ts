@@ -6,6 +6,7 @@ import type { GeneratedPricingCatalog } from "../pricing-catalog-transform.js";
 export const GENERATED_PRICING_CATALOG: GeneratedPricingCatalog = {
   "metadata": {
     "generatedAt": "2026-08-20T20:06:38.899Z",
+    "sourceRevision": "legacy-unpinned",
     "sourceRepoUrl": "https://github.com/Portkey-AI/models",
     "sourceDirectoryUrl": "https://github.com/Portkey-AI/models/tree/main/pricing",
     "licenseUrl": "https://raw.githubusercontent.com/Portkey-AI/models/main/LICENSE",

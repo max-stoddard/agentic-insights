@@ -319,6 +319,7 @@ function createMethodologyResponse() {
     exclusions: [],
     pricingCatalog: {
       generatedAt: "2026-03-13T12:00:00.000Z",
+      sourceRevision: "0123456789abcdef0123456789abcdef01234567",
       sourceRepoUrl: "https://github.com/Portkey-AI/models",
       sourceDirectoryUrl: "https://github.com/Portkey-AI/models/tree/main/pricing",
       licenseUrl: "https://raw.githubusercontent.com/Portkey-AI/models/main/LICENSE",

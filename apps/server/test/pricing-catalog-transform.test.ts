@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { transformPortkeyPricingCatalog } from "../src/pricing-catalog-transform.js";
+import {
+  formatGeneratedPricingCatalogModule,
+  type PortkeyPricingFile,
+  transformPortkeyPricingCatalog
+} from "../src/pricing-catalog-transform.js";
 
 describe("Portkey pricing catalog transform", () => {
   it("transforms provider files into deterministic per-million pricing entries", () => {
@@ -41,14 +45,18 @@ describe("Portkey pricing catalog transform", () => {
           }
         ]
       ]),
-      "2026-03-13T12:00:00.000Z"
+      "2026-03-13T12:00:00.000Z",
+      "0123456789abcdef0123456789abcdef01234567"
     );
 
     expect(catalog.metadata).toEqual({
       generatedAt: "2026-03-13T12:00:00.000Z",
+      sourceRevision: "0123456789abcdef0123456789abcdef01234567",
       sourceRepoUrl: "https://github.com/Portkey-AI/models",
-      sourceDirectoryUrl: "https://github.com/Portkey-AI/models/tree/main/pricing",
-      licenseUrl: "https://raw.githubusercontent.com/Portkey-AI/models/main/LICENSE",
+      sourceDirectoryUrl:
+        "https://github.com/Portkey-AI/models/tree/0123456789abcdef0123456789abcdef01234567/pricing",
+      licenseUrl:
+        "https://raw.githubusercontent.com/Portkey-AI/models/0123456789abcdef0123456789abcdef01234567/LICENSE",
       providerCount: 1,
       modelCount: 1
     });
@@ -71,5 +79,74 @@ describe("Portkey pricing catalog transform", () => {
         sourceLabel: "Portkey pricing: anthropic.json"
       }
     ]);
+    expect(formatGeneratedPricingCatalogModule(catalog)).toBe(formatGeneratedPricingCatalogModule(catalog));
+  });
+
+  it("rejects incomplete provider downloads", () => {
+    expect(() =>
+      transformPortkeyPricingCatalog(
+        [
+          {
+            name: "openai.json",
+            path: "pricing/openai.json",
+            download_url:
+              "https://raw.githubusercontent.com/Portkey-AI/models/0123456789abcdef0123456789abcdef01234567/pricing/openai.json",
+            type: "file"
+          }
+        ],
+        new Map(),
+        "2026-03-13T12:00:00.000Z",
+        "0123456789abcdef0123456789abcdef01234567"
+      )
+    ).toThrow(/Missing downloaded Portkey pricing file/);
+  });
+
+  it("rejects malformed or negative upstream price nodes instead of silently treating them as free", () => {
+    const index = [
+      {
+        name: "openai.json",
+        path: "pricing/openai.json",
+        download_url:
+          "https://raw.githubusercontent.com/Portkey-AI/models/0123456789abcdef0123456789abcdef01234567/pricing/openai.json",
+        type: "file" as const
+      }
+    ];
+    const malformed = {
+      "gpt-malformed": {
+        pricing_config: {
+          pay_as_you_go: {
+            request_token: { price: "1" },
+            response_token: { price: 0.001 }
+          }
+        }
+      }
+    } as unknown as PortkeyPricingFile;
+    const negative = {
+      "gpt-negative": {
+        pricing_config: {
+          pay_as_you_go: {
+            request_token: { price: -0.001 },
+            response_token: { price: 0.001 }
+          }
+        }
+      }
+    } satisfies PortkeyPricingFile;
+
+    expect(() =>
+      transformPortkeyPricingCatalog(
+        index,
+        new Map([["openai.json", malformed]]),
+        "2026-03-13T12:00:00.000Z",
+        "0123456789abcdef0123456789abcdef01234567"
+      )
+    ).toThrow(/Invalid Portkey input price/);
+    expect(() =>
+      transformPortkeyPricingCatalog(
+        index,
+        new Map([["openai.json", negative]]),
+        "2026-03-13T12:00:00.000Z",
+        "0123456789abcdef0123456789abcdef01234567"
+      )
+    ).toThrow(/Invalid Portkey input price/);
   });
 });

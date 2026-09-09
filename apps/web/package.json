@@ -1,6 +1,6 @@
 {
   "name": "@agentic-insights/web",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@agentic-insights/shared": "0.2.0",
+    "@agentic-insights/shared": "0.2.1",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8",
     "react": "^19.0.0",

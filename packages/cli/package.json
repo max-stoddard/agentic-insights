@@ -1,6 +1,6 @@
 {
   "name": "agentic-insights",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Launch a local dashboard for coding-agent insights with water, energy, and carbon estimates",
   "license": "MIT",
   "type": "module",

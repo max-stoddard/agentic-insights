@@ -142,11 +142,15 @@ describe("pricing methodology", () => {
       expect.arrayContaining([
         {
           label: "Portkey models repo (MIT)",
-          url: "https://github.com/Portkey-AI/models"
+          url: PRICING_CATALOG_METADATA.sourceRepoUrl
+        },
+        {
+          label: "Portkey pricing directory",
+          url: PRICING_CATALOG_METADATA.sourceDirectoryUrl
         },
         {
           label: "Portkey MIT license",
-          url: "https://raw.githubusercontent.com/Portkey-AI/models/main/LICENSE"
+          url: PRICING_CATALOG_METADATA.licenseUrl
         },
         expect.objectContaining({
           label: "Portkey pricing: anthropic.json"
